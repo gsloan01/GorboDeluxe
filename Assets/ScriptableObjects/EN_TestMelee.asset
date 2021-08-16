@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aab1cde1076cfd4eb6afb784116035c, type: 3}
-  m_Name: MeleeSwipe
+  m_Script: {fileID: 11500000, guid: 2923be4517f6c4047886fe806e1cbbe2, type: 3}
+  m_Name: EN_TestMelee
   m_EditorClassIdentifier: 
-  name: Swipe
-  type: 0
-  value: 2
-  cooldown: 0.5
+  damages:
+  - {fileID: 0}
