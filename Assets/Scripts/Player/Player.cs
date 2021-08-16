@@ -44,7 +44,11 @@ public class Player : MonoBehaviour
         {
             sprinting = true;
         }
+
+        debugLogs = GameSettings.Instance.debug;
+
         Move();
+        if(hasGravity) Gravity();
         Rotate();
     }
 
@@ -61,7 +65,7 @@ public class Player : MonoBehaviour
     #region PLAYER MOVEMENT
     void Move()
     {
-        float yMovement = charController.isGrounded ? 0 : -4; 
+        
         if (Mathf.Abs(move.x) >= .4f || Mathf.Abs(move.y) >= .4f)
         {
             sprintTimer += Time.deltaTime;
@@ -75,9 +79,15 @@ public class Player : MonoBehaviour
         if (Mathf.Abs(move.x) >= deadZone || Mathf.Abs(move.y) >= deadZone)
         {
             //move in the direction of movement
-            charController.Move(new Vector3(move.x, yMovement, move.y) * (sprinting ? sprintSpeed : speed) * Time.deltaTime);
-            //transform.Translate(new Vector3(move.x, 0, move.y) * (sprinting ? sprintSpeed : speed) * Time.deltaTime, Space.World);
+            charController.Move(new Vector3(move.x, 0, move.y) * (sprinting ? sprintSpeed : speed) * Time.deltaTime);
+            
         }
+    }
+    void Gravity()
+    {
+        Vector3 gravity = new Vector3(0, charController.isGrounded ? 0 : -8 * Time.deltaTime, 0);
+        
+        charController.Move(gravity);
     }
 
     void Rotate()
