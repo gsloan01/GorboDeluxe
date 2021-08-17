@@ -13,7 +13,7 @@ public class EnemyCombat : MonoBehaviour
         data = GetComponent<Enemy>().data.combatData;
     }
 
-    void Combat()
+    public void Combat()
     {
 
     }

@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     GameObject target;
     NavMeshAgent agent;
     Health health;
+    EnemyCombat enemyCombat;
 
     //Determines if the enemy has finished dying
     bool died;
@@ -67,6 +68,7 @@ public class Enemy : MonoBehaviour
                 {
                     state = enemyState.Chase;
                 }
+                enemyCombat.Combat();
                 break;
             case enemyState.Dead:
                 if(!died)

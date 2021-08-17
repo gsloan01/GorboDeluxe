@@ -9,5 +9,5 @@ public class EnemyCombatData : ScriptableObject
     public float timeBetween;
 
     bool stayAtRange;
-    float stayAway;
+    float stayAwayRange;
 }
