@@ -34,9 +34,6 @@ public class PlayerMovement : MonoBehaviour
         controls = new PlayerControls();
         charController = GetComponent<CharacterController>();
 
-
-
-
         controls.Gameplay.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
         controls.Gameplay.Movement.canceled += ctx => move = Vector2.zero;
 

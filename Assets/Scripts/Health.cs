@@ -5,29 +5,39 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     public float Current { get { return current; } }
-    float current;
     public float max = 100;
+    float current;
+
+    public bool isDead = false;
 
     private void Start()
     {
         current = max;
     }
+
     /// <summary>
     /// Apply a change to health
     /// </summary>
     /// <param name="change"> Amount to change health by.</param>
     public void Apply(float change)
     {
-        current += change;
-
-        if(GameSettings.Instance.debug)
+        if (current <= 0)
         {
-            string debuglog;
-            debuglog = (change >= 0) ? (gameObject.name + " healed by " + change + " !") : (gameObject.name + " lost " + change + " health!");
-            Debug.Log(debuglog);
+            isDead = true;
         }
+        if (!isDead)
+        {
+            current += change;
 
-        
+            if (GameSettings.Instance.debug)
+            {
+                string debuglog;
+                debuglog = (change >= 0) ? (gameObject.name + " healed by " + change + " !") : (gameObject.name + " lost " + change + " health!");
+                Debug.Log(debuglog);
+            }
+
+
+        }
     }
 
 }

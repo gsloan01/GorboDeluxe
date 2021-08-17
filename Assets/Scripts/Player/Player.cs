@@ -9,10 +9,9 @@ public class Player : MonoBehaviour
     AudioSource attackSound;
     PlayerMovement playerMovement;
 
-
-
     private void Awake()
     {
+        //enemyLayer = LayerMask.GetMask("Enemy");
         controls = new PlayerControls();
         attackSound = GetComponent<AudioSource>();
         charController = GetComponent<CharacterController>();
@@ -32,5 +31,13 @@ public class Player : MonoBehaviour
         playerMovement.EndSprinting(-0.05f);
     }
 
+    GameObject GetClosestTarget()
+    {
+        GameObject target = null;
+        //foreach()
+        return target;
+
+    }
     #endregion
+
 }
