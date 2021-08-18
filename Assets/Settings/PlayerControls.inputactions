@@ -65,6 +65,33 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "MKGameplay",
+            "id": "064c63ae-ee99-4238-b1d7-b5df9165880d",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Value",
+                    "id": "d808071b-196d-438b-8970-54c3fc002928",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "828f792e-7c54-4a63-a7c8-4df68c6f5774",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

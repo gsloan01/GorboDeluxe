@@ -13,6 +13,7 @@ public class EnemyCombat : MonoBehaviour
     private void Awake()
     {
         data = GetComponent<Enemy>().data.combatData;
+        
     }
     AttackData GetRandomAttack()
     {
@@ -26,8 +27,17 @@ public class EnemyCombat : MonoBehaviour
             timer += Time.deltaTime;
             if (timer >= data.timeBetween)
             {
+                List<Damage> damages = new List<Damage>();
+                
                 timer = 0;
-                target.GetComponent<Damageable>().RecieveDamage(GetRandomAttack().damages);
+                Damageable damageable = target.GetComponent<Damageable>();
+                AttackData attack = GetRandomAttack();
+                for (int i = 0; i < attack.types.Count; i++)
+                {
+                    //creates a damage object for each type in the data... need to fix this lol
+                    damages.Add(new Damage { damageType = attack.types[i], value = attack.values[i] });
+                }
+                //target.GetComponent<Damageable>().RecieveDamage(new List<Damage> { new Damage });
             }
         }
         else

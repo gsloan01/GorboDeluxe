@@ -21,8 +21,9 @@ public class Enemy : MonoBehaviour
     //Determines if the enemy has finished dying
     bool died;
     bool ranged;
-    float range;
     bool fleeable;
+
+    float range;
 
     public enum enemyState
     {
@@ -34,19 +35,29 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        target = PlayerManager.Instance.player;
-        agent = GetComponent<NavMeshAgent>();
+        //ON SPAWN EVENT
         EnemyManager.Instance.OnEnemySpawn(this);
+
+        //GETTING COMPONENTS
+        agent = GetComponent<NavMeshAgent>();
         damageable = GetComponent<Damageable>();
+        health = GetComponent<Health>();
+        enemyCombat = GetComponent<EnemyCombat>();
+
+        //DATA GRABBING
+        target = PlayerManager.Instance.player;
         ranged = enemyCombat.data.stayAtRange;
         fleeable = enemyCombat.data.flee;
         if (ranged) range = enemyCombat.data.stayAwayRange;
+        else { range = agent.stoppingDistance + .5f; }
+        Debug.Log($"New Enemy Spawned : {gameObject.name}, Ranged? : {(ranged ? "Yes" : "No")}");
     }
 
     // Update is called once per frame
     void Update()
     {
-        enemyCombat.target = target;
+        if (target) enemyCombat.target = target;
+        else { enemyCombat.target = null; }
         float distance = 0;
         if(!died) distance = Vector3.Distance(target.transform.position, transform.position);
 
@@ -65,36 +76,38 @@ public class Enemy : MonoBehaviour
                 }
                 break;
             case enemyState.Chase:
-                if(ranged)
-                {
-                    float currentDistanceFromTarget = Vector3.Distance(target.transform.position, transform.position);
-                    if (currentDistanceFromTarget > range)
+                if(GameSettings.Instance.debug) Debug.Log($"{gameObject.name} : MOVING");
+                //if(ranged)
+                //{
+                
+                    if (GameSettings.Instance.debug) Debug.Log($"Current Distance : {distance}, Attack Range : {range}");
+
+                    if (distance > range)
                     {
                         agent.Move((target.transform.position - transform.position).normalized);
                     }
-                    else if(fleeable && currentDistanceFromTarget < range)
+                    else if(fleeable && distance < range)
                     {
                         //run away to a safe distance
+                        if (GameSettings.Instance.debug)  Debug.Log("Running from " + target.name);
                     }
-                    else
+                    if(distance <= range)
                     {
                         state = enemyState.Attacking;
                     }
-                       
-
-                }
-                else
-                {
-                    if (distance >= aggroLossRange)
-                    {
-                        state = enemyState.Idle;
-                    }
-                    agent.SetDestination(target.transform.position);
-                }
+                //}
+                //else
+                //{
+                //    if (distance >= aggroLossRange)
+                //    {
+                //        state = enemyState.Idle;
+                //    }
+                //    agent.SetDestination(target.transform.position);
+                //}
                 FaceTarget();
                 break;
             case enemyState.Attacking:
-                Debug.Log($"{gameObject.name} : ATTACKING");
+                if (GameSettings.Instance.debug)  Debug.Log($"{gameObject.name} : ATTACKING " + target.name);
                 if (fleeable && Vector3.Distance(target.transform.position, transform.position) < range) ;
                 {
                     state = enemyState.Chase;
@@ -143,6 +156,8 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, detectionRange);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, aggroLossRange);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, range);
         //Gizmos.DrawLine(transform.position, target.transform.position);
     }
 }

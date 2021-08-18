@@ -14,6 +14,7 @@ public class EnemyManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        enemies = new List<Enemy>();
     }
 
 

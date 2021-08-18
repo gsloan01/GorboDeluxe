@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/PlayerControls.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Settings/PlayerControls.inputactions'
 
 using System;
 using System.Collections;
@@ -78,6 +78,33 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""MKGameplay"",
+            ""id"": ""064c63ae-ee99-4238-b1d7-b5df9165880d"",
+            ""actions"": [
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Value"",
+                    ""id"": ""d808071b-196d-438b-8970-54c3fc002928"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""828f792e-7c54-4a63-a7c8-4df68c6f5774"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -87,6 +114,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_PrimaryAttack = m_Gameplay.FindAction("PrimaryAttack", throwIfNotFound: true);
         m_Gameplay_Rotation = m_Gameplay.FindAction("Rotation", throwIfNotFound: true);
+        // MKGameplay
+        m_MKGameplay = asset.FindActionMap("MKGameplay", throwIfNotFound: true);
+        m_MKGameplay_Newaction = m_MKGameplay.FindAction("New action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -181,10 +211,47 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+
+    // MKGameplay
+    private readonly InputActionMap m_MKGameplay;
+    private IMKGameplayActions m_MKGameplayActionsCallbackInterface;
+    private readonly InputAction m_MKGameplay_Newaction;
+    public struct MKGameplayActions
+    {
+        private @PlayerControls m_Wrapper;
+        public MKGameplayActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Newaction => m_Wrapper.m_MKGameplay_Newaction;
+        public InputActionMap Get() { return m_Wrapper.m_MKGameplay; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MKGameplayActions set) { return set.Get(); }
+        public void SetCallbacks(IMKGameplayActions instance)
+        {
+            if (m_Wrapper.m_MKGameplayActionsCallbackInterface != null)
+            {
+                @Newaction.started -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnNewaction;
+                @Newaction.performed -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnNewaction;
+                @Newaction.canceled -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnNewaction;
+            }
+            m_Wrapper.m_MKGameplayActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Newaction.started += instance.OnNewaction;
+                @Newaction.performed += instance.OnNewaction;
+                @Newaction.canceled += instance.OnNewaction;
+            }
+        }
+    }
+    public MKGameplayActions @MKGameplay => new MKGameplayActions(this);
     public interface IGameplayActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnPrimaryAttack(InputAction.CallbackContext context);
         void OnRotation(InputAction.CallbackContext context);
+    }
+    public interface IMKGameplayActions
+    {
+        void OnNewaction(InputAction.CallbackContext context);
     }
 }
