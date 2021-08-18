@@ -3100,7 +3100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1317678614}
   m_Layer: 0
-  m_Name: FUCK_Y2K
+  m_Name: Ambient Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4903,7 +4903,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 15
       minScalar: 10
       maxCurve:
         serializedVersion: 2

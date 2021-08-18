@@ -16,10 +16,13 @@ public class Enemy : MonoBehaviour
     NavMeshAgent agent;
     Health health;
     EnemyCombat enemyCombat;
+    Damageable damageable;
 
     //Determines if the enemy has finished dying
     bool died;
-
+    bool ranged;
+    float range;
+    bool fleeable;
 
     public enum enemyState
     {
@@ -34,15 +37,25 @@ public class Enemy : MonoBehaviour
         target = PlayerManager.Instance.player;
         agent = GetComponent<NavMeshAgent>();
         EnemyManager.Instance.OnEnemySpawn(this);
+        damageable = GetComponent<Damageable>();
+        ranged = enemyCombat.data.stayAtRange;
+        fleeable = enemyCombat.data.flee;
+        if (ranged) range = enemyCombat.data.stayAwayRange;
     }
 
     // Update is called once per frame
     void Update()
     {
+        enemyCombat.target = target;
         float distance = 0;
         if(!died) distance = Vector3.Distance(target.transform.position, transform.position);
 
         if (state != enemyState.Dead && health.isDead) state = enemyState.Dead;
+        if(!target && !damageable.isDead)
+        {
+            state = enemyState.Idle;
+        }
+
         switch (state)
         {
             case enemyState.Idle:
@@ -52,17 +65,40 @@ public class Enemy : MonoBehaviour
                 }
                 break;
             case enemyState.Chase:
-                if(distance >= aggroLossRange)
+                if(ranged)
                 {
-                    state = enemyState.Idle;
+                    float currentDistanceFromTarget = Vector3.Distance(target.transform.position, transform.position);
+                    if (currentDistanceFromTarget > range)
+                    {
+                        agent.Move((target.transform.position - transform.position).normalized);
+                    }
+                    else if(fleeable && currentDistanceFromTarget < range)
+                    {
+                        //run away to a safe distance
+                    }
+                    else
+                    {
+                        state = enemyState.Attacking;
+                    }
+                       
+
                 }
-                agent.SetDestination(target.transform.position);
-                if (distance <= agent.stoppingDistance)
+                else
                 {
-                    FaceTarget();
+                    if (distance >= aggroLossRange)
+                    {
+                        state = enemyState.Idle;
+                    }
+                    agent.SetDestination(target.transform.position);
                 }
+                FaceTarget();
                 break;
             case enemyState.Attacking:
+                Debug.Log($"{gameObject.name} : ATTACKING");
+                if (fleeable && Vector3.Distance(target.transform.position, transform.position) < range) ;
+                {
+                    state = enemyState.Chase;
+                }
                 FaceTarget();
                 if (distance >= aggroLossRange)
                 {

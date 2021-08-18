@@ -8,6 +8,7 @@ public class Damageable : MonoBehaviour
     Dictionary<Damage.dtype, float> damageMods;
     float healingMod = 1;
     public bool allowHealingFromNegativeDamage = false;
+    public bool isDead { get { return health.isDead; } }
 
     private void Awake()
     {

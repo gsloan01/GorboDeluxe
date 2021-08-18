@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "AttackData", menuName = "Data/Attacks/AttackData")]
+[CreateAssetMenu(fileName = "EnemyData", menuName = "Data/Enemies/EnemyData")]
 public class EnemyData : ScriptableObject
 {
     public float detectionRange;
