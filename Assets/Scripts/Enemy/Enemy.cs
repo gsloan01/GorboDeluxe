@@ -48,6 +48,8 @@ public class Enemy : MonoBehaviour
         target = PlayerManager.Instance.player;
         ranged = enemyCombat.data.stayAtRange;
         fleeable = enemyCombat.data.flee;
+        detectionRange = data.detectionRange;
+        aggroLossRange = data.aggroLossRange;
         if (ranged) range = enemyCombat.data.stayAwayRange;
         else { range = agent.stoppingDistance + .5f; }
         Debug.Log($"New Enemy Spawned : {gameObject.name}, Ranged? : {(ranged ? "Yes" : "No")}");
@@ -77,34 +79,26 @@ public class Enemy : MonoBehaviour
                 break;
             case enemyState.Chase:
                 if(GameSettings.Instance.debug) Debug.Log($"{gameObject.name} : MOVING");
-                //if(ranged)
-                //{
-                
-                    if (GameSettings.Instance.debug) Debug.Log($"Current Distance : {distance}, Attack Range : {range}");
+                if (distance > range)
+                {
+                    agent.SetDestination(target.transform.position);
+                    //agent.Move((target.transform.position - transform.position) * Time.deltaTime);
+                }
+                else if(fleeable && distance < range)
+                {
+                    //run away to a safe distance
+                    if (GameSettings.Instance.debug)  Debug.Log("Running from " + target.name);
+                }
+                if(distance <= range)
+                {
+                    state = enemyState.Attacking;
+                }
 
-                    if (distance > range)
-                    {
-                        agent.SetDestination(target.transform.position);
-                        //agent.Move((target.transform.position - transform.position) * Time.deltaTime);
-                    }
-                    else if(fleeable && distance < range)
-                    {
-                        //run away to a safe distance
-                        if (GameSettings.Instance.debug)  Debug.Log("Running from " + target.name);
-                    }
-                    if(distance <= range)
-                    {
-                        state = enemyState.Attacking;
-                    }
-                //}
-                //else
-                //{
-                //    if (distance >= aggroLossRange)
-                //    {
-                //        state = enemyState.Idle;
-                //    }
-                //    agent.SetDestination(target.transform.position);
-                //}
+                if( distance > detectionRange)
+                {
+                    state = enemyState.Idle;
+                }
+
                 FaceTarget();
                 break;
             case enemyState.Attacking:

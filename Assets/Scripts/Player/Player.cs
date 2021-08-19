@@ -19,6 +19,15 @@ public class Player : MonoBehaviour
         controls.Gameplay.PrimaryAttack.performed += ctx => UseAttackA();
     }
 
+    private void OnEnable()
+    {
+        controls.Gameplay.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Gameplay.Disable();
+    }
     private void Update()
     {
         
@@ -28,13 +37,32 @@ public class Player : MonoBehaviour
     void UseAttackA()
     {
         attackSound.Play();
+        GameObject target = GetClosestTarget();
+        if(GameSettings.Instance.debug)
+        {
+            string findString = (target != null) ? target.name + " found" : "No targets found";
+            Debug.Log("USE ATTACK A : " + findString);
+        }
         playerMovement.EndSprinting(-0.05f);
     }
 
     GameObject GetClosestTarget()
     {
         GameObject target = null;
-        //foreach()
+        float closest = float.MaxValue;
+        
+        List<Enemy> enemies = EnemyManager.Instance.Enemies;
+        if (enemies.Count == 0) return target;
+        foreach (Enemy enemy in enemies)
+        {
+            float dist = Vector3.Distance(transform.position, enemy.transform.position);
+            if (dist < closest)
+            {
+                target = enemy.gameObject;
+                closest = dist;
+            }
+        }
+        
         return target;
 
     }
