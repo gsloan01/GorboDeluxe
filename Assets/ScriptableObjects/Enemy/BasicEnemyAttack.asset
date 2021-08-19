@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2923be4517f6c4047886fe806e1cbbe2, type: 3}
   m_Name: BasicEnemyAttack
   m_EditorClassIdentifier: 
-  types: 00000000
-  values:
-  - 5
+  damages:
+  - value: 11
+    damageType: 0

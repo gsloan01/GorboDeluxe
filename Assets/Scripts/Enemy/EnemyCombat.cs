@@ -28,17 +28,13 @@ public class EnemyCombat : MonoBehaviour
             timer += Time.deltaTime;
             if (timer >= data.timeBetween)
             {
-                List<Damage> damages = new List<Damage>();
+
                 
                 timer = 0;
-                Damageable damageable = target.GetComponent<Damageable>();
+
                 AttackData attack = GetRandomAttack();
-                for (int i = 0; i < attack.types.Count; i++)
-                {
-                    //creates a damage object for each type in the data... need to fix this lol
-                    damages.Add(new Damage { damageType = attack.types[i], value = attack.values[i] });
-                }
-                target?.GetComponent<Damageable>()?.RecieveDamage(damages, gameObject);
+
+                target?.GetComponent<Damageable>()?.RecieveDamage(attack.damages, gameObject);
             }
         }
         else
