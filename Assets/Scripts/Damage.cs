@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Damage : MonoBehaviour
+public class Damage 
 {
     public float value;
     public dtype damageType;

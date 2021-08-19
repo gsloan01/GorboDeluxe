@@ -84,7 +84,8 @@ public class Enemy : MonoBehaviour
 
                     if (distance > range)
                     {
-                        agent.Move((target.transform.position - transform.position).normalized);
+                        agent.SetDestination(target.transform.position);
+                        //agent.Move((target.transform.position - transform.position) * Time.deltaTime);
                     }
                     else if(fleeable && distance < range)
                     {

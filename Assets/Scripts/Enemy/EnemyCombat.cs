@@ -24,6 +24,7 @@ public class EnemyCombat : MonoBehaviour
     {
         if(target)
         {
+            if(GameSettings.Instance.debug) Debug.Log("Targeting " + target.gameObject.name);
             timer += Time.deltaTime;
             if (timer >= data.timeBetween)
             {
@@ -37,7 +38,7 @@ public class EnemyCombat : MonoBehaviour
                     //creates a damage object for each type in the data... need to fix this lol
                     damages.Add(new Damage { damageType = attack.types[i], value = attack.values[i] });
                 }
-                //target.GetComponent<Damageable>().RecieveDamage(new List<Damage> { new Damage });
+                target?.GetComponent<Damageable>()?.RecieveDamage(damages, gameObject);
             }
         }
         else

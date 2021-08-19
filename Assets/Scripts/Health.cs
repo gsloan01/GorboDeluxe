@@ -32,7 +32,7 @@ public class Health : MonoBehaviour
             if (GameSettings.Instance.debug)
             {
                 string debuglog;
-                debuglog = (change >= 0) ? (gameObject.name + " healed by " + change + " !") : (gameObject.name + " lost " + change + " health!");
+                debuglog = (change >= 0) ? (gameObject.name + " healed by " + change + " !") : (gameObject.name + " lost " + change + " health! Bringing them to " + current +  ".");
                 Debug.Log(debuglog);
             }
 
