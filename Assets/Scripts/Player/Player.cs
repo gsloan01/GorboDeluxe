@@ -6,17 +6,18 @@ public class Player : MonoBehaviour
 {
     CharacterController charController;
     PlayerControls controls;
-    AudioSource attackSound;
     PlayerMovement playerMovement;
+    public PlayerData PlayerData;
+    PlayerAbility ability1;
 
     private void Awake()
     {
         //enemyLayer = LayerMask.GetMask("Enemy");
         controls = new PlayerControls();
-        attackSound = GetComponent<AudioSource>();
         charController = GetComponent<CharacterController>();
         playerMovement = GetComponent<PlayerMovement>();
-        controls.Gameplay.PrimaryAttack.performed += ctx => UseAttackA();
+        controls.Gameplay.Skill1.performed += ctx => UseSkill1();
+        ability1 = PlayerData.ability1;
     }
 
     private void OnEnable()
@@ -34,19 +35,20 @@ public class Player : MonoBehaviour
     }
     #region COMBAT CONTROLS
 
-    void UseAttackA()
+    //For the warrior this will always be a sort of melee attack
+    void UseSkill1()
     {
-        attackSound.Play();
-        GameObject target = GetClosestTarget();
-        if(GameSettings.Instance.debug)
+        if (ability1 == null)
         {
-            string findString = (target != null) ? target.name + " found" : "No targets found";
-            Debug.Log("USE ATTACK A : " + findString);
+            if (GameSettings.Instance.debug) Debug.Log("No ability bound to Skill1");
         }
-        playerMovement.EndSprinting(-0.05f);
+        else
+        {
+            ability1.Activate(this);
+        }
     }
 
-    GameObject GetClosestTarget()
+    public GameObject GetClosestTarget(float maxRange = float.MaxValue)
     {
         GameObject target = null;
         float closest = float.MaxValue;
@@ -62,8 +64,10 @@ public class Player : MonoBehaviour
                 closest = dist;
             }
         }
-        
-        return target;
+        if (closest <= maxRange) return target;
+        else return null;
+
+
 
     }
     #endregion

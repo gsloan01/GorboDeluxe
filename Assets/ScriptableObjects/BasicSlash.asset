@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aab1cde1076cfd4eb6afb784116035c, type: 3}
-  m_Name: PL_MeleeSwipe
+  m_Script: {fileID: 11500000, guid: 2367bcb6e4c1dc040affea58fe56b6c6, type: 3}
+  m_Name: BasicSlash
   m_EditorClassIdentifier: 
-  name: Swipe
-  type: 0
-  value: 2
-  cooldown: 0.5
+  abilName: Slash
+  description: Basic attack for a warrior
+  cost: 0
+  cooldown: 0
+  range: 3
+  data: {fileID: 11400000, guid: 1dc4810016bf87344b675f78ff38beea, type: 2}

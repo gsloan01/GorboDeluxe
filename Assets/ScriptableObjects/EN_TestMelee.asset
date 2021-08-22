@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: EN_TestMelee
   m_EditorClassIdentifier: 
   damages:
-  - {fileID: 0}
+  - value: 10
+    damageType: 0

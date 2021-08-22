@@ -14,7 +14,47 @@
                     "interactions": ""
                 },
                 {
-                    "name": "PrimaryAttack",
+                    "name": "Rotation",
+                    "type": "Value",
+                    "id": "5b2cbda1-ff97-4ade-b1a0-a6bd40da91ae",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Skill1",
+                    "type": "Button",
+                    "id": "6ce359f6-5624-4a51-82b0-975de0e10a56",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Skill2",
+                    "type": "Button",
+                    "id": "c0f26f9a-188d-4737-b9c0-ebc0a1685d0e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Skill3",
+                    "type": "Button",
+                    "id": "e5cfc774-effe-49d0-ba2d-80f3a00c5a94",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Skill4",
+                    "type": "Button",
+                    "id": "1f8eedb2-5d04-47e8-a42e-92744c9dd625",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Skill5",
                     "type": "Button",
                     "id": "6e321550-e0b8-4cf6-ac17-32627309647c",
                     "expectedControlType": "Button",
@@ -22,10 +62,10 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Rotation",
-                    "type": "Value",
-                    "id": "5b2cbda1-ff97-4ade-b1a0-a6bd40da91ae",
-                    "expectedControlType": "",
+                    "name": "Skill6",
+                    "type": "Button",
+                    "id": "c4db9f8d-4bce-42df-8758-37a035add3a3",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -44,23 +84,78 @@
                 },
                 {
                     "name": "",
-                    "id": "a16b4bcf-e485-4ad2-ab94-dc275147e0b2",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PrimaryAttack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "efac2604-a2cf-4161-89f5-7adae7da4ef4",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Rotation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cfa15fda-eaa5-46b6-9186-e23557c8d0df",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f826224-61c9-4466-a8a8-ee449619695b",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a16b4bcf-e485-4ad2-ab94-dc275147e0b2",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5bcd10fd-f86c-4662-9dc9-e0bd7cd62296",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d79b7983-5bda-4d75-a562-b082114783bf",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill6",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d4acd1aa-fea0-4692-a2c2-e319fcc95d5b",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill4",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
