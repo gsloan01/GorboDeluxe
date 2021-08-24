@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d458aa269ada4e74189181949ae4f1d9, type: 3}
-  m_Name: PlayerData
+  m_Script: {fileID: 11500000, guid: e577a2b6b30481946acace3bbd651829, type: 3}
+  m_Name: WarriorData
   m_EditorClassIdentifier: 
-  name: Test
-  classData: {fileID: 11400000, guid: 7114ff7dd277a7e4b9104efb18b5c5cd, type: 2}
-  ability1: {fileID: 11400000, guid: 9618ecef01a12524baa813b179e9c317, type: 2}
+  playerClass: 0
+  classAbilities:
+  - unlockLvl: 0
+    abil: {fileID: 11400000, guid: 9618ecef01a12524baa813b179e9c317, type: 2}

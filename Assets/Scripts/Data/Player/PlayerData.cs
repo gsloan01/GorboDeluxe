@@ -7,6 +7,8 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     public string name;
+    public ClassData classData;
+    
     [SerializeField]
     public PlayerAbility ability1;
 }

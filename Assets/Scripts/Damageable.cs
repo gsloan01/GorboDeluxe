@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 [RequireComponent(typeof(Health))]
 public class Damageable : MonoBehaviour
 {
@@ -9,10 +11,33 @@ public class Damageable : MonoBehaviour
     float healingMod = 1;
     public bool allowHealingFromNegativeDamage = false;
     public bool isDead { get { return health.isDead; } }
+    public Slider hpSlider;
+    Canvas sliderCanvas;
 
     private void Awake()
     {
         health = GetComponent<Health>();
+        if(hpSlider != null)
+        {
+            hpSlider.maxValue = health.max;
+            hpSlider.value = health.max;
+        }
+        if(GetComponent<Enemy>() != null)
+        {
+            sliderCanvas = hpSlider.GetComponentInParent<Canvas>();
+        }
+
+    }
+    void Update()
+    {
+        if(sliderCanvas != null)
+        {
+
+            Vector3 direction = (Camera.main.transform.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
+            
+        }
     }
     /// <summary>
     /// Call this method to deal damage to a damagable entity
@@ -40,11 +65,13 @@ public class Damageable : MonoBehaviour
         //finally apply all damage
         if (GameSettings.Instance.debug) Debug.Log($"{gameObject.name} taking {final} damage from {source.name}");
         health.Apply(-final);
+        if (hpSlider != null) hpSlider.value = health.Current;
     }
 
     public void RecieveHealing(float healingValue)
     {
         health.Apply(healingValue * healingMod);
+        if (hpSlider != null) hpSlider.value = health.Current;
     }
 
 }

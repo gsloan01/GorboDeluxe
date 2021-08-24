@@ -9,6 +9,8 @@ public abstract class PlayerAbility : ScriptableObject
     public string description;
     public float cost;
     public float cooldown;
+    public bool castOnSelf;
+    public bool castOnAlly;
 
     public abstract void Activate(Player caster);
 }
