@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public float resourceGainPerSec = 5f;
     public bool regenResource = true;
     public Slider resourceSlider;
+    float abil1timer = 0;
 
     public enum PlayerClass
     {
@@ -52,6 +53,15 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
+        if(ability1.onCooldown)
+        {
+            abil1timer += Time.deltaTime;
+            if(abil1timer >= ability1.cooldown)
+            {
+                abil1timer = 0;
+                ability1.onCooldown = false;
+            }
+        }
         ResourceManagement();
     }
 
@@ -76,10 +86,15 @@ public class Player : MonoBehaviour
         }
         else
         {
-            if(abilityResource - ability1.cost >= 0)
+            if(ability1.onCooldown)
+            {
+                if (GameSettings.Instance.debug) Debug.Log($"{ability1.name} is on cooldown for {abil1timer} sec...");
+            }
+            else if(abilityResource - ability1.cost >= 0)
             {
                 ability1.Activate(this);
                 abilityResource -= ability1.cost;
+                ability1.onCooldown = true;
             }
 
         }

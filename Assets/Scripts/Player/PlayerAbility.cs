@@ -8,6 +8,7 @@ public abstract class PlayerAbility : ScriptableObject
     public string abilName;
     public string description;
     public float cost;
+    public bool onCooldown;
     public float cooldown;
     public bool castOnSelf;
     public bool castOnAlly;
