@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilName: Slash
   description: Basic attack for a warrior
-  cost: 0
+  cost: 8
   cooldown: 0
+  castOnSelf: 0
+  castOnAlly: 0
   range: 3
   data: {fileID: 11400000, guid: 1dc4810016bf87344b675f78ff38beea, type: 2}

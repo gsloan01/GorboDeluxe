@@ -7,6 +7,8 @@ public class Abil_Slash : PlayerAbility
 {
     public float range = 1.8f;
     public AttackData data;
+    public GameObject FX;
+
     public override void Activate(Player caster)
     {
         //CREATE A UTILS CLASS

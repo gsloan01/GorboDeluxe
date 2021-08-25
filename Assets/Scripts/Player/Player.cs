@@ -11,10 +11,17 @@ public class Player : MonoBehaviour
     public PlayerData PlayerData;
 
     PlayerAbility ability1;
-
+    
     public int Level { get { return level; } }
     int level = 1;
     PlayerClass playerClass = PlayerClass.Warrior;
+
+    public float AbilityResource { get { return abilityResource; } }
+    float resourceMax = 100f;
+    float abilityResource;
+    public float resourceGainPerSec = 5f;
+    public bool regenResource = true;
+    public Slider resourceSlider;
 
     public enum PlayerClass
     {
@@ -29,7 +36,9 @@ public class Player : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         controls.Gameplay.Skill1.performed += ctx => UseSkill1();
         ability1 = PlayerData.ability1;
-        
+        abilityResource = resourceMax;
+        resourceSlider.maxValue = resourceMax;
+        resourceSlider.value = abilityResource;
     }
 
     private void OnEnable()
@@ -43,9 +52,20 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        
+        ResourceManagement();
     }
+
+    void ResourceManagement()
+    {
+        resourceSlider.value = AbilityResource;
+        if(regenResource && AbilityResource <= resourceMax)
+        {
+            abilityResource += Time.deltaTime * resourceGainPerSec;
+        }
+    }
+
     #region COMBAT CONTROLS
+
 
     //For the warrior this will always be a sort of melee attack
     void UseSkill1()
@@ -56,7 +76,12 @@ public class Player : MonoBehaviour
         }
         else
         {
-            ability1.Activate(this);
+            if(abilityResource - ability1.cost >= 0)
+            {
+                ability1.Activate(this);
+                abilityResource -= ability1.cost;
+            }
+
         }
     }
 
@@ -70,6 +95,7 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
         }
     }
+
     public GameObject GetClosestTarget(float maxRange = float.MaxValue)
     {
         GameObject target = null;

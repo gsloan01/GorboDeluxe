@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     public EnemyData data;
     float detectionRange = 8.0f;
     float aggroLossRange = 15.0f;
-    float bodyLifetime = 30.0f;
+    float bodyLifetime = 3.0f;
 
 
     GameObject target;
@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
     bool fleeable;
 
     float range;
+    float bodyLifetimer = 0;
 
     public enum enemyState
     {
@@ -58,6 +59,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (target) enemyCombat.target = target;
         else { enemyCombat.target = null; }
         float distance = 0;
@@ -118,6 +120,11 @@ public class Enemy : MonoBehaviour
                 if(!died)
                 {
                     Die();
+                }
+                bodyLifetimer += Time.deltaTime;
+                if(bodyLifetimer >= bodyLifetime)
+                {
+                    Destroy(gameObject);
                 }
                 break;
             default:
