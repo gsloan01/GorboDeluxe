@@ -8,14 +8,14 @@ public class ArrowObject : MonoBehaviour
     public GameObject DestroyFX;
     public Rigidbody rb;
 
-    public float flySpeed;
+    public float flySpeed = 5.0f;
 
     private void Start()
     {
         //Instantiate(CreateFX);
         //Destroy(CreateFX, .4f);
         //Set Velocity to a semi-high value to shoot forward
-        rb.velocity = Vector3.forward * 5f;
+        rb.velocity = Vector3.forward * flySpeed;
     }
 
 }

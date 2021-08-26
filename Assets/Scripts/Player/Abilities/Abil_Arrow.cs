@@ -11,6 +11,6 @@ public class Abil_Arrow : PlayerAbility
     public override void Activate(Player caster)
     {
         //create the arrow in front of the player
-        Instantiate(arrow, new Vector3(caster.transform.position.x, caster.transform.position.y + 0.1f, caster.transform.position.z), Quaternion.identity);
+        Instantiate(arrow, caster.transform.position + caster.transform.forward, Quaternion.LookRotation(caster.transform.forward, caster.transform.up));
     }
 }
