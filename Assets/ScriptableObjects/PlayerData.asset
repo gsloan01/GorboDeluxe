@@ -15,3 +15,5 @@ MonoBehaviour:
   name: Test
   classData: {fileID: 11400000, guid: 7114ff7dd277a7e4b9104efb18b5c5cd, type: 2}
   ability1: {fileID: 11400000, guid: 9618ecef01a12524baa813b179e9c317, type: 2}
+  ability2: {fileID: 11400000, guid: 8f37d519132e42a4a8b1c8c29909d289, type: 2}
+  ability3: {fileID: 11400000, guid: 962d4119963cc3845a9d79a4d649ba19, type: 2}

@@ -288,6 +288,7 @@ GameObject:
   - component: {fileID: 3208509924827664132}
   - component: {fileID: 3208509924827664135}
   - component: {fileID: 3208509924827664134}
+  - component: {fileID: 2874827156171068377}
   m_Layer: 0
   m_Name: ArrowPrefab
   m_TagString: Untagged
@@ -322,9 +323,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0501fa4bf84bd147bf3397f15dbe693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CreateFX: {fileID: 0}
-  DestroyFX: {fileID: 0}
+  CreateFX: {fileID: 5945583698116875139, guid: 1ad2ca21ee95f9847b59419a58a88e75, type: 3}
+  DestroyOnEnemyFX: {fileID: 8969594769821772217, guid: 346e35502d0fad0439c9e24c0dbbb203, type: 3}
+  attackData: {fileID: 11400000, guid: e882da678aa1b0a458dfe1b9285ab760, type: 2}
   rb: {fileID: 3208509924827664134}
+  flySpeed: 20
 --- !u!54 &3208509924827664134
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -341,6 +344,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!135 &2874827156171068377
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3208509924827664137}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.15842497
+  m_Center: {x: 0, y: 0, z: 0.3}
 --- !u!1 &3208509924883654534
 GameObject:
   m_ObjectHideFlags: 0

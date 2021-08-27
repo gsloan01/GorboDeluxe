@@ -58,4 +58,32 @@ public class EnemyManager : MonoBehaviour
         }
         return found;
     }
+    public List<Enemy> GetEnemiesInRangeOf(Vector3 from, float range)
+    {
+        if (Enemies.Count == 0) return null;
+        List<Enemy> enemies = new List<Enemy>();
+        foreach(Enemy e in Enemies)
+        {
+            float dist = Vector3.Distance(from , e.transform.position);
+            if(dist <= range)
+            {
+                enemies.Add(e);
+            }
+        }
+        return enemies;
+    }
+    public List<Damageable> GetEnemyDamageablesInRangeOf(Vector3 from, float range)
+    {
+        if (Enemies.Count == 0) return null;
+        List<Damageable> enemyDamageables = new List<Damageable>();
+        foreach (Enemy e in Enemies)
+        {
+            float dist = Vector3.Distance(from, e.transform.position);
+            if (dist <= range)
+            {
+                enemyDamageables.Add(e.GetComponent<Damageable>());
+            }
+        }
+        return enemyDamageables;
+    }
 }

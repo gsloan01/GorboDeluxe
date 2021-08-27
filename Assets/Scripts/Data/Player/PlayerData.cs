@@ -11,4 +11,8 @@ public class PlayerData : ScriptableObject
     
     [SerializeField]
     public PlayerAbility ability1;
+    [SerializeField]
+    public PlayerAbility ability2;
+    [SerializeField]
+    public PlayerAbility ability3;
 }

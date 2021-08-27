@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public PlayerData PlayerData;
 
     PlayerAbility ability1;
+    PlayerAbility ability2;
+    PlayerAbility ability3;
     
     public int Level { get { return level; } }
     int level = 1;
@@ -23,6 +25,8 @@ public class Player : MonoBehaviour
     public bool regenResource = true;
     public Slider resourceSlider;
     float abil1timer = 0;
+    float abil2timer = 0;
+    float abil3timer = 0;
 
     public enum PlayerClass
     {
@@ -35,8 +39,15 @@ public class Player : MonoBehaviour
         controls = new PlayerControls();
         charController = GetComponent<CharacterController>();
         playerMovement = GetComponent<PlayerMovement>();
+
         controls.Gameplay.Skill1.performed += ctx => UseSkill1();
+        controls.Gameplay.Skill2.performed += ctx => UseSkill2();
+        controls.Gameplay.Skill3.performed += ctx => UseSkill3();
+
         ability1 = PlayerData.ability1;
+        ability2 = PlayerData.ability2;
+        ability3 = PlayerData.ability3;
+
         abilityResource = resourceMax;
         resourceSlider.maxValue = resourceMax;
         resourceSlider.value = abilityResource;
@@ -60,6 +71,24 @@ public class Player : MonoBehaviour
             {
                 abil1timer = 0;
                 ability1.onCooldown = false;
+            }
+        }
+        if (ability2.onCooldown)
+        {
+            abil2timer += Time.deltaTime;
+            if (abil2timer >= ability2.cooldown)
+            {
+                abil2timer = 0;
+                ability2.onCooldown = false;
+            }
+        }
+        if (ability3.onCooldown)
+        {
+            abil3timer += Time.deltaTime;
+            if (abil3timer >= ability3.cooldown)
+            {
+                abil3timer = 0;
+                ability3.onCooldown = false;
             }
         }
         ResourceManagement();
@@ -95,6 +124,50 @@ public class Player : MonoBehaviour
                 ability1.Activate(this);
                 abilityResource -= ability1.cost;
                 ability1.onCooldown = true;
+            }
+
+        }
+    }
+
+    void UseSkill2()
+    {
+        if (ability2 == null)
+        {
+            if (GameSettings.Instance.debug) Debug.Log("No ability bound to Skill2");
+        }
+        else
+        {
+            if (ability2.onCooldown)
+            {
+                if (GameSettings.Instance.debug) Debug.Log($"{ability2.name} is on cooldown for {abil2timer} sec...");
+            }
+            else if (abilityResource - ability2.cost >= 0)
+            {
+                ability2.Activate(this);
+                abilityResource -= ability2.cost;
+                ability2.onCooldown = true;
+            }
+
+        }
+    }
+
+    void UseSkill3()
+    {
+        if (ability3 == null)
+        {
+            if (GameSettings.Instance.debug) Debug.Log("No ability bound to Skill3");
+        }
+        else
+        {
+            if (ability3.onCooldown)
+            {
+                if (GameSettings.Instance.debug) Debug.Log($"{ability3.name} is on cooldown for {abil3timer} sec...");
+            }
+            else if (abilityResource - ability3.cost >= 0)
+            {
+                ability3.Activate(this);
+                abilityResource -= ability3.cost;
+                ability3.onCooldown = true;
             }
 
         }
