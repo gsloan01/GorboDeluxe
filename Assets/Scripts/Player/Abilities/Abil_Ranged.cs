@@ -8,7 +8,7 @@ public class Abil_Ranged : PlayerAbility
 
     public GameObject projectile;
 
-    public override void Activate(Player caster)
+    public override void Activate(Player caster, List<Damage> buffs = null)
     {
         //create the arrow in front of the player
         Vector3 spawnLocation = caster.transform.position + caster.transform.forward;

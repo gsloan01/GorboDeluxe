@@ -15,6 +15,7 @@ public class PlayerProjectile : MonoBehaviour
     public int destroyAfterAmount;
     public bool doesSplashDamage;
     public float splashRange;
+    public List<Damage> buffs;
 
     public float flySpeed = 5.0f;
 

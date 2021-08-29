@@ -13,7 +13,10 @@ public class Player : MonoBehaviour
     PlayerAbility ability1;
     PlayerAbility ability2;
     PlayerAbility ability3;
-    
+    PlayerAbility ability4;
+
+    public Transform weaponTransforms;
+     
     public int Level { get { return level; } }
     int level = 1;
     PlayerClass playerClass = PlayerClass.Warrior;
@@ -27,6 +30,9 @@ public class Player : MonoBehaviour
     float abil1timer = 0;
     float abil2timer = 0;
     float abil3timer = 0;
+    float abil4timer = 0;
+
+    List<GameObject> weaponBuffs = new List<GameObject>();
 
     public enum PlayerClass
     {
@@ -43,10 +49,12 @@ public class Player : MonoBehaviour
         controls.Gameplay.Skill1.performed += ctx => UseSkill1();
         controls.Gameplay.Skill2.performed += ctx => UseSkill2();
         controls.Gameplay.Skill3.performed += ctx => UseSkill3();
+        controls.Gameplay.Skill4.performed += ctx => UseSkill4();
 
         ability1 = PlayerData.ability1;
         ability2 = PlayerData.ability2;
         ability3 = PlayerData.ability3;
+        ability4 = PlayerData.ability4;
 
         abilityResource = resourceMax;
         resourceSlider.maxValue = resourceMax;
@@ -91,6 +99,22 @@ public class Player : MonoBehaviour
                 ability3.onCooldown = false;
             }
         }
+        if (ability4.onCooldown)
+        {
+            abil4timer += Time.deltaTime;
+            if (abil4timer >= ability4.cooldown)
+            {
+                abil4timer = 0;
+                ability4.onCooldown = false;
+            }
+        }
+        for (int i = 0; i < weaponBuffs.Count; i++)
+        {
+            if(weaponBuffs[i] == null)
+            {
+                weaponBuffs.RemoveAt(i);
+            }
+        }
         ResourceManagement();
     }
 
@@ -101,6 +125,13 @@ public class Player : MonoBehaviour
         {
             abilityResource += Time.deltaTime * resourceGainPerSec;
         }
+    }
+
+    public void AddWeaponBuff(GameObject buff)
+    {
+        weaponBuffs.Add(buff);
+        //buff.transform.SetParent(weaponTransforms);
+        
     }
 
     #region COMBAT CONTROLS
@@ -121,7 +152,19 @@ public class Player : MonoBehaviour
             }
             else if(abilityResource - ability1.cost >= 0)
             {
-                ability1.Activate(this);
+                List<Damage> buffs = new List<Damage>();
+                if(weaponBuffs.Count >0)
+                {
+                    foreach(GameObject g in weaponBuffs)
+                    {
+                        foreach(Damage d in g.GetComponent<WeaponBuff>().buff.damages)
+                        {
+                            buffs.Add(d);
+                        }
+
+                    }
+                }
+                ability1.Activate(this, buffs);
                 abilityResource -= ability1.cost;
                 ability1.onCooldown = true;
             }
@@ -143,6 +186,20 @@ public class Player : MonoBehaviour
             }
             else if (abilityResource - ability2.cost >= 0)
             {
+
+
+                List<Damage> buffs = new List<Damage>();
+                if (weaponBuffs.Count > 0)
+                {
+                    foreach (GameObject g in weaponBuffs)
+                    {
+                        foreach (Damage d in g.GetComponent<WeaponBuff>().buff.damages)
+                        {
+                            buffs.Add(d);
+                        }
+
+                    }
+                }
                 ability2.Activate(this);
                 abilityResource -= ability2.cost;
                 ability2.onCooldown = true;
@@ -165,9 +222,56 @@ public class Player : MonoBehaviour
             }
             else if (abilityResource - ability3.cost >= 0)
             {
+
+                List<Damage> buffs = new List<Damage>();
+                if (weaponBuffs.Count > 0)
+                {
+                    foreach (GameObject g in weaponBuffs)
+                    {
+                        foreach (Damage d in g.GetComponent<WeaponBuff>().buff.damages)
+                        {
+                            buffs.Add(d);
+                        }
+
+                    }
+                }
                 ability3.Activate(this);
                 abilityResource -= ability3.cost;
                 ability3.onCooldown = true;
+            }
+
+        }
+    }
+
+    void UseSkill4()
+    {
+        if (ability4 == null)
+        {
+            if (GameSettings.Instance.debug) Debug.Log("No ability bound to Skill4");
+        }
+        else
+        {
+            if (ability4.onCooldown)
+            {
+                if (GameSettings.Instance.debug) Debug.Log($"{ability4.name} is on cooldown for {abil4timer} sec...");
+            }
+            else if (abilityResource - ability4.cost >= 0)
+            {
+                List<Damage> buffs = new List<Damage>();
+                if (weaponBuffs.Count > 0)
+                {
+                    foreach (GameObject g in weaponBuffs)
+                    {
+                        foreach (Damage d in g.GetComponent<WeaponBuff>().buff.damages)
+                        {
+                            buffs.Add(d);
+                        }
+
+                    }
+                }
+                ability4.Activate(this);
+                abilityResource -= ability4.cost;
+                ability4.onCooldown = true;
             }
 
         }

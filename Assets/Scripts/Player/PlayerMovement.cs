@@ -98,14 +98,14 @@ public class PlayerMovement : MonoBehaviour
         if (Mathf.Abs(rotate.x) >= deadZone || Mathf.Abs(rotate.y) >= deadZone)
         {
             toRotation = Quaternion.LookRotation(new Vector3(rotate.x, 0, rotate.y), Vector3.up);
-            if(debugLogs) Debug.Log($"Right Stick | X : {rotate.x}, Y : {rotate.y} ");
+            //if(debugLogs) Debug.Log($"Right Stick | X : {rotate.x}, Y : {rotate.y} ");
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotateRate * Time.deltaTime);
         }
         else
         if (move != Vector2.zero)
         {
             toRotation = Quaternion.LookRotation(new Vector3(move.x, 0, move.y), Vector3.up);
-            if(debugLogs) Debug.Log($"Left Stick | X : {move.x}, Y : {move.y} ");
+            //if(debugLogs) Debug.Log($"Left Stick | X : {move.x}, Y : {move.y} ");
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotateRate * Time.deltaTime);
         }
     }

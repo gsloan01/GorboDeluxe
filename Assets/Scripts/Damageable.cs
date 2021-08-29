@@ -33,9 +33,9 @@ public class Damageable : MonoBehaviour
         if(sliderCanvas != null)
         {
 
-            Vector3 direction = (Camera.main.transform.position - transform.position).normalized;
+            Vector3 direction = (Camera.main.transform.position - sliderCanvas.transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
+            sliderCanvas.transform.rotation = Quaternion.Slerp(sliderCanvas.transform.rotation, lookRotation, Time.deltaTime * 5);
             
         }
     }

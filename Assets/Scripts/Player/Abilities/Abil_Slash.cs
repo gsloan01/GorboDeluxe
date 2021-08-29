@@ -10,7 +10,7 @@ public class Abil_Slash : PlayerAbility
     public GameObject SwipeFX;
     public GameObject HitEnemyFX;
 
-    public override void Activate(Player caster)
+    public override void Activate(Player caster, List<Damage> buffs = null)
     {
         //CREATE A UTILS CLASS
         Vector3 spawnLocation = caster.transform.position + caster.transform.forward;
@@ -19,7 +19,20 @@ public class Abil_Slash : PlayerAbility
         GameObject closest = caster.GetClosestTarget(range);
         if (closest != null)
         {
-            closest.GetComponent<Damageable>().RecieveDamage(data.damages, caster.gameObject);
+            List<Damage> all = new List<Damage>(data.damages);
+            if(buffs != null)
+            {
+                if (buffs.Count > 0)
+                {
+                    foreach (Damage d in buffs)
+                    {
+                        all.Add(d);
+                    }
+                }
+            }
+
+
+            closest.GetComponent<Damageable>().RecieveDamage(all, caster.gameObject);
             Debug.Log("SLASH WORKS");
             Instantiate(HitEnemyFX, closest.transform.position + Vector3.up * .25f, Quaternion.LookRotation(caster.transform.forward, caster.transform.up), closest.transform);
         }
