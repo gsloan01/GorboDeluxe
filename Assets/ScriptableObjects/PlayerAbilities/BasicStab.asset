@@ -21,5 +21,5 @@ MonoBehaviour:
   castOnAlly: 0
   range: 3
   data: {fileID: 11400000, guid: 1dc4810016bf87344b675f78ff38beea, type: 2}
-  SwipeFX: {fileID: 11138297751554972, guid: 5263280663886c543912941f0224c3a9, type: 3}
+  SwipeFX: {fileID: 1443140882413475565, guid: 9d6d3de8ac2586444b8509fa6b9d4053, type: 3}
   HitEnemyFX: {fileID: 8381373208731678155, guid: d20a8bfd1dbde08479f8a0297aedefe3, type: 3}

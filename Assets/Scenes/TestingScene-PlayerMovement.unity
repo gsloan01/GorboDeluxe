@@ -3352,6 +3352,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 972923479371987783, guid: 99d6e03ac580b884298db656623fb888, type: 3}
   m_PrefabInstance: {fileID: 838784013}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &863702509 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3023583575201619249, guid: 64d89daa8a45b5041a8ebeedc9cb713d, type: 3}
+  m_PrefabInstance: {fileID: 7540896002070826854}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &863702512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863702509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dfc8530d43d032488aca7b14f2588fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &866201641 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4226684656622418, guid: 47e679cbed6a2d34285382aaeb83a951, type: 3}
@@ -13367,6 +13384,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a35181aad41708047af1301a3847563c, type: 2}
     - target: {fileID: 1120064211672007820, guid: 64d89daa8a45b5041a8ebeedc9cb713d, type: 3}
+      propertyPath: animController
+      value: 
+      objectReference: {fileID: 863702512}
+    - target: {fileID: 1120064211672007820, guid: 64d89daa8a45b5041a8ebeedc9cb713d, type: 3}
       propertyPath: resourceSlider
       value: 
       objectReference: {fileID: 574662807}
@@ -13421,6 +13442,18 @@ PrefabInstance:
     - target: {fileID: 7540896001219518087, guid: 64d89daa8a45b5041a8ebeedc9cb713d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7540896001522495122, guid: 64d89daa8a45b5041a8ebeedc9cb713d, type: 3}
+      propertyPath: moveFx
+      value: 
+      objectReference: {fileID: 5507279295604554702, guid: 84f9f1fe84a4a764faf58ae66aaeb8b3, type: 3}
+    - target: {fileID: 7540896001522495122, guid: 64d89daa8a45b5041a8ebeedc9cb713d, type: 3}
+      propertyPath: sprintFX
+      value: 
+      objectReference: {fileID: 5507279295604554702, guid: 984ef1aeb21fca04391de7c468b92165, type: 3}
+    - target: {fileID: 7540896001522495122, guid: 64d89daa8a45b5041a8ebeedc9cb713d, type: 3}
+      propertyPath: sprintFXTime
+      value: 0.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64d89daa8a45b5041a8ebeedc9cb713d, type: 3}

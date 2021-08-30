@@ -119,6 +119,7 @@ public class Enemy : MonoBehaviour
             case enemyState.Dead:
                 if(!died)
                 {
+                    damageable.hpSlider.enabled = false;
                     Die();
                 }
                 bodyLifetimer += Time.deltaTime;
@@ -148,6 +149,7 @@ public class Enemy : MonoBehaviour
         EnemyManager.Instance.OnEnemyDeath(this);
         died = true;
         agent.isStopped = true;
+        //GetComponent<Damageable>().hpSlider.enabled = false;
         //Quit all code stuff and make ragdolling work.
         //drop some gold and items
     }

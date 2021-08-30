@@ -10,6 +10,7 @@ public class Abil_Slash : PlayerAbility
     public GameObject SwipeFX;
     public GameObject HitEnemyFX;
 
+    
     public override void Activate(Player caster, List<Damage> buffs = null)
     {
         //CREATE A UTILS CLASS
@@ -31,7 +32,7 @@ public class Abil_Slash : PlayerAbility
                 }
             }
 
-
+            
             closest.GetComponent<Damageable>().RecieveDamage(all, caster.gameObject);
             Debug.Log("SLASH WORKS");
             Instantiate(HitEnemyFX, closest.transform.position + Vector3.up * .25f, Quaternion.LookRotation(caster.transform.forward, caster.transform.up), closest.transform);

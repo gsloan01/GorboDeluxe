@@ -5,34 +5,51 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    public Transform weaponTransforms;
+    public PlayerData PlayerData;
+    public Slider resourceSlider;
+    #region Components
     CharacterController charController;
     PlayerControls controls;
     PlayerMovement playerMovement;
-    public PlayerData PlayerData;
+    Health health;
+    public Animator Animator { get { return animator; } }
+    Animator animator;
 
-    PlayerAbility ability1;
-    PlayerAbility ability2;
-    PlayerAbility ability3;
-    PlayerAbility ability4;
-
-    public Transform weaponTransforms;
-     
+    
+    public PlayerAnimController animController;
+    #endregion
+    #region variables
+    //MAKE THIS WORK
     public int Level { get { return level; } }
     int level = 1;
-    PlayerClass playerClass = PlayerClass.Warrior;
+
+
 
     public float AbilityResource { get { return abilityResource; } }
     float resourceMax = 100f;
     float abilityResource;
     public float resourceGainPerSec = 5f;
     public bool regenResource = true;
-    public Slider resourceSlider;
     float abil1timer = 0;
     float abil2timer = 0;
     float abil3timer = 0;
     float abil4timer = 0;
 
     List<GameObject> weaponBuffs = new List<GameObject>();
+
+
+    public bool isDead;
+    #endregion
+
+    //TURN THIS INTO AN ABILITY MANAGER
+    PlayerAbility ability1;
+    PlayerAbility ability2;
+    PlayerAbility ability3;
+    PlayerAbility ability4;
+
+    PlayerClass playerClass = PlayerClass.Warrior;
+
 
     public enum PlayerClass
     {
@@ -45,6 +62,8 @@ public class Player : MonoBehaviour
         controls = new PlayerControls();
         charController = GetComponent<CharacterController>();
         playerMovement = GetComponent<PlayerMovement>();
+        animator = GetComponentInChildren<Animator>();
+        health = GetComponent<Health>();
 
         controls.Gameplay.Skill1.performed += ctx => UseSkill1();
         controls.Gameplay.Skill2.performed += ctx => UseSkill2();
@@ -57,6 +76,7 @@ public class Player : MonoBehaviour
         ability4 = PlayerData.ability4;
 
         abilityResource = resourceMax;
+        
         resourceSlider.maxValue = resourceMax;
         resourceSlider.value = abilityResource;
     }
@@ -72,7 +92,8 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        if(ability1.onCooldown)
+        #region Ability Cooldowns
+        if (ability1.onCooldown)
         {
             abil1timer += Time.deltaTime;
             if(abil1timer >= ability1.cooldown)
@@ -108,6 +129,19 @@ public class Player : MonoBehaviour
                 ability4.onCooldown = false;
             }
         }
+        #endregion
+
+        if(!isDead)
+        {
+            if (health.isDead)
+            {
+                isDead = true;
+                animController.DeathAnim(isDead);
+                animController.IdleAnim(false);
+            }
+        }
+
+
         for (int i = 0; i < weaponBuffs.Count; i++)
         {
             if(weaponBuffs[i] == null)
@@ -140,36 +174,41 @@ public class Player : MonoBehaviour
     //For the warrior this will always be a sort of melee attack
     void UseSkill1()
     {
-        if (ability1 == null)
+        if(!isDead)
         {
-            if (GameSettings.Instance.debug) Debug.Log("No ability bound to Skill1");
-        }
-        else
-        {
-            if(ability1.onCooldown)
+            if (ability1 == null)
             {
-                if (GameSettings.Instance.debug) Debug.Log($"{ability1.name} is on cooldown for {abil1timer} sec...");
+                if (GameSettings.Instance.debug) Debug.Log("No ability bound to Skill1");
             }
-            else if(abilityResource - ability1.cost >= 0)
+            else
             {
-                List<Damage> buffs = new List<Damage>();
-                if(weaponBuffs.Count >0)
+                if (ability1.onCooldown)
                 {
-                    foreach(GameObject g in weaponBuffs)
-                    {
-                        foreach(Damage d in g.GetComponent<WeaponBuff>().buff.damages)
-                        {
-                            buffs.Add(d);
-                        }
-
-                    }
+                    if (GameSettings.Instance.debug) Debug.Log($"{ability1.name} is on cooldown for {abil1timer} sec...");
                 }
-                ability1.Activate(this, buffs);
-                abilityResource -= ability1.cost;
-                ability1.onCooldown = true;
-            }
+                else if (abilityResource - ability1.cost >= 0)
+                {
+                    List<Damage> buffs = new List<Damage>();
+                    if (weaponBuffs.Count > 0)
+                    {
+                        foreach (GameObject g in weaponBuffs)
+                        {
+                            foreach (Damage d in g.GetComponent<WeaponBuff>().buff.damages)
+                            {
+                                buffs.Add(d);
+                            }
 
+                        }
+                    }
+                    animController.ThrustAttackAnim();
+                    ability1.Activate(this, buffs);
+                    abilityResource -= ability1.cost;
+                    ability1.onCooldown = true;
+                }
+
+            }
         }
+
     }
 
     void UseSkill2()
@@ -200,6 +239,7 @@ public class Player : MonoBehaviour
 
                     }
                 }
+                animController.ThrustAttackAnim();
                 ability2.Activate(this);
                 abilityResource -= ability2.cost;
                 ability2.onCooldown = true;
@@ -235,6 +275,7 @@ public class Player : MonoBehaviour
 
                     }
                 }
+                animController.ShieldAttackAnim();
                 ability3.Activate(this);
                 abilityResource -= ability3.cost;
                 ability3.onCooldown = true;
@@ -269,6 +310,7 @@ public class Player : MonoBehaviour
 
                     }
                 }
+                animController.YellAnim();
                 ability4.Activate(this);
                 abilityResource -= ability4.cost;
                 ability4.onCooldown = true;

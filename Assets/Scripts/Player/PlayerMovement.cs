@@ -21,12 +21,25 @@ public class PlayerMovement : MonoBehaviour
     #region Private Members
     CharacterController charController;
     PlayerControls controls;
+    Player player;
     float deadZone = 0.05f;
     float sprintTimer;
+    public bool Sprinting { get { return sprinting; } }
+    public bool Moving { get { return moving; } }
     bool sprinting;
-
+    bool moving;
     Vector2 move;
     Vector2 rotate;
+    #endregion
+
+    #region Movement FX
+    public GameObject sprintFX;
+    public float sprintFXTime = .35f;
+    float sprintFXTimer;
+
+    public GameObject moveFx;
+    public float moveFXTime = .35f;
+    float moveFXTimer;
     #endregion
 
     private void Awake()
@@ -39,19 +52,33 @@ public class PlayerMovement : MonoBehaviour
 
         controls.Gameplay.Rotation.performed += ctx => rotate = ctx.ReadValue<Vector2>();
         controls.Gameplay.Rotation.canceled += ctx => rotate = Vector2.zero;
+
+        player = GetComponent<Player>();
     }
     void Update()
     {
-        if (sprintTimer >= sprintDelay && !sprinting)
-        {
-            sprinting = true;
-        }
-
         debugLogs = GameSettings.Instance.debug;
 
-        Move();
-        if(hasGravity) Gravity();
-        Rotate();
+        if (!player.isDead)
+        {
+            if (sprintTimer >= sprintDelay && !sprinting)
+            {
+                sprinting = true;
+            }
+            if (sprinting)
+            {
+                sprintFXTimer += Time.deltaTime;
+                if (sprintFXTimer >= sprintFXTime)
+                {
+                    Instantiate(sprintFX, transform.position, transform.rotation, null);
+                    sprintFXTimer = 0;
+                }
+            }
+            Move();
+            Rotate();
+        }
+        if (hasGravity) Gravity();
+
     }
 
     private void OnEnable()
@@ -82,8 +109,20 @@ public class PlayerMovement : MonoBehaviour
         {
             //move in the direction of movement
             charController.Move(new Vector3(move.x, 0, move.y) * (sprinting ? sprintSpeed : speed) * Time.deltaTime);
-            
+            if(!moving) moving = true;
+            moveFXTimer += Time.deltaTime;
+            if(moveFXTimer >= moveFXTime)
+            {
+                Instantiate(moveFx, transform.position, transform.rotation, null);
+                moveFXTimer = 0;
+            }
+
         }
+        else
+        {
+            if (moving) moving = false;
+        }
+
     }
     void Gravity()
     {

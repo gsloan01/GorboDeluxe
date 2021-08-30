@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 80212f1697003ec4d8b59bdcb908a1fc
+guid: 7965487130bc39741bbde56c506c4396
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
@@ -830,7 +830,7 @@ ModelImporter:
     second: omniknight
   - first:
       74: 7400000
-    second: arthur_idle_01
+    second: SwordThrust
   - first:
       95: 9500000
     second: //RootNode
@@ -869,18 +869,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: arthur_idle_01
+      name: SwordThrust
       takeName: Take 001
       internalID: 0
-      firstFrame: 0
-      lastFrame: 60
+      firstFrame: 15
+      lastFrame: 50
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
