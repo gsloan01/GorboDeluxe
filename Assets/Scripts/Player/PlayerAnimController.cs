@@ -10,6 +10,7 @@ public class PlayerAnimController : MonoBehaviour
     Player player;
     PlayerMovement playerMovement;
     bool animMoving;
+    public GameObject stepFX;
 
     private void Start()
     {
@@ -78,6 +79,11 @@ public class PlayerAnimController : MonoBehaviour
             animator.SetBool("Idle", value);
         }
 
+    }
+
+    public void Footstep()
+    {
+        Instantiate(stepFX, transform.position, player.transform.rotation, null);
     }
 }
 
