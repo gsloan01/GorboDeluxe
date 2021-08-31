@@ -21,10 +21,7 @@ public class Health : MonoBehaviour
     /// <param name="change"> Amount to change health by.</param>
     public void Apply(float change)
     {
-        if (current <= 0)
-        {
-            isDead = true;
-        }
+
         if (!isDead)
         {
             current += change;
@@ -36,8 +33,12 @@ public class Health : MonoBehaviour
                 Debug.Log(debuglog);
             }
 
-
+            if (current <= 0)
+            {
+                isDead = true;
+            }
         }
+
     }
 
 }

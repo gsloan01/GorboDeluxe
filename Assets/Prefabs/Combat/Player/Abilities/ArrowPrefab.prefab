@@ -325,8 +325,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CreateFX: {fileID: 5945583698116875139, guid: 1ad2ca21ee95f9847b59419a58a88e75, type: 3}
   DestroyOnEnemyFX: {fileID: 8969594769821772217, guid: 346e35502d0fad0439c9e24c0dbbb203, type: 3}
+  SameFXRegardless: 0
+  DestroyOnTerrainFX: {fileID: 1994940965373018713, guid: fd0ef24c4d19bf24191870257616d280, type: 3}
   attackData: {fileID: 11400000, guid: e882da678aa1b0a458dfe1b9285ab760, type: 2}
   rb: {fileID: 3208509924827664134}
+  isHoming: 0
+  homeAfterTime: 0
+  isPiercing: 0
+  destroyAfterMany: 0
+  destroyAfterAmount: 0
+  doesSplashDamage: 0
+  splashRange: 0
+  buffs: []
   flySpeed: 20
 --- !u!54 &3208509924827664134
 Rigidbody:

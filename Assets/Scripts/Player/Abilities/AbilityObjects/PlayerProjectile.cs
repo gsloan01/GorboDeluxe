@@ -6,6 +6,8 @@ public class PlayerProjectile : MonoBehaviour
 {
     public GameObject CreateFX;
     public GameObject DestroyOnEnemyFX;
+    public bool SameFXRegardless;
+    public GameObject DestroyOnTerrainFX;
     public AttackData attackData;
     public Rigidbody rb;
     public bool isHoming;
@@ -52,6 +54,8 @@ public class PlayerProjectile : MonoBehaviour
         {
             if(!other.CompareTag("Player"))
             {
+                if (SameFXRegardless && DestroyOnEnemyFX != null) Instantiate(DestroyOnEnemyFX, other.transform.position + Vector3.up * .2f, Quaternion.LookRotation(transform.forward, Vector3.up), other.transform);
+                else if(DestroyOnTerrainFX != null) Instantiate(DestroyOnTerrainFX, other.transform.position + Vector3.up * .2f, Quaternion.LookRotation(transform.forward, Vector3.up), other.transform);
                 Destroy(gameObject);
             }
         }
