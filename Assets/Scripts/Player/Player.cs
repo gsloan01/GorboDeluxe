@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public Slider resourceSlider;
     public GameObject GameUI;
     public GameObject DeathUI;
+    public GameObject PauseUI;
     #region Components
     CharacterController charController;
     PlayerControls controls;
@@ -74,6 +75,7 @@ public class Player : MonoBehaviour
         controls.Gameplay.Skill2.performed += ctx => UseSkill2();
         controls.Gameplay.Skill3.performed += ctx => UseSkill3();
         controls.Gameplay.Skill4.performed += ctx => UseSkill4();
+        controls.Gameplay.Pause.performed += ctx => OnPause();
 
         ability1 = PlayerData.ability1;
         ability2 = PlayerData.ability2;
@@ -181,7 +183,25 @@ public class Player : MonoBehaviour
         //buff.transform.SetParent(weaponTransforms);
         
     }
+    void OnPause()
+    {
+        if(!isDead)
+        {
+            if (PauseUI.activeSelf)
+            {
+                PauseUI.SetActive(false);
+                GameUI.SetActive(true);
+                Time.timeScale = 1;
+            }
+            else
+            {
+                PauseUI.SetActive(true);
+                GameUI.SetActive(false);
+                Time.timeScale = 0;
+            }
+        }
 
+    }
     #region COMBAT CONTROLS
 
 

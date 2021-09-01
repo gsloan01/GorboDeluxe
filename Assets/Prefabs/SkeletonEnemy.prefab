@@ -245,6 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allowHealingFromNegativeDamage: 0
   hpSlider: {fileID: 3055367929338322668}
+  HurtSFX: {fileID: 163153144100804958, guid: f9679021599038c478d6771b4e98284f, type: 3}
 --- !u!114 &3055367929074643152
 MonoBehaviour:
   m_ObjectHideFlags: 0

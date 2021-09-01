@@ -81,6 +81,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""ab22982f-514b-443e-9e40-acc59be3b5ae"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -171,6 +179,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Skill4"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""036f2bc0-a66a-486c-ae22-6e8061ac1fa1"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -214,6 +233,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Gameplay_Skill4 = m_Gameplay.FindAction("Skill4", throwIfNotFound: true);
         m_Gameplay_Skill5 = m_Gameplay.FindAction("Skill5", throwIfNotFound: true);
         m_Gameplay_Skill6 = m_Gameplay.FindAction("Skill6", throwIfNotFound: true);
+        m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
         // MKGameplay
         m_MKGameplay = asset.FindActionMap("MKGameplay", throwIfNotFound: true);
         m_MKGameplay_Newaction = m_MKGameplay.FindAction("New action", throwIfNotFound: true);
@@ -274,6 +294,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Skill4;
     private readonly InputAction m_Gameplay_Skill5;
     private readonly InputAction m_Gameplay_Skill6;
+    private readonly InputAction m_Gameplay_Pause;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -286,6 +307,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Skill4 => m_Wrapper.m_Gameplay_Skill4;
         public InputAction @Skill5 => m_Wrapper.m_Gameplay_Skill5;
         public InputAction @Skill6 => m_Wrapper.m_Gameplay_Skill6;
+        public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -319,6 +341,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Skill6.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill6;
                 @Skill6.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill6;
                 @Skill6.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill6;
+                @Pause.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -347,6 +372,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Skill6.started += instance.OnSkill6;
                 @Skill6.performed += instance.OnSkill6;
                 @Skill6.canceled += instance.OnSkill6;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -394,6 +422,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnSkill4(InputAction.CallbackContext context);
         void OnSkill5(InputAction.CallbackContext context);
         void OnSkill6(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IMKGameplayActions
     {

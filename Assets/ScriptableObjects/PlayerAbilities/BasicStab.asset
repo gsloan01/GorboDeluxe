@@ -16,10 +16,10 @@ MonoBehaviour:
   description: Basic attack for a warrior
   cost: 8
   onCooldown: 0
-  cooldown: 0.5
+  cooldown: 0.75
   castOnSelf: 0
   castOnAlly: 0
-  range: 3
+  range: 4.4
   data: {fileID: 11400000, guid: 1dc4810016bf87344b675f78ff38beea, type: 2}
   SwipeFX: {fileID: 1443140882413475565, guid: 9d6d3de8ac2586444b8509fa6b9d4053, type: 3}
   HitEnemyFX: {fileID: 8381373208731678155, guid: d20a8bfd1dbde08479f8a0297aedefe3, type: 3}
