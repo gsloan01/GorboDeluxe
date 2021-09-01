@@ -7,12 +7,14 @@ public class EnemyCombat : MonoBehaviour
 {
     public GameObject target;
     public EnemyCombatData data;
+    EnemyAnimatorController animatorController;
     
     float timer;
 
     private void Awake()
     {
         data = GetComponent<Enemy>().data.combatData;
+        animatorController = GetComponent<Enemy>().animatorController;
         
     }
     AttackData GetRandomAttack()
@@ -35,6 +37,7 @@ public class EnemyCombat : MonoBehaviour
                 AttackData attack = GetRandomAttack();
 
                 target?.GetComponent<Damageable>()?.RecieveDamage(attack.damages, gameObject);
+                animatorController.AttackAnim();
             }
         }
         else

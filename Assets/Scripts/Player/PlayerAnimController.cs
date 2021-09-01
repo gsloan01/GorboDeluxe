@@ -25,10 +25,12 @@ public class PlayerAnimController : MonoBehaviour
         if(playerMovement.Moving && !animMoving )
         {
             MoveAnim(true);
+            IdleAnim(false);
         }
         else if(!playerMovement.Moving && animMoving)
         {
             MoveAnim(false);
+            IdleAnim(true);
         }
         //for (int i = 0; i < timers.Count; i++)
         //{
