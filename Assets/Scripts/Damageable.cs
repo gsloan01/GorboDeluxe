@@ -64,13 +64,8 @@ public class Damageable : MonoBehaviour
         }
         //finally apply all damage
         if (GameSettings.Instance.debug) Debug.Log($"{gameObject.name} taking {final} damage from {source.name}");
-        if(GetComponent<Enemy>() != null)
-        {
-            GetComponent<Enemy>().animatorController.HurtAnim();
-        }
         health.Apply(-final);
         if (hpSlider != null) hpSlider.value = health.Current;
-        
     }
 
     public void RecieveHealing(float healingValue)

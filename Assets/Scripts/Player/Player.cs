@@ -20,7 +20,6 @@ public class Player : MonoBehaviour
 
     
     public PlayerAnimController animController;
-    public HotbarController hotbarController;
     #endregion
     #region variables
     //MAKE THIS WORK
@@ -202,7 +201,6 @@ public class Player : MonoBehaviour
                 }
                 else if (abilityResource - ability1.cost >= 0)
                 {
-                    hotbarController.StartCooldown(1, ability1.cooldown);
                     List<Damage> buffs = new List<Damage>();
                     if (weaponBuffs.Count > 0)
                     {
@@ -240,7 +238,7 @@ public class Player : MonoBehaviour
             }
             else if (abilityResource - ability2.cost >= 0)
             {
-                hotbarController.StartCooldown(2, ability2.cooldown);
+
 
                 List<Damage> buffs = new List<Damage>();
                 if (weaponBuffs.Count > 0)
@@ -277,7 +275,6 @@ public class Player : MonoBehaviour
             }
             else if (abilityResource - ability3.cost >= 0)
             {
-                hotbarController.StartCooldown(3, ability3.cooldown);
 
                 List<Damage> buffs = new List<Damage>();
                 if (weaponBuffs.Count > 0)
@@ -314,8 +311,6 @@ public class Player : MonoBehaviour
             }
             else if (abilityResource - ability4.cost >= 0)
             {
-                hotbarController.StartCooldown(4, ability4.cooldown);
-
                 List<Damage> buffs = new List<Damage>();
                 if (weaponBuffs.Count > 0)
                 {

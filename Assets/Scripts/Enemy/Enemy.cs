@@ -12,7 +12,6 @@ public class Enemy : MonoBehaviour
     float aggroLossRange = 15.0f;
     float bodyLifetime = 3.0f;
     public GameObject DeathSFX;
-    public EnemyAnimatorController animatorController;
 
     GameObject target;
     NavMeshAgent agent;
@@ -79,7 +78,6 @@ public class Enemy : MonoBehaviour
                 if(distance <= detectionRange)
                 {
                     state = enemyState.Chase;
-                    animatorController.WalkingAnim(true);
                 }
                 break;
             case enemyState.Chase:
@@ -97,14 +95,11 @@ public class Enemy : MonoBehaviour
                 if(distance <= range)
                 {
                     state = enemyState.Attacking;
-                    animatorController.WalkingAnim(false);
                 }
 
                 if( distance > detectionRange)
                 {
                     state = enemyState.Idle;
-                    animatorController.IdleAnim(true);
-                    animatorController.WalkingAnim(false);
                 }
 
                 FaceTarget();
@@ -125,7 +120,7 @@ public class Enemy : MonoBehaviour
             case enemyState.Dead:
                 if(!died)
                 {
-
+                    damageable.hpSlider.enabled = false;
                     Die();
                 }
                 bodyLifetimer += Time.deltaTime;
@@ -152,17 +147,14 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        damageable.hpSlider.gameObject.SetActive(false);
         EnemyManager.Instance.OnEnemyDeath(this);
         died = true;
         agent.isStopped = true;
         if (DeathSFX != null) Instantiate(DeathSFX, transform);
-
         //GetComponent<Damageable>().hpSlider.enabled = false;
         //Quit all code stuff and make ragdolling work.
         //drop some gold and items
     }
-    
 
     private void OnDrawGizmosSelected()
     {
