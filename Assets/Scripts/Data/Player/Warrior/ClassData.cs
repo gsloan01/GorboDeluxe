@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ClassData", menuName = "Data/Player/ClassData")]
 public class ClassData : ScriptableObject
 {
-    public Player.PlayerClass playerClass;
+
     public List<levelAbility> classAbilities;
 
 

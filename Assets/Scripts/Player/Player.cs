@@ -5,22 +5,15 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    public Transform weaponTransforms;
-    public PlayerData PlayerData;
-    public Slider resourceSlider;
-    #region Components
-    CharacterController charController;
+    
+
     PlayerControls controls;
     PlayerMovement playerMovement;
+    public PlayerData PlayerData;
+    CharacterController charController;
     Health health;
-    public Animator Animator { get { return animator; } }
-    Animator animator;
 
-    
-    public PlayerAnimController animController;
-    #endregion
     #region variables
-    //MAKE THIS WORK
     public int Level { get { return level; } }
     int level = 1;
 
@@ -31,30 +24,11 @@ public class Player : MonoBehaviour
     float abilityResource;
     public float resourceGainPerSec = 5f;
     public bool regenResource = true;
-    float abil1timer = 0;
-    float abil2timer = 0;
-    float abil3timer = 0;
-    float abil4timer = 0;
 
-    List<GameObject> weaponBuffs = new List<GameObject>();
-
-
-    public bool isDead;
+    public bool IsDead { get { return isDead; } }
+    bool isDead;
     #endregion
 
-    //TURN THIS INTO AN ABILITY MANAGER
-    PlayerAbility ability1;
-    PlayerAbility ability2;
-    PlayerAbility ability3;
-    PlayerAbility ability4;
-
-    PlayerClass playerClass = PlayerClass.Warrior;
-
-
-    public enum PlayerClass
-    {
-        Warrior
-    }
 
     private void Awake()
     {
@@ -62,23 +36,7 @@ public class Player : MonoBehaviour
         controls = new PlayerControls();
         charController = GetComponent<CharacterController>();
         playerMovement = GetComponent<PlayerMovement>();
-        animator = GetComponentInChildren<Animator>();
         health = GetComponent<Health>();
-
-        controls.Gameplay.Skill1.performed += ctx => UseSkill1();
-        controls.Gameplay.Skill2.performed += ctx => UseSkill2();
-        controls.Gameplay.Skill3.performed += ctx => UseSkill3();
-        controls.Gameplay.Skill4.performed += ctx => UseSkill4();
-
-        ability1 = PlayerData.ability1;
-        ability2 = PlayerData.ability2;
-        ability3 = PlayerData.ability3;
-        ability4 = PlayerData.ability4;
-
-        abilityResource = resourceMax;
-        
-        resourceSlider.maxValue = resourceMax;
-        resourceSlider.value = abilityResource;
     }
 
     private void OnEnable()
@@ -90,234 +48,25 @@ public class Player : MonoBehaviour
     {
         controls.Gameplay.Disable();
     }
+
     private void Update()
     {
-        #region Ability Cooldowns
-        if (ability1.onCooldown)
-        {
-            abil1timer += Time.deltaTime;
-            if(abil1timer >= ability1.cooldown)
-            {
-                abil1timer = 0;
-                ability1.onCooldown = false;
-            }
-        }
-        if (ability2.onCooldown)
-        {
-            abil2timer += Time.deltaTime;
-            if (abil2timer >= ability2.cooldown)
-            {
-                abil2timer = 0;
-                ability2.onCooldown = false;
-            }
-        }
-        if (ability3.onCooldown)
-        {
-            abil3timer += Time.deltaTime;
-            if (abil3timer >= ability3.cooldown)
-            {
-                abil3timer = 0;
-                ability3.onCooldown = false;
-            }
-        }
-        if (ability4.onCooldown)
-        {
-            abil4timer += Time.deltaTime;
-            if (abil4timer >= ability4.cooldown)
-            {
-                abil4timer = 0;
-                ability4.onCooldown = false;
-            }
-        }
-        #endregion
+      
 
         if(!isDead)
         {
             if (health.isDead)
             {
                 isDead = true;
-                animController.DeathAnim(isDead);
-                animController.IdleAnim(false);
             }
         }
 
-
-        for (int i = 0; i < weaponBuffs.Count; i++)
-        {
-            if(weaponBuffs[i] == null)
-            {
-                weaponBuffs.RemoveAt(i);
-            }
-        }
-        ResourceManagement();
-    }
-
-    void ResourceManagement()
-    {
-        resourceSlider.value = AbilityResource;
-        if(regenResource && AbilityResource <= resourceMax)
-        {
-            abilityResource += Time.deltaTime * resourceGainPerSec;
-        }
-    }
-
-    public void AddWeaponBuff(GameObject buff)
-    {
-        weaponBuffs.Add(buff);
-        //buff.transform.SetParent(weaponTransforms);
-        
-    }
-
-    #region COMBAT CONTROLS
-
-
-    //For the warrior this will always be a sort of melee attack
-    void UseSkill1()
-    {
-        if(!isDead)
-        {
-            if (ability1 == null)
-            {
-                if (GameSettings.Instance.debug) Debug.Log("No ability bound to Skill1");
-            }
-            else
-            {
-                if (ability1.onCooldown)
-                {
-                    if (GameSettings.Instance.debug) Debug.Log($"{ability1.name} is on cooldown for {abil1timer} sec...");
-                }
-                else if (abilityResource - ability1.cost >= 0)
-                {
-                    List<Damage> buffs = new List<Damage>();
-                    if (weaponBuffs.Count > 0)
-                    {
-                        foreach (GameObject g in weaponBuffs)
-                        {
-                            foreach (Damage d in g.GetComponent<WeaponBuff>().buff.damages)
-                            {
-                                buffs.Add(d);
-                            }
-
-                        }
-                    }
-                    animController.ThrustAttackAnim();
-                    ability1.Activate(this, buffs);
-                    abilityResource -= ability1.cost;
-                    ability1.onCooldown = true;
-                }
-
-            }
-        }
 
     }
 
-    void UseSkill2()
-    {
-        if (ability2 == null)
-        {
-            if (GameSettings.Instance.debug) Debug.Log("No ability bound to Skill2");
-        }
-        else
-        {
-            if (ability2.onCooldown)
-            {
-                if (GameSettings.Instance.debug) Debug.Log($"{ability2.name} is on cooldown for {abil2timer} sec...");
-            }
-            else if (abilityResource - ability2.cost >= 0)
-            {
 
 
-                List<Damage> buffs = new List<Damage>();
-                if (weaponBuffs.Count > 0)
-                {
-                    foreach (GameObject g in weaponBuffs)
-                    {
-                        foreach (Damage d in g.GetComponent<WeaponBuff>().buff.damages)
-                        {
-                            buffs.Add(d);
-                        }
 
-                    }
-                }
-                animController.ThrustAttackAnim();
-                ability2.Activate(this);
-                abilityResource -= ability2.cost;
-                ability2.onCooldown = true;
-            }
-
-        }
-    }
-
-    void UseSkill3()
-    {
-        if (ability3 == null)
-        {
-            if (GameSettings.Instance.debug) Debug.Log("No ability bound to Skill3");
-        }
-        else
-        {
-            if (ability3.onCooldown)
-            {
-                if (GameSettings.Instance.debug) Debug.Log($"{ability3.name} is on cooldown for {abil3timer} sec...");
-            }
-            else if (abilityResource - ability3.cost >= 0)
-            {
-
-                List<Damage> buffs = new List<Damage>();
-                if (weaponBuffs.Count > 0)
-                {
-                    foreach (GameObject g in weaponBuffs)
-                    {
-                        foreach (Damage d in g.GetComponent<WeaponBuff>().buff.damages)
-                        {
-                            buffs.Add(d);
-                        }
-
-                    }
-                }
-                animController.ShieldAttackAnim();
-                ability3.Activate(this);
-                abilityResource -= ability3.cost;
-                ability3.onCooldown = true;
-            }
-
-        }
-    }
-
-    void UseSkill4()
-    {
-        if (ability4 == null)
-        {
-            if (GameSettings.Instance.debug) Debug.Log("No ability bound to Skill4");
-        }
-        else
-        {
-            if (ability4.onCooldown)
-            {
-                if (GameSettings.Instance.debug) Debug.Log($"{ability4.name} is on cooldown for {abil4timer} sec...");
-            }
-            else if (abilityResource - ability4.cost >= 0)
-            {
-                List<Damage> buffs = new List<Damage>();
-                if (weaponBuffs.Count > 0)
-                {
-                    foreach (GameObject g in weaponBuffs)
-                    {
-                        foreach (Damage d in g.GetComponent<WeaponBuff>().buff.damages)
-                        {
-                            buffs.Add(d);
-                        }
-
-                    }
-                }
-                animController.YellAnim();
-                ability4.Activate(this);
-                abilityResource -= ability4.cost;
-                ability4.onCooldown = true;
-            }
-
-        }
-    }
 
     void FaceTarget(GameObject target)
     {
@@ -330,6 +79,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    //PUT THIS IN A UTILS CLASS
     public GameObject GetClosestTarget(float maxRange = float.MaxValue)
     {
         GameObject target = null;
@@ -352,6 +102,6 @@ public class Player : MonoBehaviour
 
 
     }
-    #endregion
+
 
 }

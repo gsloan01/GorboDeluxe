@@ -1,48 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2033050795
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2033050796}
-  m_Layer: 0
-  m_Name: WeaponTransform
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2033050796
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2033050795}
-  m_LocalRotation: {x: 0.7071058, y: -0.0000003303352, z: -0.000027507536, w: 0.70710784}
-  m_LocalPosition: {x: 0.000013887897, y: -0.000026088233, z: 0.7440398}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3023583575201972527}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -0.004}
---- !u!114 &863702512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3023583575201619249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dfc8530d43d032488aca7b14f2588fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stepFX: {fileID: 0}
 --- !u!1 &7540896001219518086
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,10 +87,6 @@ MonoBehaviour:
   sprintSpeed: 5
   rotateRate: 650
   sprintDelay: 3
-  sprintFX: {fileID: 5507279295604554702, guid: 984ef1aeb21fca04391de7c468b92165, type: 3}
-  sprintFXTime: 0.15
-  moveFx: {fileID: 5507279295604554702, guid: 84f9f1fe84a4a764faf58ae66aaeb8b3, type: 3}
-  moveFXTime: 0.35
 --- !u!82 &7540896001522495120
 AudioSource:
   m_ObjectHideFlags: 0
@@ -260,13 +213,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf74c1836c2ee1644a928d2e17d908b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponTransforms: {fileID: 2033050796}
-  PlayerData: {fileID: 11400000, guid: a35181aad41708047af1301a3847563c, type: 2}
-  resourceSlider: {fileID: 0}
-  animController: {fileID: 863702512}
+  PlayerData: {fileID: 0}
   resourceGainPerSec: 5
   regenResource: 1
-  isDead: 0
+  resourceSlider: {fileID: 0}
 --- !u!114 &561062389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,18 +446,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bf201eb93a64ab47857ce81b796a258, type: 3}
---- !u!1 &3023583575201619249 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5930651934574334247, guid: 7bf201eb93a64ab47857ce81b796a258, type: 3}
-  m_PrefabInstance: {fileID: 8914881779241864214}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3023583575201972497 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5930651934574693639, guid: 7bf201eb93a64ab47857ce81b796a258, type: 3}
-  m_PrefabInstance: {fileID: 8914881779241864214}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &3023583575201972527 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5930651934574693689, guid: 7bf201eb93a64ab47857ce81b796a258, type: 3}
   m_PrefabInstance: {fileID: 8914881779241864214}
   m_PrefabAsset: {fileID: 0}

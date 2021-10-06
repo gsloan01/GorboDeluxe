@@ -32,21 +32,14 @@ public class PlayerMovement : MonoBehaviour
     Vector2 rotate;
     #endregion
 
-    #region Movement FX
-    public GameObject sprintFX;
-    public float sprintFXTime = .35f;
-    float sprintFXTimer;
 
-    public GameObject moveFx;
-    public float moveFXTime = .35f;
-    float moveFXTimer;
-    #endregion
 
     private void Awake()
     {
         controls = new PlayerControls();
         charController = GetComponent<CharacterController>();
 
+        //whenever movement is performed, set the Vector2 to the movement value and set to zero when there is no input
         controls.Gameplay.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
         controls.Gameplay.Movement.canceled += ctx => move = Vector2.zero;
 
@@ -59,21 +52,13 @@ public class PlayerMovement : MonoBehaviour
     {
         debugLogs = GameSettings.Instance.debug;
 
-        if (!player.isDead)
+        if (!player.IsDead)
         {
             if (sprintTimer >= sprintDelay && !sprinting)
             {
                 sprinting = true;
             }
-            if (sprinting)
-            {
-                sprintFXTimer += Time.deltaTime;
-                if (sprintFXTimer >= sprintFXTime)
-                {
-                    Instantiate(sprintFX, transform.position, transform.rotation, null);
-                    sprintFXTimer = 0;
-                }
-            }
+
             Move();
             Rotate();
         }
@@ -110,12 +95,7 @@ public class PlayerMovement : MonoBehaviour
             //move in the direction of movement
             charController.Move(new Vector3(move.x, 0, move.y) * (sprinting ? sprintSpeed : speed) * Time.deltaTime);
             if(!moving) moving = true;
-            moveFXTimer += Time.deltaTime;
-            if(moveFXTimer >= moveFXTime)
-            {
-                Instantiate(moveFx, transform.position, transform.rotation, null);
-                moveFXTimer = 0;
-            }
+            
 
         }
         else
@@ -154,11 +134,11 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     /// <param name="delay">Optional param that allows the sprint delay to be shorter or longer, Positive (+) makes the delay longer, while Negative (-) makes it shorter.</param>
     public void EndSprinting(float delay = 0.0f)
-        {
-            sprinting = false;
-            sprintTimer = -delay;
-        }
-        #endregion
+    {
+        sprinting = false;
+        sprintTimer = -delay;
+    }
+    #endregion
 
 
 }

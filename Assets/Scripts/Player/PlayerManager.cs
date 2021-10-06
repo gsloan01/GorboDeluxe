@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//This script takes care of keeping track of the players
 public class PlayerManager : MonoBehaviour
 {
     #region Instance
@@ -15,5 +16,5 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     public GameObject player;
-    //public GameObject[] players;
+    public GameObject[] players;
 }
