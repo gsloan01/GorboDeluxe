@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BasicEnemyAttack
   m_EditorClassIdentifier: 
   damages:
-  - value: 100
+  - value: 11
     damageType: 0

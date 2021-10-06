@@ -20,4 +20,3 @@ MonoBehaviour:
   castOnSelf: 0
   castOnAlly: 0
   weaponBuff: {fileID: 2728160617344030991, guid: c478e755defad2c43a6b308198e5807c, type: 3}
-  buffStartFX: {fileID: 8144630715191426195, guid: 7e368c9ce6b8e22468f4f770871efd5c, type: 3}

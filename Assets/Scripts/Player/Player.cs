@@ -8,8 +8,6 @@ public class Player : MonoBehaviour
     public Transform weaponTransforms;
     public PlayerData PlayerData;
     public Slider resourceSlider;
-    public GameObject GameUI;
-    public GameObject DeathUI;
     #region Components
     CharacterController charController;
     PlayerControls controls;
@@ -49,8 +47,6 @@ public class Player : MonoBehaviour
     PlayerAbility ability2;
     PlayerAbility ability3;
     PlayerAbility ability4;
-
-    public GameObject DeathSFX;
 
     PlayerClass playerClass = PlayerClass.Warrior;
 
@@ -139,21 +135,12 @@ public class Player : MonoBehaviour
         {
             if (health.isDead)
             {
-
                 isDead = true;
                 animController.DeathAnim(isDead);
                 animController.IdleAnim(false);
-                if (DeathSFX != null) Instantiate(DeathSFX, transform);
-                GameUI.SetActive( false);
-                DeathUI.SetActive(true);
-                
             }
         }
-        if(isDead)
-        {
-            Time.timeScale = Mathf.Lerp(Time.timeScale, .01f, 1 * Time.deltaTime);
 
-        }
 
         for (int i = 0; i < weaponBuffs.Count; i++)
         {

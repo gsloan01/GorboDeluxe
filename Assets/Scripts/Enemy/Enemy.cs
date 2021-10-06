@@ -7,11 +7,10 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     public EnemyData data;
-    public GameObject spawnFX;
     float detectionRange = 8.0f;
     float aggroLossRange = 15.0f;
     float bodyLifetime = 3.0f;
-    public GameObject DeathSFX;
+
 
     GameObject target;
     NavMeshAgent agent;
@@ -150,7 +149,6 @@ public class Enemy : MonoBehaviour
         EnemyManager.Instance.OnEnemyDeath(this);
         died = true;
         agent.isStopped = true;
-        if (DeathSFX != null) Instantiate(DeathSFX, transform);
         //GetComponent<Damageable>().hpSlider.enabled = false;
         //Quit all code stuff and make ragdolling work.
         //drop some gold and items
