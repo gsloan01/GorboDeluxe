@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilName: Arrow
   description: Shoots an Arrow
-  cost: 10
+  cost: 5
   onCooldown: 0
-  cooldown: 2.5
+  cooldown: 1.5
   castOnSelf: 0
   castOnAlly: 0
   projectile: {fileID: 3208509924827664137, guid: 9f3c5baca23a6f3408950669af1d513a, type: 3}

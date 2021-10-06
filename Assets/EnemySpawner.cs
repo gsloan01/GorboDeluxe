@@ -13,7 +13,7 @@ public class EnemySpawner : MonoBehaviour
     public bool active;
 
     float timer;
-    List<GameObject> spawned = new List<GameObject>();
+    List<GameObject> spawned;
 
     private void Update()
     {
@@ -54,12 +54,12 @@ public class EnemySpawner : MonoBehaviour
                 Spawn(spawnableEnemies[enemyIndex]);
             }
 
+            timer = 0;
         }
         else
         {
             Debug.Log($"{name} cannot spawn an enemy, as there are no enemies in the list!");
         }
-        timer = 0;
     }
 
     void Spawn(GameObject newEnemy)

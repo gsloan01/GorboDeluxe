@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: EN_TestMelee
   m_EditorClassIdentifier: 
   damages:
-  - value: 12
+  - value: 10
     damageType: 0

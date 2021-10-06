@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ArrowAttackData
   m_EditorClassIdentifier: 
   damages:
-  - value: 20
+  - value: 5
     damageType: 0

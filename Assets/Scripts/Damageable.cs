@@ -13,7 +13,6 @@ public class Damageable : MonoBehaviour
     public bool isDead { get { return health.isDead; } }
     public Slider hpSlider;
     Canvas sliderCanvas;
-    public GameObject HurtSFX;
 
     private void Awake()
     {
@@ -69,7 +68,6 @@ public class Damageable : MonoBehaviour
         {
             GetComponent<Enemy>().animatorController.HurtAnim();
         }
-        if (HurtSFX != null) Instantiate(HurtSFX, transform.position, Quaternion.identity, null);
         health.Apply(-final);
         if (hpSlider != null) hpSlider.value = health.Current;
         

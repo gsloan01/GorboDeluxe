@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c1b96903caf054e80ebf5b4995d4ba, type: 3}
   m_Name: BaseEnemy
   m_EditorClassIdentifier: 
-  detectionRange: 2000
-  aggroLossRange: 3000
+  detectionRange: 4
+  aggroLossRange: 6
   combatData: {fileID: 11400000, guid: ebb1e8e0c686b4143a50487f3d34bd9a, type: 2}
