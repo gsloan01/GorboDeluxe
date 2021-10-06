@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader: MonoBehaviour
+public class Scenething : MonoBehaviour
 {
-    public string TestSceneName;
 
     public void RestartLevel()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(TestSceneName, LoadSceneMode.Single);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Week2Scene", LoadSceneMode.Single);
         Time.timeScale = 1;
     }
 }

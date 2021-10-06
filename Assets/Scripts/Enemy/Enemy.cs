@@ -8,8 +8,8 @@ public class Enemy : MonoBehaviour
 {
     public EnemyData data;
     public GameObject spawnFX;
-    public float detectionRange = 8.0f;
-    public float aggroLossRange = 15.0f;
+    float detectionRange = 8.0f;
+    float aggroLossRange = 15.0f;
     float bodyLifetime = 3.0f;
     public GameObject DeathSFX;
     public EnemyAnimatorController animatorController;
