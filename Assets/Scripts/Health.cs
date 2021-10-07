@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+    public float baseHP = 100;
+    public float scalingValue;
     public float Current { get { return current; } }
     public float max = 100;
     float current;
@@ -12,6 +14,7 @@ public class Health : MonoBehaviour
 
     private void Start()
     {
+        //max = base + scaling
         current = max;
     }
 

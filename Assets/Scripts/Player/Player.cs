@@ -5,63 +5,32 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    
 
-    PlayerControls controls;
-    PlayerMovement playerMovement;
     public PlayerData PlayerData;
+    PlayerMovement playerMovement;
     CharacterController charController;
     Health health;
 
     #region variables
-    public int Level { get { return level; } }
-    int level = 1;
-
-
-
     public float AbilityResource { get { return abilityResource; } }
     float resourceMax = 100f;
     float abilityResource;
     public float resourceGainPerSec = 5f;
     public bool regenResource = true;
 
-    public bool IsDead { get { return isDead; } }
-    bool isDead;
     #endregion
 
 
     private void Awake()
     {
-        //enemyLayer = LayerMask.GetMask("Enemy");
-        controls = new PlayerControls();
-        charController = GetComponent<CharacterController>();
         playerMovement = GetComponent<PlayerMovement>();
         health = GetComponent<Health>();
     }
 
-    private void OnEnable()
-    {
-        controls.Gameplay.Enable();
-    }
 
-    private void OnDisable()
-    {
-        controls.Gameplay.Disable();
-    }
 
     private void Update()
     {
-      
-
-        if(!isDead)
-        {
-            if (health.isDead)
-            {
-                isDead = true;
-            }
-        }
-
-
     }
 
 
