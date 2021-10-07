@@ -6,32 +6,20 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerData", menuName = "Data/Player/PlayerData")]
 public class PlayerData : ScriptableObject
 {
+    //This is the players name
     public string name;
 
+    //Strength constitutes the players damage with big weapons (warrior, hammers, etc)
+    //Agility determines light weapon damage (rogue, archer, etc)
+    //Intellect governs magical damage (wizards, warlocks, witches oh my!)
+    //Willpower governs resource pool (mana or stamina)
+    //Toughness is health and defense
+    public int strength, agility, intellect, willpower, toughness;
 
 
-    public PlayerStat[] stats = new PlayerStat[5] { new PlayerStat(PlayerStat.eStat.Strength, 1),
-                                                    new PlayerStat(PlayerStat.eStat.Dexterity, 1),
-                                                    new PlayerStat(PlayerStat.eStat.Intelligence, 1),
-                                                    new PlayerStat(PlayerStat.eStat.Wisdom, 1),
-                                                    new PlayerStat(PlayerStat.eStat.Constitution, 1) };
+
+    
 
 }
-[System.Serializable]
-public class PlayerStat
-{
-    [System.Serializable]
-    public enum eStat
-    {
-        Strength, Dexterity, Intelligence, Wisdom, Constitution
-    }
-    eStat stat;
-    int value = 1;
 
-    public PlayerStat(eStat s, int v)
-    {
-        stat = s;
-        value = v;
-    }
-}
 

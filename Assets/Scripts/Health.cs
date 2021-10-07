@@ -7,9 +7,10 @@ public class Health : MonoBehaviour
     public float baseHP = 100;
     public float scalingValue;
     public float Current { get { return current; } }
-    public float max = 100;
     float current;
+    public float max = 100;
 
+    //should make this an ondeath unity event that the player or enemy will subscribe to
     public bool isDead = false;
 
     private void Start()
@@ -24,10 +25,7 @@ public class Health : MonoBehaviour
     /// <param name="change"> Amount to change health by.</param>
     public void Apply(float change)
     {
-        if (current <= 0)
-        {
-            isDead = true;
-        }
+
         if (!isDead)
         {
             current += change;
@@ -38,7 +36,10 @@ public class Health : MonoBehaviour
                 debuglog = (change >= 0) ? (gameObject.name + " healed by " + change + " !") : (gameObject.name + " lost " + change + " health! Bringing them to " + current +  ".");
                 Debug.Log(debuglog);
             }
-
+            if (current <= 0)
+            {
+                isDead = true;
+            }
 
         }
     }

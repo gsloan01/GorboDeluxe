@@ -27,16 +27,6 @@ public class Player : MonoBehaviour
         health = GetComponent<Health>();
     }
 
-
-
-    private void Update()
-    {
-    }
-
-
-
-
-
     void FaceTarget(GameObject target)
     {
         
@@ -48,29 +38,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    //PUT THIS IN A UTILS CLASS
-    public GameObject GetClosestTarget(float maxRange = float.MaxValue)
-    {
-        GameObject target = null;
-        float closest = float.MaxValue;
-        
-        List<Enemy> enemies = EnemyManager.Instance.Enemies;
-        if (enemies.Count == 0) return target;
-        foreach (Enemy enemy in enemies)
-        {
-            float dist = Vector3.Distance(transform.position, enemy.transform.position);
-            if (dist < closest)
-            {
-                target = enemy.gameObject;
-                closest = dist;
-            }
-        }
-        if (closest <= maxRange) return target;
-        else return null;
-
-
-
-    }
+    
 
 
 }

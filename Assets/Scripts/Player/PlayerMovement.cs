@@ -25,23 +25,49 @@ public class PlayerMovement : MonoBehaviour
 
     Vector2 move, rotate;
 
+    public void OnChangeToMK()
+    {
+        controls.MKGameplay.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
+        controls.MKGameplay.Movement.canceled += ctx => move = Vector2.zero;
 
+        controls.Gameplay.Rotation.performed += ctx => rotate = ctx.ReadValue<Vector2>();
+        controls.Gameplay.Rotation.canceled += ctx => rotate = Vector2.zero;
+    }
+    public void OnChangeToController()
+    {
+        controls.Gameplay.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
+        controls.Gameplay.Movement.canceled += ctx => move = Vector2.zero;
+
+        controls.Gameplay.Rotation.performed += ctx => rotate = ctx.ReadValue<Vector2>();
+        controls.Gameplay.Rotation.canceled += ctx => rotate = Vector2.zero;
+    }
 
     private void Awake()
     {
         controls = new PlayerControls();
         charController = GetComponent<CharacterController>();
 
+
         //whenever movement is performed, set the Vector2 to the movement value and set to zero when there is no input
+
+
         controls.Gameplay.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
         controls.Gameplay.Movement.canceled += ctx => move = Vector2.zero;
 
         controls.Gameplay.Rotation.performed += ctx => rotate = ctx.ReadValue<Vector2>();
         controls.Gameplay.Rotation.canceled += ctx => rotate = Vector2.zero;
 
+
+        //controls.Gameplay.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
+        //controls.Gameplay.Movement.canceled += ctx => move = Vector2.zero;
+
+        //controls.Gameplay.Rotation.performed += ctx => rotate = ctx.ReadValue<Vector2>();
+        //controls.Gameplay.Rotation.canceled += ctx => rotate = Vector2.zero;
+
     }
     void Update()
     {
+        Debug.Log($"{move.x} , {move.y}");
         if(isActive)
         {
             debugLogs = GameSettings.Instance.debug;

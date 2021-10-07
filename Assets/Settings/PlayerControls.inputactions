@@ -9,7 +9,7 @@
                     "name": "Movement",
                     "type": "Value",
                     "id": "a98cf362-7a9d-4bdd-bdcc-dac72db85edb",
-                    "expectedControlType": "",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 },
@@ -18,54 +18,6 @@
                     "type": "Value",
                     "id": "5b2cbda1-ff97-4ade-b1a0-a6bd40da91ae",
                     "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Skill1",
-                    "type": "Button",
-                    "id": "6ce359f6-5624-4a51-82b0-975de0e10a56",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Skill2",
-                    "type": "Button",
-                    "id": "c0f26f9a-188d-4737-b9c0-ebc0a1685d0e",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Skill3",
-                    "type": "Button",
-                    "id": "e5cfc774-effe-49d0-ba2d-80f3a00c5a94",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Skill4",
-                    "type": "Button",
-                    "id": "1f8eedb2-5d04-47e8-a42e-92744c9dd625",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Skill5",
-                    "type": "Button",
-                    "id": "6e321550-e0b8-4cf6-ac17-32627309647c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Skill6",
-                    "type": "Button",
-                    "id": "c4db9f8d-4bce-42df-8758-37a035add3a3",
-                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -92,72 +44,6 @@
                     "action": "Rotation",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "cfa15fda-eaa5-46b6-9186-e23557c8d0df",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skill1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3f826224-61c9-4466-a8a8-ee449619695b",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skill2",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a16b4bcf-e485-4ad2-ab94-dc275147e0b2",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skill5",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5bcd10fd-f86c-4662-9dc9-e0bd7cd62296",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skill3",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d79b7983-5bda-4d75-a562-b082114783bf",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skill6",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d4acd1aa-fea0-4692-a2c2-e319fcc95d5b",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skill4",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
@@ -166,23 +52,86 @@
             "id": "064c63ae-ee99-4238-b1d7-b5df9165880d",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Movement",
                     "type": "Value",
                     "id": "d808071b-196d-438b-8970-54c3fc002928",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "MouseTracking",
+                    "type": "Value",
+                    "id": "5429929d-0b91-46ac-9708-44bc29a04ba6",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 }
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "828f792e-7c54-4a63-a7c8-4df68c6f5774",
-                    "path": "",
+                    "name": "2D Vector",
+                    "id": "d3d5c369-cf72-4537-a14f-eadfa84acf30",
+                    "path": "2DVector(mode=2)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "78e4b64c-8b83-4ebc-857f-7ef15fb27348",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "c721edde-4566-4c62-9d23-4e2cec4f8055",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "cfcbf90a-28a9-452c-8318-2c9dcb8b8633",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "7bd34a64-37af-4689-bfee-1c3f4166927d",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "2dbd6d87-51b5-46c1-b0d5-23fe65590152",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseTracking",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
