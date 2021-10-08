@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     PlayerControls controls;
 
 
-    Vector2 move, rotate;
+    Vector2 move, rotate, mousePos;
 
     public void OnChangeToMK()
     {
@@ -51,27 +51,20 @@ public class PlayerMovement : MonoBehaviour
         //whenever movement is performed, set the Vector2 to the movement value and set to zero when there is no input
 
 
-        controls.Gameplay.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
-        controls.Gameplay.Movement.canceled += ctx => move = Vector2.zero;
-
-        controls.Gameplay.Rotation.performed += ctx => rotate = ctx.ReadValue<Vector2>();
-        controls.Gameplay.Rotation.canceled += ctx => rotate = Vector2.zero;
-
+        OnChangeToController();
 
         //controls.Gameplay.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
         //controls.Gameplay.Movement.canceled += ctx => move = Vector2.zero;
 
         //controls.Gameplay.Rotation.performed += ctx => rotate = ctx.ReadValue<Vector2>();
         //controls.Gameplay.Rotation.canceled += ctx => rotate = Vector2.zero;
-
     }
     void Update()
     {
-        Debug.Log($"{move.x} , {move.y}");
+        Debug.Log($"{mousePos.x} , {mousePos.y}");
         if(isActive)
         {
             debugLogs = GameSettings.Instance.debug;
-
             if (isMobile)
             {
                 if (sprintTimer >= data.sprintDelay && !sprinting)
@@ -80,7 +73,6 @@ public class PlayerMovement : MonoBehaviour
                 }
 
                 Move();
-                RotateTowardsMovement();
             }
             if (hasGravity && !charController.isGrounded) Gravity();
         }
@@ -99,7 +91,6 @@ public class PlayerMovement : MonoBehaviour
     #region PLAYER MOVEMENT
     void Move()
     {
-        
         //if going fast enough for sprinting to start, start counting until it happens
         if (Mathf.Abs(move.x) >= .4f || Mathf.Abs(move.y) >= .4f)
         {
@@ -122,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
             //if your input has stopped, then you are not moving
             if (moving) moving = false;
         }
-
+        RotateTowardsMovement();
     }
     void Gravity()
     {

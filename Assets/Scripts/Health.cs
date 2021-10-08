@@ -6,6 +6,9 @@ public class Health : MonoBehaviour
 {
     public float baseHP = 100;
     public float scalingValue;
+    float healingMod = 1;
+    public bool allowHealingFromNegativeDamage = false;
+    Dictionary<Damage.dtype, float> damageMods = new Dictionary<Damage.dtype, float>();
     public float Current { get { return current; } }
     float current;
     public float max = 100;
