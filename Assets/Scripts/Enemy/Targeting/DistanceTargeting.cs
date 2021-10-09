@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DistanceTargeting : MonoBehaviour
+public class DistanceTargeting : EnemyTargeting
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public override void Search(float range)
     {
-        
+        currentTarget = PlayerManager.Instance.player;
+        if(Vector3.Distance(currentTarget.transform.position, transform.position) < range )
+        {
+            //Change this to be if the new target isnt the same target
+            if(currentTarget != null)
+            {
+                OnTargetFound_Enemy.Invoke(currentTarget);
+
+            }
+        }
     }
 }

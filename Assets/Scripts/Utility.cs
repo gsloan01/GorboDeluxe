@@ -34,7 +34,7 @@ public static class Utility
     }
     public static IEnumerable<T> GetAllInRange<T>(Vector3 point,  float maxRange = float.MaxValue, List<GameObject> exclude = null) where T : Component
     {
-        return GameObject.FindObjectsOfType<T>().Where(g => Vector3.Distance(g.gameObject.transform.position, point) <= maxRange && !exclude.Contains(g.gameObject));
+        return GameObject.FindObjectsOfType<T>().Where(g => Vector3.Distance(g.gameObject.transform.position, point) <= maxRange);
     }
 
 }

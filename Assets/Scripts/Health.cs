@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Health : MonoBehaviour
 
     //should make this an ondeath unity event that the player or enemy will subscribe to
     public bool isDead = false;
+    public UnityEvent OnDeath;
 
     private void Start()
     {

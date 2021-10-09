@@ -5,21 +5,48 @@ using UnityEngine;
 [RequireComponent(typeof(Enemy))]
 public class EnemyCombat : MonoBehaviour
 {
-    public GameObject target;
-    public EnemyCombatData data;
-    
+    GameObject target;
+    EnemyCombatData data;
+    Enemy thisEnemy;
+    Enemy.enemyState currentState = Enemy.enemyState.Idle;
     float timer;
+
+    bool attacking = false;
 
     private void Awake()
     {
-        data = GetComponent<Enemy>().data.combatData;
-        
+        thisEnemy = GetComponent<Enemy>();
+        data = thisEnemy.data.combatData;
+
+        thisEnemy.OnChangeState.AddListener(OnChangeState);
+        thisEnemy.OnEnemyTargetChanged.AddListener(OnUpdateTarget);
     }
+    
     AttackData GetRandomAttack()
     {
         return data.attacks[Random.Range(0, data.attacks.Count)];
     }
-
+    void OnChangeState(Enemy.enemyState newState)
+    {
+        currentState = newState;
+        if (currentState == Enemy.enemyState.Attacking) attacking = true;
+        
+    }
+    void OnUpdateTarget(GameObject target)
+    {
+        this.target = target;
+    }
+    private void Update()
+    {
+        if(attacking)
+        {
+            Combat();
+        }
+    }
+    private void Start()
+    {
+        target = PlayerManager.Instance.player;
+    }
     public void Combat()
     {
         if(target)
@@ -32,9 +59,8 @@ public class EnemyCombat : MonoBehaviour
                 
                 timer = 0;
 
-                AttackData attack = GetRandomAttack();
+                Debug.Log($"{thisEnemy.data.name} has attacked {target.name}");
 
-                target?.GetComponent<Damageable>()?.RecieveDamage(attack.damages, gameObject);
             }
         }
         else

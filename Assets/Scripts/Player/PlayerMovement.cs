@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     CharacterController charController;
     PlayerControls controls;
+    Player thisPlayer;
 
 
     Vector2 move, rotate, mousePos;
@@ -47,7 +48,8 @@ public class PlayerMovement : MonoBehaviour
         controls = new PlayerControls();
         charController = GetComponent<CharacterController>();
 
-
+        thisPlayer = GetComponent<Player>();
+        data = thisPlayer.PlayerData.movementData;
         //whenever movement is performed, set the Vector2 to the movement value and set to zero when there is no input
 
 

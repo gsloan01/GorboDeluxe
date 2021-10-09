@@ -8,59 +8,86 @@ public class EnemyMovement : MonoBehaviour
     NavMeshAgent agent;
     GameObject target;
     Enemy.enemyState currentState = Enemy.enemyState.Idle;
-    float movementSpeed;
 
     Enemy thisEnemy;
+    EnemyMovementData data;
 
+    float detectionRange = 5.0f;
+    float attackRange = 2.0f;
+    bool active = true;
 
-    public void Initialize(EnemyMovementData data)
+    public void ToggleActive()
     {
-        movementSpeed = data.movementSpeed;
+        active = !active;
+    }
+    private void Start()
+    {
         agent = GetComponent<NavMeshAgent>();
-        GetComponent<Enemy>().onChangeState.AddListener(UpdateState);
-        GetComponent<Enemy>().OnEnemyTargetChanged.AddListener(UpdateTarget);
+        thisEnemy = GetComponent<Enemy>();
+
+        data = thisEnemy.data.movementData;
+
+        thisEnemy.OnChangeState.AddListener(UpdateState);
+        thisEnemy.OnEnemyTargetChanged.AddListener(UpdateTarget);
+        agent.speed = data.movementSpeed;
+        target = PlayerManager.Instance.player;
+        GetComponent<Health>().OnDeath.AddListener(ToggleActive);
     }
     private void Update()
     {
-        switch (currentState)
+        if(active)
         {
-            case Enemy.enemyState.Idle:
-                break;
-            case Enemy.enemyState.Wander:
-                break;
-            case Enemy.enemyState.Flee:
-                break;
-            case Enemy.enemyState.Chase:
-                if(target != null)
-                {
+            //if there is a target found
+
+            switch (currentState)
+            {
+                case Enemy.enemyState.Idle:
+
+                    if(Vector3.Distance(target.transform.position, transform.position) < detectionRange)
+                    {
+                        thisEnemy.OnChangeState.Invoke(Enemy.enemyState.Chase);
+
+                    }
+
+                    break;
+                case Enemy.enemyState.Chase:
                     FaceTarget();
-                    agent.Move(target.transform.position);
-                }
-                else
-                {
-                    if (GameSettings.Instance.debug) Debug.Log("Trying to chase without a target!");
-                }
+
+                    agent.SetDestination(target.transform.position);
+                    if (Vector3.Distance(target.transform.position, transform.position) <= attackRange)
+                    {
+                        thisEnemy.OnChangeState.Invoke(Enemy.enemyState.Attacking);
+                        
+                    }
+                    Debug.Log($"Chasing {target.name}");
+                    break;
+                case Enemy.enemyState.Attacking:
+                    FaceTarget();
+                    if (Vector3.Distance(target.transform.position, transform.position) > agent.stoppingDistance)
+                    {
+                        thisEnemy.OnChangeState.Invoke(Enemy.enemyState.Chase);
+
+                    }
+                    break;
+                case Enemy.enemyState.Dead:
+                    ToggleActive();
+                    break;
+                default:
+                    break;
+            }
+            
 
 
-                break;
-            case Enemy.enemyState.Attacking:
-                FaceTarget();
-                break;
-            case Enemy.enemyState.Dead:
-
-                break;
-            default:
-                break;
+            
         }
     }
     void FaceTarget()
     {
-        if (target != null)
-        {
-            Vector3 direction = (target.transform.position - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
-        }
+
+        Vector3 direction = (target.transform.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
+
     }
 
     /// <summary>
@@ -80,7 +107,11 @@ public class EnemyMovement : MonoBehaviour
     {
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, agent.stoppingDistance);
+        if (target != null)
+        {
+            Gizmos.DrawSphere(target.transform.position, 1);
+        }
+        //Gizmos.DrawWireSphere(transform.position, agent.stoppingDistance);
         //Gizmos.DrawLine(transform.position, target.transform.position);
     }
 }
