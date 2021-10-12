@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
 
     public PlayerData PlayerData;
+    public PlayerInputHandler inputHandler;
     PlayerMovement playerMovement;
     CharacterController charController;
     Health health;
@@ -25,20 +26,6 @@ public class Player : MonoBehaviour
     {
         playerMovement = GetComponent<PlayerMovement>();
         health = GetComponent<Health>();
+        if (inputHandler == null) inputHandler = GetComponent<PlayerInputHandler>();
     }
-
-    void FaceTarget(GameObject target)
-    {
-        
-        if (target != null)
-        {
-            Vector3 direction = (target.transform.position - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
-        }
-    }
-
-    
-
-
 }

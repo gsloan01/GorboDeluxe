@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     public bool isMobile = true;
     public bool isActive = true;
 
+    [SerializeField]
+    Camera camera;
+
     Vector3 gravity = new Vector3(0,-8, 0);
     public bool Sprinting { get { return sprinting; } }
     public bool Moving { get { return moving; } }
@@ -20,52 +23,32 @@ public class PlayerMovement : MonoBehaviour
     float sprintTimer;
 
     CharacterController charController;
-    PlayerControls controls;
     Player thisPlayer;
-
+    PlayerInputHandler input;
 
     Vector2 move, rotate, mousePos;
 
-    public void OnChangeToMK()
-    {
-        controls.MKGameplay.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
-        controls.MKGameplay.Movement.canceled += ctx => move = Vector2.zero;
 
-        controls.Gameplay.Rotation.performed += ctx => rotate = ctx.ReadValue<Vector2>();
-        controls.Gameplay.Rotation.canceled += ctx => rotate = Vector2.zero;
-    }
-    public void OnChangeToController()
-    {
-        controls.Gameplay.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
-        controls.Gameplay.Movement.canceled += ctx => move = Vector2.zero;
-
-        controls.Gameplay.Rotation.performed += ctx => rotate = ctx.ReadValue<Vector2>();
-        controls.Gameplay.Rotation.canceled += ctx => rotate = Vector2.zero;
-    }
 
     private void Awake()
     {
-        controls = new PlayerControls();
         charController = GetComponent<CharacterController>();
 
         thisPlayer = GetComponent<Player>();
         data = thisPlayer.PlayerData.movementData;
-        //whenever movement is performed, set the Vector2 to the movement value and set to zero when there is no input
+        input = thisPlayer.inputHandler;
 
-
-        OnChangeToController();
-
-        //controls.Gameplay.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
-        //controls.Gameplay.Movement.canceled += ctx => move = Vector2.zero;
-
-        //controls.Gameplay.Rotation.performed += ctx => rotate = ctx.ReadValue<Vector2>();
-        //controls.Gameplay.Rotation.canceled += ctx => rotate = Vector2.zero;
     }
     void Update()
     {
-        Debug.Log($"{mousePos.x} , {mousePos.y}");
+
         if(isActive)
         {
+            move = input.Movement;
+            if(input.GP_Active) rotate = input.StickRotation;
+
+            if (input.MK_Active) mousePos = input.MousePos;
+
             debugLogs = GameSettings.Instance.debug;
             if (isMobile)
             {
@@ -74,24 +57,15 @@ public class PlayerMovement : MonoBehaviour
                     sprinting = true;
                 }
 
-                Move();
+                MovementHandling();
+                RotationHandling();
             }
             if (hasGravity && !charController.isGrounded) Gravity();
         }
     }
 
-    //whenever this object is enabled or disabled, do the same to the controls
-    private void OnEnable()
-    {
-        controls.Gameplay.Enable();
-    }
-    private void OnDisable()
-    {
-        controls.Gameplay.Disable();
-    }
-
     #region PLAYER MOVEMENT
-    void Move()
+    void MovementHandling()
     {
         //if going fast enough for sprinting to start, start counting until it happens
         if (Mathf.Abs(move.x) >= .4f || Mathf.Abs(move.y) >= .4f)
@@ -115,32 +89,70 @@ public class PlayerMovement : MonoBehaviour
             //if your input has stopped, then you are not moving
             if (moving) moving = false;
         }
-        RotateTowardsMovement();
+        
     }
     void Gravity()
     {
         //fall at a normal rate
         charController.Move(gravity * Time.deltaTime);
     }
-
-    void RotateTowardsMovement()
+    Vector3 hitpoint;
+    void RotationHandling()
     {
         Quaternion toRotation;
-        if (Mathf.Abs(rotate.x) >= deadZone || Mathf.Abs(rotate.y) >= deadZone)
+        //if gamepad controls
+        if(input.GP_Active)
         {
-            toRotation = Quaternion.LookRotation(new Vector3(rotate.x, 0, rotate.y), Vector3.up);
-            //if(debugLogs) Debug.Log($"Right Stick | X : {rotate.x}, Y : {rotate.y} ");
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, data.rotateRate * Time.deltaTime);
+            if (Mathf.Abs(rotate.x) >= deadZone || Mathf.Abs(rotate.y) >= deadZone)
+            {
+                SetLookRotation(rotate);
+            }
+            else if(move != Vector2.zero)
+            {
+                SetLookRotation(move);
+            }
         }
-        else
-        if (move != Vector2.zero)
+        else if(input.MK_Active)
         {
-            toRotation = Quaternion.LookRotation(new Vector3(move.x, 0, move.y), Vector3.up);
-            //if(debugLogs) Debug.Log($"Left Stick | X : {move.x}, Y : {move.y} ");
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, data.rotateRate * Time.deltaTime);
-        }
-    }
+            if(mousePos != Vector2.zero)
+            {
+                //Gets the world position from the camera
+                Vector2 mouseToWorldXZ = Vector2.zero;
 
+                Ray ray = camera.ScreenPointToRay(mousePos);
+                if(Physics.Raycast(ray, out RaycastHit hitinfo, 1000))
+                {
+                    hitpoint = hitinfo.point;
+
+                    //Gets the XZ of that position
+                    //Character rotates towards that point
+                    //hitpoint = transform.worldToLocalMatrix.MultiplyVector(hitpoint);
+                    Vector3 direcVec3 = hitpoint - transform.position;
+                    Vector2 direction = new Vector2(direcVec3.x, direcVec3.z);
+                    
+
+                    toRotation = Utility.GetLookRotationFromVec2(direction);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, data.rotateRate * Time.deltaTime);
+                }
+                else
+                {
+                    SetLookRotation(move);
+                }
+                
+            } else
+            if (move != Vector2.zero)
+            {
+                SetLookRotation(move);
+            }
+        }
+        
+    }
+    void SetLookRotation(Vector2 v)
+    {
+        Quaternion toRotation;
+        toRotation = Utility.GetLookRotationFromVec2(v);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, data.rotateRate * Time.deltaTime);
+    }
     /// <summary>
     /// This method will stop the players sprint.
     /// </summary>
@@ -152,5 +164,10 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(hitpoint, .2f);
+    }
 
 }

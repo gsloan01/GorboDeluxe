@@ -17,6 +17,8 @@ public class Health : MonoBehaviour
     //should make this an ondeath unity event that the player or enemy will subscribe to
     public bool isDead = false;
     public UnityEvent OnDeath;
+    public UnityEvent OnHealed;
+    public UnityEvent OnHurt;
 
     private void Start()
     {
@@ -43,7 +45,7 @@ public class Health : MonoBehaviour
             }
             if (current <= 0)
             {
-                isDead = true;
+                OnDeath.Invoke();
             }
 
         }

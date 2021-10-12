@@ -42,7 +42,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Controller"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -53,7 +53,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Controller"",
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -79,6 +79,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""PrimaryAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""248161bb-fa5e-4d1d-acbd-54f0e0b6c8e3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -99,7 +107,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""MouseKeyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -110,7 +118,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""MouseKeyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -121,7 +129,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""MouseKeyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -132,7 +140,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""MouseKeyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -147,11 +155,60 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""MouseTracking"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2235198d-c84e-4773-a0fe-3af31da65574"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""MouseKeyboard"",
+                    ""action"": ""PrimaryAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""MouseKeyboard"",
+            ""bindingGroup"": ""MouseKeyboard"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Controller"",
+            ""bindingGroup"": ""Controller"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<DualShockGamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<SwitchProControllerHID>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
@@ -161,6 +218,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_MKGameplay = asset.FindActionMap("MKGameplay", throwIfNotFound: true);
         m_MKGameplay_Movement = m_MKGameplay.FindAction("Movement", throwIfNotFound: true);
         m_MKGameplay_MouseTracking = m_MKGameplay.FindAction("MouseTracking", throwIfNotFound: true);
+        m_MKGameplay_PrimaryAttack = m_MKGameplay.FindAction("PrimaryAttack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -253,12 +311,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private IMKGameplayActions m_MKGameplayActionsCallbackInterface;
     private readonly InputAction m_MKGameplay_Movement;
     private readonly InputAction m_MKGameplay_MouseTracking;
+    private readonly InputAction m_MKGameplay_PrimaryAttack;
     public struct MKGameplayActions
     {
         private @PlayerControls m_Wrapper;
         public MKGameplayActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_MKGameplay_Movement;
         public InputAction @MouseTracking => m_Wrapper.m_MKGameplay_MouseTracking;
+        public InputAction @PrimaryAttack => m_Wrapper.m_MKGameplay_PrimaryAttack;
         public InputActionMap Get() { return m_Wrapper.m_MKGameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -274,6 +334,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @MouseTracking.started -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnMouseTracking;
                 @MouseTracking.performed -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnMouseTracking;
                 @MouseTracking.canceled -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnMouseTracking;
+                @PrimaryAttack.started -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnPrimaryAttack;
+                @PrimaryAttack.performed -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnPrimaryAttack;
+                @PrimaryAttack.canceled -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnPrimaryAttack;
             }
             m_Wrapper.m_MKGameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -284,10 +347,31 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @MouseTracking.started += instance.OnMouseTracking;
                 @MouseTracking.performed += instance.OnMouseTracking;
                 @MouseTracking.canceled += instance.OnMouseTracking;
+                @PrimaryAttack.started += instance.OnPrimaryAttack;
+                @PrimaryAttack.performed += instance.OnPrimaryAttack;
+                @PrimaryAttack.canceled += instance.OnPrimaryAttack;
             }
         }
     }
     public MKGameplayActions @MKGameplay => new MKGameplayActions(this);
+    private int m_MouseKeyboardSchemeIndex = -1;
+    public InputControlScheme MouseKeyboardScheme
+    {
+        get
+        {
+            if (m_MouseKeyboardSchemeIndex == -1) m_MouseKeyboardSchemeIndex = asset.FindControlSchemeIndex("MouseKeyboard");
+            return asset.controlSchemes[m_MouseKeyboardSchemeIndex];
+        }
+    }
+    private int m_ControllerSchemeIndex = -1;
+    public InputControlScheme ControllerScheme
+    {
+        get
+        {
+            if (m_ControllerSchemeIndex == -1) m_ControllerSchemeIndex = asset.FindControlSchemeIndex("Controller");
+            return asset.controlSchemes[m_ControllerSchemeIndex];
+        }
+    }
     public interface IGameplayActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -297,5 +381,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnMouseTracking(InputAction.CallbackContext context);
+        void OnPrimaryAttack(InputAction.CallbackContext context);
     }
 }

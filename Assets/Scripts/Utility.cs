@@ -37,4 +37,9 @@ public static class Utility
         return GameObject.FindObjectsOfType<T>().Where(g => Vector3.Distance(g.gameObject.transform.position, point) <= maxRange);
     }
 
+    public static Quaternion GetLookRotationFromVec2(Vector2 v)
+    {
+        return Quaternion.LookRotation(new Vector3(v.x, 0, v.y), Vector3.up);
+    }
+
 }
