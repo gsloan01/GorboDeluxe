@@ -74,6 +74,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Rolling",
+                    "type": "Button",
+                    "id": "560587e5-f2e6-460f-9ab9-d7f6f1910ff3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -151,6 +159,17 @@
                     "processors": "",
                     "groups": "MouseKeyboard",
                     "action": "PrimaryAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1fc5b3d7-b172-477d-a7b0-0d9ba5ca9497",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "MouseKeyboard",
+                    "action": "Rolling",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

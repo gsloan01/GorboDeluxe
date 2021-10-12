@@ -7,8 +7,12 @@ using UnityEngine.InputSystem;
 public class PlayerInputHandler : MonoBehaviour
 {
     PlayerControls controls;
+    public Camera camera;
+    public float raycastRange = 1000f;
+
     public bool MK_Active = true;
     public bool GP_Active;
+
 
     public Vector2 Movement { get { return movement; } }
     Vector2 movement;
@@ -19,13 +23,18 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector2 MousePos { get { return mousePos; } }
     Vector2 mousePos;
 
+    public RaycastHit MouseRayCastHitInfo { get { return hitinfo; } }
+    RaycastHit hitinfo;
+
     public UnityEvent OnBasicAttackBtn_Down;
     public UnityEvent OnBasicAttackBtn_Up;
+    public UnityEvent OnRolling_Performed;
 
     private void Awake()
     {
         //Create a PlayerControls
         controls = new PlayerControls();
+        
         //Start with Mouse & KeyboardControls
         OnMKControlsActivate();
         //Mouse and Keyboard Controls
@@ -36,6 +45,7 @@ public class PlayerInputHandler : MonoBehaviour
         controls.MKGameplay.MouseTracking.canceled += ctx => mousePos = Vector2.zero;
 
         controls.MKGameplay.PrimaryAttack.performed += PrimaryAttack_performed;
+        controls.MKGameplay.Rolling.performed += Rolling_performed; ;
 
         //Gamepad Controls
         controls.Gameplay.Movement.performed += ctx => movement = ctx.ReadValue<Vector2>();
@@ -46,6 +56,19 @@ public class PlayerInputHandler : MonoBehaviour
 
 
     }
+    private void Update()
+    {
+        Ray ray = camera.ScreenPointToRay(mousePos);
+        if (Physics.Raycast(ray, out RaycastHit hitinfo, raycastRange))
+        {
+            this.hitinfo = hitinfo;
+        }
+    }
+    private void Rolling_performed(InputAction.CallbackContext obj)
+    {
+        OnRolling_Performed.Invoke();
+    }
+
     private void OnEnable()
     {
         controls.Enable();

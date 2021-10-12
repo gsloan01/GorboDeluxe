@@ -12,7 +12,8 @@ public class TempPlayerBasicAttack : MonoBehaviour
     {
         if(other.CompareTag("Enemy"))
         {
-            //Deal damage
+            if (GameSettings.Instance.debug) Debug.Log("Hit an enemy");
+            other.GetComponent<Health>().Apply(-5);
         }
     }
 

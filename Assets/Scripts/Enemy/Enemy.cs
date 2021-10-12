@@ -12,8 +12,8 @@ public class Enemy : MonoBehaviour
 
     public UnityEvent<enemyState> OnChangeState;
     public UnityEvent<GameObject> OnEnemyTargetChanged;
-    
 
+    float xpDropped = 5.0f;
     public float detectionRange = 8.0f;
     public float aggroLossRange = 15.0f;
 
@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour
         //enemyCombat = GetComponent<EnemyCombat>();
         enemyMovement = GetComponent<EnemyMovement>();
         OnChangeState.AddListener(ChangeState);
+        health.OnDeath.AddListener(OnDeath);
 
     }
     // Start is called before the first frame update
@@ -52,6 +53,16 @@ public class Enemy : MonoBehaviour
         Debug.Log(currentState);
     }
 
+    void OnDeath()
+    {
+        foreach(GameObject p in PlayerManager.Instance.players)
+        {
+            p.GetComponent<Player>().OnGainXP(xpDropped);
+        }
+        PlayerManager.Instance.player.GetComponent<Player>().OnGainXP(xpDropped);
+        Destroy(gameObject);
+        
+    }
     void ChangeState(enemyState newState)
     {
         currentState = newState;

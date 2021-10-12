@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     Vector3 gravity = new Vector3(0,-8, 0);
     public bool Sprinting { get { return sprinting; } }
     public bool Moving { get { return moving; } }
-    bool sprinting, moving;
+    bool sprinting, moving, rolling;
     float deadZone = 0.05f;
     float sprintTimer;
 
@@ -27,7 +27,10 @@ public class PlayerMovement : MonoBehaviour
     PlayerInputHandler input;
 
     Vector2 move, rotate, mousePos;
+    RaycastHit hitinfo = new RaycastHit();
 
+    float rollCooldown = 1.0f;
+    float rollTimer;
 
 
     private void Awake()
@@ -37,21 +40,27 @@ public class PlayerMovement : MonoBehaviour
         thisPlayer = GetComponent<Player>();
         data = thisPlayer.PlayerData.movementData;
         input = thisPlayer.inputHandler;
-
+        input.OnRolling_Performed.AddListener(Rolling);
     }
     void Update()
     {
 
         if(isActive)
         {
-            move = input.Movement;
+            
             if(input.GP_Active) rotate = input.StickRotation;
-
             if (input.MK_Active) mousePos = input.MousePos;
 
-            debugLogs = GameSettings.Instance.debug;
-            if (isMobile)
+            if(rolling)
             {
+                rollTimer += Time.deltaTime;
+                if (rollTimer >= rollCooldown) rolling = false;
+
+            }
+            debugLogs = GameSettings.Instance.debug;
+            if (isMobile && !rolling)
+            {
+                move = input.Movement;
                 if (sprintTimer >= data.sprintDelay && !sprinting)
                 {
                     sprinting = true;
@@ -97,9 +106,10 @@ public class PlayerMovement : MonoBehaviour
         charController.Move(gravity * Time.deltaTime);
     }
     Vector3 hitpoint;
+    Quaternion toRotation;
     void RotationHandling()
     {
-        Quaternion toRotation;
+
         //if gamepad controls
         if(input.GP_Active)
         {
@@ -112,35 +122,31 @@ public class PlayerMovement : MonoBehaviour
                 SetLookRotation(move);
             }
         }
+        //If PC Controls
         else if(input.MK_Active)
         {
+            //if mouse is moving
             if(mousePos != Vector2.zero)
             {
                 //Gets the world position from the camera
-                Vector2 mouseToWorldXZ = Vector2.zero;
 
-                Ray ray = camera.ScreenPointToRay(mousePos);
-                if(Physics.Raycast(ray, out RaycastHit hitinfo, 1000))
-                {
-                    hitpoint = hitinfo.point;
+                hitinfo = input.MouseRayCastHitInfo;
+                
+                hitpoint = hitinfo.point;
 
-                    //Gets the XZ of that position
-                    //Character rotates towards that point
-                    //hitpoint = transform.worldToLocalMatrix.MultiplyVector(hitpoint);
-                    Vector3 direcVec3 = hitpoint - transform.position;
-                    Vector2 direction = new Vector2(direcVec3.x, direcVec3.z);
+                //Gets the XZ of that position
+                //Character rotates towards that point
+                //hitpoint = transform.worldToLocalMatrix.MultiplyVector(hitpoint);
+                Vector3 direcVec3 = hitpoint - transform.position;
+                Vector2 direction = new Vector2(direcVec3.x, direcVec3.z);
                     
 
-                    toRotation = Utility.GetLookRotationFromVec2(direction);
-                    transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, data.rotateRate * Time.deltaTime);
-                }
-                else
-                {
-                    SetLookRotation(move);
-                }
+                toRotation = Utility.GetLookRotationFromVec2(direction);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, data.rotateRate * Time.deltaTime);
+              
                 
-            } else
-            if (move != Vector2.zero)
+            } 
+            else if (move != Vector2.zero)
             {
                 SetLookRotation(move);
             }
@@ -161,6 +167,25 @@ public class PlayerMovement : MonoBehaviour
     {
         sprinting = false;
         sprintTimer = -delay;
+    }
+
+    public void Rolling()
+    {
+        //if(!rolling)
+        //{
+        //    rolling = true;
+        //    if (move != Vector2.zero)
+        //    {
+        //        charController.Move(move);
+        //    }
+        //    else
+        //    {
+        //        Vector3 direc = Vector3.Normalize(hitpoint - transform.position);
+        //        Vector2 rollDirec = new Vector2(direc.x, direc.z); 
+                
+        //    }
+        //}
+
     }
     #endregion
 

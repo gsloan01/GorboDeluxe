@@ -87,6 +87,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Rolling"",
+                    ""type"": ""Button"",
+                    ""id"": ""560587e5-f2e6-460f-9ab9-d7f6f1910ff3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -166,6 +174,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""PrimaryAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1fc5b3d7-b172-477d-a7b0-0d9ba5ca9497"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""MouseKeyboard"",
+                    ""action"": ""Rolling"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -219,6 +238,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_MKGameplay_Movement = m_MKGameplay.FindAction("Movement", throwIfNotFound: true);
         m_MKGameplay_MouseTracking = m_MKGameplay.FindAction("MouseTracking", throwIfNotFound: true);
         m_MKGameplay_PrimaryAttack = m_MKGameplay.FindAction("PrimaryAttack", throwIfNotFound: true);
+        m_MKGameplay_Rolling = m_MKGameplay.FindAction("Rolling", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -312,6 +332,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_MKGameplay_Movement;
     private readonly InputAction m_MKGameplay_MouseTracking;
     private readonly InputAction m_MKGameplay_PrimaryAttack;
+    private readonly InputAction m_MKGameplay_Rolling;
     public struct MKGameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -319,6 +340,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_MKGameplay_Movement;
         public InputAction @MouseTracking => m_Wrapper.m_MKGameplay_MouseTracking;
         public InputAction @PrimaryAttack => m_Wrapper.m_MKGameplay_PrimaryAttack;
+        public InputAction @Rolling => m_Wrapper.m_MKGameplay_Rolling;
         public InputActionMap Get() { return m_Wrapper.m_MKGameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -337,6 +359,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @PrimaryAttack.started -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnPrimaryAttack;
                 @PrimaryAttack.performed -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnPrimaryAttack;
                 @PrimaryAttack.canceled -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnPrimaryAttack;
+                @Rolling.started -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnRolling;
+                @Rolling.performed -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnRolling;
+                @Rolling.canceled -= m_Wrapper.m_MKGameplayActionsCallbackInterface.OnRolling;
             }
             m_Wrapper.m_MKGameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -350,6 +375,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @PrimaryAttack.started += instance.OnPrimaryAttack;
                 @PrimaryAttack.performed += instance.OnPrimaryAttack;
                 @PrimaryAttack.canceled += instance.OnPrimaryAttack;
+                @Rolling.started += instance.OnRolling;
+                @Rolling.performed += instance.OnRolling;
+                @Rolling.canceled += instance.OnRolling;
             }
         }
     }
@@ -382,5 +410,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnMouseTracking(InputAction.CallbackContext context);
         void OnPrimaryAttack(InputAction.CallbackContext context);
+        void OnRolling(InputAction.CallbackContext context);
     }
 }
