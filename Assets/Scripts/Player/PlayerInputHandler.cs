@@ -29,6 +29,7 @@ public class PlayerInputHandler : MonoBehaviour
     public UnityEvent OnBasicAttackBtn_Down;
     public UnityEvent OnBasicAttackBtn_Up;
     public UnityEvent OnRolling_Performed;
+    public UnityEvent OnInteract_Performed;
 
     private void Awake()
     {
@@ -45,7 +46,8 @@ public class PlayerInputHandler : MonoBehaviour
         controls.MKGameplay.MouseTracking.canceled += ctx => mousePos = Vector2.zero;
 
         controls.MKGameplay.PrimaryAttack.performed += PrimaryAttack_performed;
-        controls.MKGameplay.Rolling.performed += Rolling_performed; ;
+        controls.MKGameplay.Rolling.performed += Rolling_performed;
+        controls.MKGameplay.Interact.performed += Interact_performed; ; 
 
         //Gamepad Controls
         controls.Gameplay.Movement.performed += ctx => movement = ctx.ReadValue<Vector2>();
@@ -56,6 +58,12 @@ public class PlayerInputHandler : MonoBehaviour
 
 
     }
+
+    private void Interact_performed(InputAction.CallbackContext obj)
+    {
+        OnInteract_Performed.Invoke();
+    }
+
     private void Update()
     {
         Ray ray = camera.ScreenPointToRay(mousePos);

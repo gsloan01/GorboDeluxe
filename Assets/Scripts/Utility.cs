@@ -32,6 +32,25 @@ public static class Utility
         }
         return found;
     }
+
+    public static T GetNearestInList<T>(Vector3 point, List<T> objects) where T : Component
+    {
+        T found = null;
+        
+        if (objects == null || objects.Count() == 0  ) return found;
+        float closestDistance = float.MaxValue;
+        foreach (T current in objects)
+        {
+            float dist = Vector3.Distance(point, current.transform.position);
+            if (dist < closestDistance)
+            {
+                closestDistance = dist;
+                found = current;
+            }
+        }
+        return found;
+    }
+
     public static IEnumerable<T> GetAllInRange<T>(Vector3 point,  float maxRange = float.MaxValue, List<GameObject> exclude = null) where T : Component
     {
         return GameObject.FindObjectsOfType<T>().Where(g => Vector3.Distance(g.gameObject.transform.position, point) <= maxRange);

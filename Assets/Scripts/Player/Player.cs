@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     CharacterController charController;
     Health health;
 
+    public List<Interactable> interactables = new List<Interactable>();
+    
     public UnityEvent<float> OnPlayerGainXP;
 
     #region variables
@@ -31,6 +33,7 @@ public class Player : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         health = GetComponent<Health>();
         if (inputHandler == null) inputHandler = GetComponent<PlayerInputHandler>();
+        inputHandler.OnInteract_Performed.AddListener(Interact);
     }
 
     public void OnGainXP(float XP)
@@ -38,5 +41,22 @@ public class Player : MonoBehaviour
         PlayerData.totalXP += XP;
         OnPlayerGainXP.Invoke(XP);
         Debug.Log(PlayerData.totalXP);
+    }
+
+    void Interact()
+    {
+        Utility.GetNearestInList<Interactable>(transform.position, interactables).Interact();
+    }
+
+    public void OnEnterInteraction(Interactable interactable)
+    {
+        interactables.Add(interactable);
+        Debug.Log($"Entered interaction range of {interactable.data.name}");
+    }
+
+    public void OnExitInteraction(Interactable interactable)
+    {
+        interactables.Remove(interactable);
+        Debug.Log($"Entered interaction range of {interactable.data.name}");
     }
 }
