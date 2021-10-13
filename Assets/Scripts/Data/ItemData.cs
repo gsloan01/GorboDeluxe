@@ -5,8 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemData", menuName = "Data/Interactable/Item")]
 public class ItemData : InteractableData
 {
+    
     public string description;
-
+    
     public ItemType type;
     public Rarity rarity;
     public int value;

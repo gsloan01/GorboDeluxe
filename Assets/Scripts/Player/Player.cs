@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -13,8 +14,9 @@ public class Player : MonoBehaviour
     CharacterController charController;
     Health health;
 
-    public List<Interactable> interactables = new List<Interactable>();
-    
+    public Dictionary<int, Interactable> interactables = new Dictionary<int, Interactable>();
+    public Inventory inventory;
+
     public UnityEvent<float> OnPlayerGainXP;
 
     #region variables
@@ -45,18 +47,32 @@ public class Player : MonoBehaviour
 
     void Interact()
     {
-        Utility.GetNearestInList<Interactable>(transform.position, interactables).Interact();
+        if (interactables.Count != 0)
+        {
+            Interactable interacted = Utility.GetNearestInList<Interactable>(transform.position, interactables.Values.ToList());
+            if(interacted.data.interactType == InteractableData.interactableType.Item && inventory.TryAdd((ItemData)(interacted.data)))
+            {
+                interactables.Remove(interacted.id);
+                interacted.Interact();
+            }
+            else
+            {
+                interacted.Interact();
+
+            }
+
+        }
     }
 
     public void OnEnterInteraction(Interactable interactable)
     {
-        interactables.Add(interactable);
+        if(!interactables.ContainsKey(interactable.id)) interactables.Add(interactable.id, interactable);
         Debug.Log($"Entered interaction range of {interactable.data.name}");
     }
 
     public void OnExitInteraction(Interactable interactable)
     {
-        interactables.Remove(interactable);
+        interactables.Remove(interactable.id);
         Debug.Log($"Entered interaction range of {interactable.data.name}");
     }
 }

@@ -6,6 +6,8 @@ using UnityEngine;
 public abstract class Interactable : MonoBehaviour
 {
     public InteractableData data;
+    public static int idcounter = 1;
+    public int id;
     public bool isInteractable;
     /// <summary>
     /// This method will handle when the player interacts with the interactable.

@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class ItemInteractable : Interactable
 {
+    //public ItemPickupUI ui;
+
+    private void Awake()
+    {
+        id = -1;
+    }
     public override void Display()
     {
         
@@ -23,6 +29,7 @@ public class ItemInteractable : Interactable
     {
         if(other.CompareTag("Player"))
         {
+            if(id == -1) id = idcounter++;
             other.GetComponent<Player>().OnEnterInteraction(this);
         }
     }
