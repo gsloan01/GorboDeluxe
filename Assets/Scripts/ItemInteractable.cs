@@ -6,6 +6,8 @@ public class ItemInteractable : Interactable
 {
     //public ItemPickupUI ui;
 
+    public GameObject itemObjectHolder;
+
     private void Awake()
     {
         id = -1;

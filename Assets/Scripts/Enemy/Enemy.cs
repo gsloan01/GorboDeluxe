@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 
     float bodyLifetime = 3.0f;
 
-    public UnityEvent<enemyState> OnChangeState;
+
     public UnityEvent<GameObject> OnEnemyTargetChanged;
 
     float xpDropped = 5.0f;
@@ -23,8 +23,8 @@ public class Enemy : MonoBehaviour
     EnemyTargeting targetingSystem;
 
 
-    public enemyState CurrentState { get { return currentState; } }
-    enemyState currentState = enemyState.Idle;
+   
+    public enemyState currentState = enemyState.Idle;
 
     public enum enemyState
     {
@@ -37,7 +37,6 @@ public class Enemy : MonoBehaviour
         health = GetComponent<Health>();
         //enemyCombat = GetComponent<EnemyCombat>();
         enemyMovement = GetComponent<EnemyMovement>();
-        OnChangeState.AddListener(ChangeState);
         health.OnDeath.AddListener(OnDeath);
 
     }
@@ -59,14 +58,11 @@ public class Enemy : MonoBehaviour
         {
             p.GetComponent<Player>().OnGainXP(xpDropped);
         }
-        PlayerManager.Instance.player.GetComponent<Player>().OnGainXP(xpDropped);
+        //PlayerManager.Instance.player.GetComponent<Player>().OnGainXP(xpDropped);
         Destroy(gameObject);
         
     }
-    void ChangeState(enemyState newState)
-    {
-        currentState = newState;
-    }
+
 
     private void OnDrawGizmosSelected()
     {

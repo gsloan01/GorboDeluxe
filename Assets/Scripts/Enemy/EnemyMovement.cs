@@ -27,7 +27,6 @@ public class EnemyMovement : MonoBehaviour
 
         data = thisEnemy.data.movementData;
 
-        thisEnemy.OnChangeState.AddListener(UpdateState);
         thisEnemy.OnEnemyTargetChanged.AddListener(UpdateTarget);
         agent.speed = data.movementSpeed;
         target = PlayerManager.Instance.player;
@@ -45,7 +44,7 @@ public class EnemyMovement : MonoBehaviour
 
                     if(Vector3.Distance(target.transform.position, transform.position) < detectionRange)
                     {
-                        thisEnemy.OnChangeState.Invoke(Enemy.enemyState.Chase);
+                        thisEnemy.currentState = Enemy.enemyState.Chase;
 
                     }
 
@@ -56,7 +55,7 @@ public class EnemyMovement : MonoBehaviour
                     agent.SetDestination(target.transform.position);
                     if (Vector3.Distance(target.transform.position, transform.position) <= attackRange)
                     {
-                        thisEnemy.OnChangeState.Invoke(Enemy.enemyState.Attacking);
+                        thisEnemy.currentState = Enemy.enemyState.Attacking;
                         
                     }
                     Debug.Log($"Chasing {target.name}");
@@ -65,7 +64,7 @@ public class EnemyMovement : MonoBehaviour
                     FaceTarget();
                     if (Vector3.Distance(target.transform.position, transform.position) > agent.stoppingDistance)
                     {
-                        thisEnemy.OnChangeState.Invoke(Enemy.enemyState.Chase);
+                        thisEnemy.currentState = Enemy.enemyState.Chase;
 
                     }
                     break;
@@ -90,13 +89,6 @@ public class EnemyMovement : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Checks the enemies current state, to avoid constant updating, only updating when necessary
-    /// </summary>
-    void UpdateState(Enemy.enemyState newState)
-    {
-        currentState = newState;
-    }
     void UpdateTarget(GameObject newTarget)
     {
         target = newTarget;

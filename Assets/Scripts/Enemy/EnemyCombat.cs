@@ -18,7 +18,6 @@ public class EnemyCombat : MonoBehaviour
         thisEnemy = GetComponent<Enemy>();
         data = thisEnemy.data.combatData;
 
-        thisEnemy.OnChangeState.AddListener(OnChangeState);
         thisEnemy.OnEnemyTargetChanged.AddListener(OnUpdateTarget);
     }
     
@@ -26,22 +25,14 @@ public class EnemyCombat : MonoBehaviour
     {
         return data.attacks[Random.Range(0, data.attacks.Count)];
     }
-    void OnChangeState(Enemy.enemyState newState)
-    {
-        currentState = newState;
-        if (currentState == Enemy.enemyState.Attacking) attacking = true;
-        
-    }
+
     void OnUpdateTarget(GameObject target)
     {
         this.target = target;
     }
     private void Update()
     {
-        if(attacking)
-        {
-            Combat();
-        }
+        
     }
     private void Start()
     {

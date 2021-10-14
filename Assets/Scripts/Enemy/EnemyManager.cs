@@ -5,8 +5,11 @@ using UnityEngine.Events;
 
 public class EnemyManager : MonoBehaviour
 {
+    #region Singleton
     public static EnemyManager Instance { get { return instance; } }
     static EnemyManager instance;
+    #endregion
+
     public List<Enemy> Enemies { get { return enemies; } }
     List<Enemy> enemies;
 

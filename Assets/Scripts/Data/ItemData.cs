@@ -14,6 +14,7 @@ public class ItemData : InteractableData
     public bool canDrop;
     public int stackSize;
 
+    public GameObject mesh;
     public Sprite icon;
 
 
