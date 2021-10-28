@@ -30,6 +30,7 @@ public class PlayerInputHandler : MonoBehaviour
     public UnityEvent OnBasicAttackBtn_Up;
     public UnityEvent OnRolling_Performed;
     public UnityEvent OnInteract_Performed;
+    public UnityEvent OnMenuButton_Performed;
 
     private void Awake()
     {
@@ -47,16 +48,23 @@ public class PlayerInputHandler : MonoBehaviour
 
         controls.MKGameplay.PrimaryAttack.performed += PrimaryAttack_performed;
         controls.MKGameplay.Rolling.performed += Rolling_performed;
-        controls.MKGameplay.Interact.performed += Interact_performed; ; 
+        controls.MKGameplay.Interact.performed += Interact_performed; 
+        controls.MKGameplay.MenuButton.performed += MenuButton_performed;
+        controls.MKMenu.ExitMenu.performed += ExitMenu_performed; ;
+        controls.MKGameplay.MouseTracking.performed += ctx => mousePos = ctx.ReadValue<Vector2>();
+    }
 
-        //Gamepad Controls
-        controls.Gameplay.Movement.performed += ctx => movement = ctx.ReadValue<Vector2>();
-        controls.Gameplay.Movement.canceled += ctx => movement = Vector2.zero;
+    private void ExitMenu_performed(InputAction.CallbackContext obj)
+    {
+        OnMKControlsActivate();
+        OnMenuButton_Performed.Invoke();
+    }
 
-        controls.Gameplay.Rotation.performed += ctx => stickRotation = ctx.ReadValue<Vector2>();
-        controls.Gameplay.Rotation.canceled += ctx => stickRotation = Vector2.zero;
-
-
+    private void MenuButton_performed(InputAction.CallbackContext obj)
+    {
+        OnMenuControlsActivate();
+        
+        OnMenuButton_Performed.Invoke();
     }
 
     private void Interact_performed(InputAction.CallbackContext obj)
@@ -70,7 +78,9 @@ public class PlayerInputHandler : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hitinfo, raycastRange))
         {
             this.hitinfo = hitinfo;
+            
         }
+        //Debug.Log(hitinfo.collider != null ? hitinfo.collider.gameObject.name : "Nothing hit.");
     }
     private void Rolling_performed(InputAction.CallbackContext obj)
     {
@@ -93,11 +103,13 @@ public class PlayerInputHandler : MonoBehaviour
 
     void DisableControls()
     {
+        controls.MKMenu.Disable();
         controls.Gameplay.Disable();
         controls.MKGameplay.Disable();
     }
     void OnMKControlsActivate()
     {
+
         DisableControls();
         controls.MKGameplay.Enable();
         MK_Active = true;
@@ -116,5 +128,7 @@ public class PlayerInputHandler : MonoBehaviour
     void OnMenuControlsActivate()
     {
         //turn everything off but menu, duh
+        DisableControls();
+        controls.MKMenu.Enable();
     }
 }

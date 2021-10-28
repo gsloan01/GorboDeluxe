@@ -13,5 +13,13 @@ MonoBehaviour:
   m_Name: TestEnemyData
   m_EditorClassIdentifier: 
   enemyName: TestEnemy
-  movementData: {fileID: 11400000, guid: 8e563901c327aa141b495c5487377b69, type: 2}
-  combatData: {fileID: 11400000, guid: fdf9e7f506271b047a1089ffd1c49ee9, type: 2}
+  bodyLifetime: 3
+  xpDropped: 100
+  detectionRange: 8
+  aggroLossRange: 15
+  moveSpeed: 3
+  combatRange: 2
+  attackCooldown: 0.8
+  wanders: 0
+  wanderFrequency: 2
+  wanderDistance: 5

@@ -4,72 +4,85 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
     public EnemyData data;
+    public EnemyDetection detection;
 
-    float bodyLifetime = 3.0f;
-
-
-    public UnityEvent<GameObject> OnEnemyTargetChanged;
-
-    float xpDropped = 5.0f;
-    public float detectionRange = 8.0f;
-    public float aggroLossRange = 15.0f;
-
-    Health health;
-    EnemyCombat enemyCombat;
-    EnemyMovement enemyMovement;
-    EnemyTargeting targetingSystem;
-
-
-   
     public enemyState currentState = enemyState.Idle;
+
+    protected NavMeshAgent agent;
+    protected Health health;
+    protected Vector3 spawnPosition;
+
+    protected Player currentTarget;
+
+    protected bool attacking, wandering = false;
+    protected float deathTimer = 0;
+    protected float wanderTimer;
 
     public enum enemyState
     {
-        Idle, Wander, Flee, Chase, Attacking, Dead
+        Idle, Flee, Chase, Attacking, Dead
     }
 
+    //---------------------------------------------------------------
 
     private void Awake()
     {
+        spawnPosition = transform.position;
         health = GetComponent<Health>();
-        //enemyCombat = GetComponent<EnemyCombat>();
-        enemyMovement = GetComponent<EnemyMovement>();
+        agent = GetComponent<NavMeshAgent>();
         health.OnDeath.AddListener(OnDeath);
+        wanderTimer = data.wanderFrequency;
+        
 
     }
-    // Start is called before the first frame update
+
     void Start()
     {
         EnemyManager.Instance.OnEnemyCreate.Invoke(this);
         Debug.Log($"New Enemy Spawned : {data.name}");
     }
 
-    void Update()
-    {
-        Debug.Log(currentState);
-    }
+    //call this method whenever a new player is added to the detection pool
+    public abstract void OnFindNewPlayer(Player newPlayer);
+
+    public abstract void Chase();
+
+
+    public abstract void Combat();
+
+    public abstract void Wander();
 
     void OnDeath()
     {
         foreach(GameObject p in PlayerManager.Instance.players)
         {
-            p.GetComponent<Player>().OnGainXP(xpDropped);
+            p.GetComponent<Player>().OnGainXP(data.xpDropped);
         }
-        //PlayerManager.Instance.player.GetComponent<Player>().OnGainXP(xpDropped);
+        Debug.Log("Destroying enemy instantly after death in Enemy.cs / OnDeath");
+        currentState = enemyState.Dead;
         Destroy(gameObject);
         
+    }
+
+    protected void FaceTarget(GameObject target)
+    {
+
+        Vector3 direction = (target.transform.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
+
     }
 
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
+        Gizmos.DrawWireSphere(transform.position, data.detectionRange);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, aggroLossRange);
+        Gizmos.DrawWireSphere(transform.position, data.aggroLossRange);
     }
 
 

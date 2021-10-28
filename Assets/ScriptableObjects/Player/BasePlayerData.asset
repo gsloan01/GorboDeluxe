@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: BasePlayerData
   m_EditorClassIdentifier: 
   playerName: Jerry
+  lvl: 1
+  totalXP: 10
   strength: 0
   agility: 0
   intellect: 0
   willpower: 0
   fortitude: 0
   movementData: {fileID: 11400000, guid: c06d3f976b698514dbac611126c6d019, type: 2}
+  skillPointsAvail: 0

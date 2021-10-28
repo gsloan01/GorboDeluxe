@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public abstract class Interactable : MonoBehaviour
 {
+    
     public InteractableData data;
     public static int idcounter = 1;
     public int id;

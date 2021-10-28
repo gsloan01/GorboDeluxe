@@ -5,16 +5,21 @@ using UnityEngine;
 public class ItemInteractable : Interactable
 {
     //public ItemPickupUI ui;
-
+    
     public GameObject itemObjectHolder;
 
     private void Awake()
     {
         id = -1;
     }
+    private void Start()
+    {
+        Instantiate(((ItemData)data).mesh, itemObjectHolder.transform);
+
+    }
     public override void Display()
     {
-        
+        //change from type to all info
     }
 
     public override void Interact()
@@ -24,7 +29,14 @@ public class ItemInteractable : Interactable
 
     public override void RemoveDisplay()
     {
-        
+        //change from info to type
+    }
+
+    public void SetData(ItemData data)
+    {
+        this.data = data;
+        Instantiate(data.mesh, itemObjectHolder.transform);
+        //icon = data.icon
     }
 
     private void OnTriggerEnter(Collider other)

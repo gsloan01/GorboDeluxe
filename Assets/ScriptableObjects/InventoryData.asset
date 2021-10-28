@@ -13,3 +13,6 @@ MonoBehaviour:
   m_Name: InventoryData
   m_EditorClassIdentifier: 
   inventory: []
+  itemPrefab: {fileID: 4227602735058071031, guid: c12fe17cbfa0a4d4d8f8a7bed83234ed, type: 3}
+  dropMaxForceY: 1000
+  dropMaxForceXZ: 200

@@ -347,7 +347,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4227602734339800295}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
@@ -707,7 +707,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 221089a2542a63e4cae8f791b8877fd3, type: 2}
   id: 0
   isInteractable: 1
-  itemObject: {fileID: 0}
+  itemObjectHolder: {fileID: 4227602733661290086}
 --- !u!65 &4227602735058070923
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -17,6 +17,7 @@ public class ItemData : InteractableData
     public GameObject mesh;
     public Sprite icon;
 
+    
 
     public enum Rarity
     {

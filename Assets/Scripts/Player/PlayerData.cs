@@ -6,12 +6,42 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     public string playerName;
+    public int lvl = 1;
     public float totalXP = 0;
+    float xpGoal = 100;
     public int strength, agility, intellect, willpower, fortitude = 1;
     public PlayerMovementData movementData;
 
     public int skillPointsAvail = 0;
+    public void OnGainXP(float gained)
+    {
+        totalXP += gained;
+        Debug.Log($"{playerName} has gained {gained} xp! Bringing them to {totalXP}");
+        //if leveling is possible
+        if (levels.TryGetValue(lvl, out float needed))
+        {
+            if (totalXP >= xpGoal)
+            {
+                OnLvlUp();
+            }
+        }
+        else
+        {
+            Debug.Log("Max Level Reached");
+        }
 
+
+    }
+    public void OnLvlUp()
+    {
+        //Call ui method to display this
+        //make the next goal the next needed value
+        lvl++;
+        levels.TryGetValue(lvl, out float newGoal);
+        xpGoal = newGoal;
+        skillPointsAvail += 3;
+        Debug.Log($"{playerName} has leveled up! Now LVL {lvl}.");
+    }
     public Dictionary<int, float> levels = new Dictionary<int, float>()
     {
         //LVL, REQXP

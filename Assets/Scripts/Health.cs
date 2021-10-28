@@ -20,10 +20,14 @@ public class Health : MonoBehaviour
     public UnityEvent OnHealed;
     public UnityEvent OnHurt;
 
+    private void Awake()
+    {
+        current = max;
+    }
     private void Start()
     {
         //max = base + scaling
-        current = max;
+        //current = max;
     }
 
     /// <summary>
