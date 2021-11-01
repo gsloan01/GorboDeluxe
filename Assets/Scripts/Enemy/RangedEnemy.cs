@@ -84,11 +84,16 @@ public class RangedEnemy : Enemy
     public override void Chase()
     {
         FaceTarget(currentTarget.gameObject);
-        if(Vector3.Distance(transform.position, currentTarget.transform.position) <= attackRange)
+        if(Vector3.Distance(transform.position, currentTarget.centerMassTransform.position) <= attackRange)
         {
             currentState = enemyState.Attacking;
+            agent.isStopped = true;
         }
-        agent.SetDestination(currentTarget.transform.position);
+        else
+        {
+            agent.SetDestination(currentTarget.centerMassTransform.position);
+
+        }
 
     }
 
@@ -103,7 +108,7 @@ public class RangedEnemy : Enemy
                 //Begin the attack (Coroutine?)
                 AttackStarted();
             }
-            if (Vector3.Distance(transform.position, currentTarget.transform.position) >= attackRange)
+            if (Vector3.Distance(transform.position, currentTarget.centerMassTransform.position) >= attackRange)
             {
                 currentState = enemyState.Chase;
             }
@@ -137,7 +142,9 @@ public class RangedEnemy : Enemy
     {
         Debug.Log("ProjectileShot");
         damageTimer = (delay == -1.0f && delay < 0) ? float.MaxValue : delay;
-        Instantiate<EnemyRangedAttack>(attacks[Random.Range(0, attacks.Count)], shootTransform.position, transform.rotation).target = currentTarget.gameObject;
+        EnemyRangedAttack newAttack = Instantiate<EnemyRangedAttack>(attacks[Random.Range(0, attacks.Count)], shootTransform.position, transform.rotation);
+        newAttack.target = currentTarget.gameObject;
+        newAttack.targetingTransform = currentTarget.centerMassTransform;
     }
 
     void AttackOver()

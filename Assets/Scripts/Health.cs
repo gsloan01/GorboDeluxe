@@ -40,18 +40,29 @@ public class Health : MonoBehaviour
         if (!isDead)
         {
             current += change;
-
+            if (change > 0) OnHealed.Invoke();
+            else OnHurt.Invoke();
+            
             if (GameSettings.Instance.debug)
             {
                 string debuglog;
                 debuglog = (change >= 0) ? (gameObject.name + " healed by " + change + " !") : (gameObject.name + " lost " + change + " health! Bringing them to " + current +  ".");
-                Debug.Log(debuglog);
+                //Debug.Log(debuglog);
+                
             }
             if (current <= 0)
             {
                 OnDeath.Invoke();
             }
 
+        }
+    }
+
+    public void Apply(AttackData data)
+    {
+        foreach(var v in data.damages)
+        {
+            Apply(-v.value);
         }
     }
 

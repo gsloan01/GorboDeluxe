@@ -12,6 +12,7 @@ public abstract class Enemy : MonoBehaviour
     public enemyState currentState = enemyState.Idle;
 
     protected NavMeshAgent agent;
+    public Health HealthCPNT { get { return health; } }
     protected Health health;
     protected Vector3 spawnPosition;
 

@@ -8,6 +8,7 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     public string enemyName;
+    public string desc;
 
     public float bodyLifetime = 3.0f;
     public float xpDropped = 5.0f;

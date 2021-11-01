@@ -31,6 +31,9 @@ public class PlayerInputHandler : MonoBehaviour
     public UnityEvent OnRolling_Performed;
     public UnityEvent OnInteract_Performed;
     public UnityEvent OnMenuButton_Performed;
+    public UnityEvent<GameObject> OnRaycastObjectHitChanged;
+
+    GameObject current;
 
     private void Awake()
     {
@@ -54,6 +57,22 @@ public class PlayerInputHandler : MonoBehaviour
         controls.MKGameplay.MouseTracking.performed += ctx => mousePos = ctx.ReadValue<Vector2>();
     }
 
+    private void Update()
+    {
+        Ray ray = camera.ScreenPointToRay(mousePos);
+        if (Physics.Raycast(ray, out RaycastHit hitinfo, raycastRange))
+        {
+            this.hitinfo = hitinfo;
+            if (hitinfo.collider.gameObject != current)
+            {
+                current = hitinfo.collider.gameObject;
+                OnRaycastObjectHitChanged.Invoke(current);
+            }
+            
+        }
+        //Debug.Log(hitinfo.collider != null ? hitinfo.collider.gameObject.name : "Nothing hit.");
+    }
+
     private void ExitMenu_performed(InputAction.CallbackContext obj)
     {
         OnMKControlsActivate();
@@ -72,16 +91,6 @@ public class PlayerInputHandler : MonoBehaviour
         OnInteract_Performed.Invoke();
     }
 
-    private void Update()
-    {
-        Ray ray = camera.ScreenPointToRay(mousePos);
-        if (Physics.Raycast(ray, out RaycastHit hitinfo, raycastRange))
-        {
-            this.hitinfo = hitinfo;
-            
-        }
-        //Debug.Log(hitinfo.collider != null ? hitinfo.collider.gameObject.name : "Nothing hit.");
-    }
     private void Rolling_performed(InputAction.CallbackContext obj)
     {
         OnRolling_Performed.Invoke();

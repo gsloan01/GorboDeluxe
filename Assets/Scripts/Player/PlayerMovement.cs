@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isActive = true;
 
     [SerializeField]
-    Camera camera;
+    Camera cam;
 
     Vector3 gravity = new Vector3(0,-8, 0);
     public bool Sprinting { get { return sprinting; } }
@@ -44,7 +44,8 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-
+        //Move nothing just to trigger the check for collisions
+        charController.Move(Vector3.zero);
         if(isActive)
         {
             
@@ -57,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
                 if (rollTimer >= rollCooldown) rolling = false;
 
             }
-            debugLogs = GameSettings.Instance.debug;
+            //debugLogs = GameSettings.Instance.debug;
             if (isMobile && !rolling)
             {
                 move = input.Movement;

@@ -60,5 +60,16 @@ public static class Utility
     {
         return Quaternion.LookRotation(new Vector3(v.x, 0, v.y), Vector3.up);
     }
-
+    /// <summary>
+    /// Checks the percent of the current out of max and checks if it has the asked percent
+    /// </summary>
+    /// <param name="percent">Does it have at least this much?</param>
+    /// <param name="current">Current value</param>
+    /// <param name="max">Maximum value</param>
+    /// <returns></returns>
+    public static bool HasPercent(float percent, float current, float max)
+    {
+        if (current < max) throw new System.Exception();
+        return percent <= current / max;
+    }
 }

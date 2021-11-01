@@ -13,6 +13,7 @@ public class EnemyRangedAttack : MonoBehaviour
 
     Rigidbody rb;
     public GameObject target;
+    public Transform targetingTransform;
     [SerializeField] projectileType type;
 
     bool collided;
@@ -41,7 +42,7 @@ public class EnemyRangedAttack : MonoBehaviour
                 rb.AddForce(Vector3.Normalize(target.transform.position - transform.position));
                 break;
             case projectileType.Lerp:
-                transform.position = Vector3.Lerp(transform.position, target.transform.position, lerpSmoothing);
+                transform.position = Vector3.Lerp(transform.position, targetingTransform.position, lerpSmoothing * Time.deltaTime);
                 break;
             default:
                 break;

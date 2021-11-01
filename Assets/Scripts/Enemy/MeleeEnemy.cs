@@ -18,13 +18,13 @@ public class MeleeEnemy : Enemy
             //attack range is as much as they could detect and some
             attackRange = 1;
         }
-        agent.stoppingDistance = (attackRange > 0) ? attackRange + 1 : agent.stoppingDistance;
+        agent.stoppingDistance = (attackRange > 0) ? attackRange - 0.1f : agent.stoppingDistance;
         //if attack range was never set
     }
 
     void Update()
     {
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
         switch (currentState)
         {
             case enemyState.Idle:
@@ -34,11 +34,12 @@ public class MeleeEnemy : Enemy
                 //run away from the player
                 break;
             case enemyState.Chase:
-                float dist = Vector3.Distance(transform.position, currentTarget.transform.position);
-                Debug.Log(dist);
-                if (dist <= attackRange-1)
+                float dist = Vector3.Distance(transform.position, currentTarget.centerMassTransform.position);
+                //Debug.Log(dist);
+                if (dist <= attackRange)
                 {
                     currentState = enemyState.Attacking;
+                    agent.isStopped = true;
                 }
                 Chase();
                 break;
@@ -90,7 +91,7 @@ public class MeleeEnemy : Enemy
     public override void Chase()
     {
         FaceTarget(currentTarget.gameObject);
-        agent.SetDestination(currentTarget.transform.position);
+        agent.SetDestination(currentTarget.centerMassTransform.position);
     }
 
     public override void Combat()
@@ -106,7 +107,7 @@ public class MeleeEnemy : Enemy
                 //Begin the attack (Coroutine?)
                 AttackStarted();
             }
-            if (Vector3.Distance(transform.position, currentTarget.transform.position) >= attackRange)
+            if (Vector3.Distance(transform.position, currentTarget.centerMassTransform.position) >= attackRange)
             {
                 currentState = enemyState.Chase;
             }
@@ -132,7 +133,7 @@ public class MeleeEnemy : Enemy
 
     void AttackStarted()
     {
-        Debug.Log("Attack Started");
+        //Debug.Log("Attack Started");
         attackTimer = .75f;
         damageTimer = .35f;
         attacking = true;
@@ -144,14 +145,14 @@ public class MeleeEnemy : Enemy
     /// <param name="delay">Amount of time until next damage time. If value is less than zero, there will only be the one damage proc.</param>
     void DealDamage(float delay = -1.0f)
     {
-        Debug.Log("Damage dealt with melee attack");
+        Debug.Log($"{data.enemyName} - Damage dealt with melee attack");
         damageTimer = (delay == -1.0f && delay < 0) ? float.MaxValue : delay;
         
     }
 
     void AttackOver()
     {
-        Debug.Log("Attack Ended");
+        //Debug.Log("Attack Ended");
         attacking = false;
     }
 

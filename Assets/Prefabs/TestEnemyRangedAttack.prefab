@@ -111,8 +111,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collideWithAll: 0
   lifetimeAfterCollide: 0
-  lerpSmoothing: 0.1
+  lerpSmoothing: 1
   target: {fileID: 0}
+  targetingTransform: {fileID: 0}
   type: 1
 --- !u!54 &6849347261038458965
 Rigidbody:

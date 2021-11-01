@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerName: Jerry
   lvl: 1
-  totalXP: 10
+  totalXP: 0
   strength: 0
   agility: 0
   intellect: 0

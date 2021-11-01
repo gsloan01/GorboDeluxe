@@ -19,22 +19,52 @@ public class Player : MonoBehaviour
     public Inventory inventory;
 
     public UnityEvent<float> OnPlayerGainXP;
+    public UnityEvent<float> OnPlayerResourceChange;
+    /// <summary>
+    /// Use this for distances and raycasts.
+    /// </summary>
+    public Transform centerMassTransform;
 
     public enum PlayerClass
     {
         Rogue, Knight, Wizard
     }
 
+    public enum ResourceType
+    {
+        Mana, Stamina
+    }
 
-    #region variables
-    public float AbilityResource { get { return abilityResource; } }
+    public float AbilityResource { get { return abilityResource; }}
+    public float AbilityResourceMax { get { return resourceMax; } }
     float resourceMax = 100f;
     float abilityResource;
     
     public float resourceGainPerSec = 5f;
     public bool regenResource = true;
 
-    #endregion
+    //Checks if the player has a certain amount of resource
+    public bool HasResource(float cost)
+    {
+        return (abilityResource >= cost);
+    }
+
+    /// <summary>
+    /// Checks if the player has a percent of health
+    /// </summary>
+    /// <param name="percent">0-1 percent</param>
+    /// <returns></returns>
+    public bool HasPercentHealth(float percent)
+    {
+        if (health == null) Debug.LogError("Player has null health component. Check if it's dragged in");
+        return Utility.HasPercent(percent, health.Current, health.max);
+    } 
+    public bool HasPercentResource(float percent)
+    {
+        
+        return Utility.HasPercent(percent, abilityResource, resourceMax);
+    }
+
 
 
     private void Awake()
@@ -45,8 +75,15 @@ public class Player : MonoBehaviour
         inputHandler.OnInteract_Performed.AddListener(Interact);
         inputHandler.OnMenuButton_Performed.AddListener(OnToggleMenu);
         OnPlayerGainXP.AddListener(PlayerData.OnGainXP);
+        OnPlayerResourceChange.AddListener(OnUpdateResource);
+        abilityResource = resourceMax;
     }
 
+    void OnUpdateResource(float change)
+    {
+        
+        abilityResource = Mathf.Max(Mathf.Min(abilityResource + change, resourceMax), 0);
+    }
     
     public void OnGainXP(float XP)
     {
@@ -61,8 +98,15 @@ public class Player : MonoBehaviour
         MenuUI?.SetActive(!MenuUI.activeInHierarchy);
     }
 
-    //INTERACTIONS
+    private void Update()
+    {
+        if (regenResource && abilityResource <= resourceMax)
+        {
+            OnPlayerResourceChange.Invoke(resourceGainPerSec * Time.deltaTime);
+        }
+    }
 
+    //INTERACTIONS
     void Interact()
     {
         if (interactables.Count != 0)
