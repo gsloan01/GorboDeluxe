@@ -22,7 +22,7 @@ public class ItemInteractable : Interactable
         //change from type to all info
     }
 
-    public override void Interact()
+    public override void Interact(Player player)
     {
         Destroy(gameObject);
     }

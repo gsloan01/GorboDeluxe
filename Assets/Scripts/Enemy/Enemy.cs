@@ -64,6 +64,7 @@ public abstract class Enemy : MonoBehaviour
         }
         Debug.Log("Destroying enemy instantly after death in Enemy.cs / OnDeath");
         currentState = enemyState.Dead;
+        EnemyManager.Instance.OnEnemyDeath.Invoke(this);
         Destroy(gameObject);
         
     }

@@ -12,12 +12,12 @@ public class PlayerMovement : MonoBehaviour
     public bool isMobile = true;
     public bool isActive = true;
 
-    [SerializeField]
-    Camera cam;
-
     Vector3 gravity = new Vector3(0,-8, 0);
     public bool Sprinting { get { return sprinting; } }
     public bool Moving { get { return moving; } }
+
+    public float speedMultiplier = 1;
+
     bool sprinting, moving, rolling;
     float deadZone = 0.05f;
     float sprintTimer;
@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
         charController = GetComponent<CharacterController>();
 
         thisPlayer = GetComponent<Player>();
-        data = thisPlayer.PlayerData.movementData;
+        data = thisPlayer.data.movementData;
         input = thisPlayer.inputHandler;
         input.OnRolling_Performed.AddListener(Rolling);
     }
@@ -52,16 +52,11 @@ public class PlayerMovement : MonoBehaviour
             if(input.GP_Active) rotate = input.StickRotation;
             if (input.MK_Active) mousePos = input.MousePos;
 
-            if(rolling)
-            {
-                rollTimer += Time.deltaTime;
-                if (rollTimer >= rollCooldown) rolling = false;
 
-            }
             //debugLogs = GameSettings.Instance.debug;
             if (isMobile && !rolling)
             {
-                move = input.Movement;
+                
                 if (sprintTimer >= data.sprintDelay && !sprinting)
                 {
                     sprinting = true;
@@ -77,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
     #region PLAYER MOVEMENT
     void MovementHandling()
     {
+        move = input.Movement;
         //if going fast enough for sprinting to start, start counting until it happens
         if (Mathf.Abs(move.x) >= .4f || Mathf.Abs(move.y) >= .4f)
         {
@@ -90,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
         if (Mathf.Abs(move.x) >= deadZone || Mathf.Abs(move.y) >= deadZone)
         {
             //move in the direction of movement                  if sprinting then go faster, else slower
-            charController.Move(new Vector3(move.x, 0, move.y) * (sprinting ? data.sprintSpeed : data.speed) * Time.deltaTime);
+            charController.Move(new Vector3(move.x, 0, move.y) * ((sprinting ? data.sprintSpeed : data.speed) * Time.deltaTime * speedMultiplier));
             //if you arent considered moving, you are now
             if(!moving) moving = true;
         }
@@ -106,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
         //fall at a normal rate
         charController.Move(gravity * Time.deltaTime);
     }
+
     Vector3 hitpoint;
     Quaternion toRotation;
     void RotationHandling()

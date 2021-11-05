@@ -8,7 +8,7 @@ public class InteractableData : ScriptableObject
 
     public enum interactableType
     {
-        Item, Door, Teleport, Dialogue
+        Item, Door, Teleport, Dialogue, DropsItems
     }
 
 

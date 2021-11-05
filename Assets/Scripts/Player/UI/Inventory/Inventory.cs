@@ -2,19 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Events;
+
 [CreateAssetMenu(fileName = "InventoryData", menuName = "Data/Inventory")]
 public class Inventory : ScriptableObject
 {
     public const int maxSize = 42;
     public List<InventoryItem> inventory = new List<InventoryItem>();
     public ItemInteractable itemPrefab;
+    public UnityEvent<ItemData> OnItemAdded;
     public enum InventorySortMethod
     { Rarity, Value, ItemType }
 
     public float dropMaxForceY = 10.0f;
     public float dropMaxForceXZ = 10.0f;
 
-
+    public bool TryAddItems(List<ItemData> items)
+    {
+        bool fullSuccess = true;
+        foreach (ItemData item in items)
+        {
+            if (!TryAdd(item))
+            {
+                Debug.Log($"Couldnt add {item.name} to inventory");
+                fullSuccess = false;
+            }
+        }
+        return fullSuccess;
+    }
 
     public bool TryAdd(ItemData item)
     {
@@ -26,6 +41,7 @@ public class Inventory : ScriptableObject
             {
                 AddNewItem(item);
                 success = true;
+                OnItemAdded.Invoke(item);
             }
         }
         else if(FindInventoryItem(item, out int foundAt))
@@ -34,6 +50,7 @@ public class Inventory : ScriptableObject
             {
                 inventory[foundAt].Add(1);
                 success = true;
+                OnItemAdded.Invoke(item);
             }
 
         }
@@ -69,7 +86,6 @@ public class Inventory : ScriptableObject
 
     public bool TryDropItem(ItemData item, Transform playerTransform)
     {
-        bool success = false;
 
         bool findInventoryItem = FindInventoryItem(item, out int foundAt);
         InventoryItem inventoryItem = inventory[foundAt];
@@ -78,17 +94,18 @@ public class Inventory : ScriptableObject
         {
             inventoryItem.Add(-1);
             Debug.Log($"Item count : {inventoryItem.count}");
-            
-            if(inventoryItem.count <= 0)
+            DropItem(item, playerTransform);
+            if (inventoryItem.count <= 0)
             {
                 Debug.Log("Item's count is less than or equal to zero, removing from inventory");
-                DropItem(item, playerTransform);
+                
                 inventory.RemoveAt(foundAt);
                 //Debug.Log(success ? "Item Successfully Removed" : "Item not removed successfully");
             }
+            
         }
 
-        return success;
+        return findInventoryItem;
 
 
     }

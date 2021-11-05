@@ -8,9 +8,10 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
 
-    public PlayerData PlayerData;
+    public PlayerData data;
     public PlayerInputHandler inputHandler;
     public GameObject MenuUI;
+    public DialogueSystem dialogueUI;
     PlayerMovement playerMovement;
     CharacterController charController;
     Health health;
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
 
     public UnityEvent<float> OnPlayerGainXP;
     public UnityEvent<float> OnPlayerResourceChange;
+    public UnityEvent<Interactable> OnInteract;
     /// <summary>
     /// Use this for distances and raycasts.
     /// </summary>
@@ -34,6 +36,8 @@ public class Player : MonoBehaviour
     {
         Mana, Stamina
     }
+
+
 
     public float AbilityResource { get { return abilityResource; }}
     public float AbilityResourceMax { get { return resourceMax; } }
@@ -74,7 +78,7 @@ public class Player : MonoBehaviour
         if (inputHandler == null) inputHandler = GetComponent<PlayerInputHandler>();
         inputHandler.OnInteract_Performed.AddListener(Interact);
         inputHandler.OnMenuButton_Performed.AddListener(OnToggleMenu);
-        OnPlayerGainXP.AddListener(PlayerData.OnGainXP);
+        OnPlayerGainXP.AddListener(data.OnGainXP);
         OnPlayerResourceChange.AddListener(OnUpdateResource);
         abilityResource = resourceMax;
     }
@@ -87,10 +91,10 @@ public class Player : MonoBehaviour
     
     public void OnGainXP(float XP)
     {
-        PlayerData.totalXP += XP;
+        data.totalXP += XP;
         OnPlayerGainXP.Invoke(XP);
         //CREATE POP UP ABOVE PLAYER
-        Debug.Log(PlayerData.totalXP);
+        Debug.Log(data.totalXP);
     }
 
     void OnToggleMenu()
@@ -112,25 +116,23 @@ public class Player : MonoBehaviour
         if (interactables.Count != 0)
         {
             Interactable interacted = Utility.GetNearestInList<Interactable>(transform.position, interactables.Values.ToList());
+            //adds item to inventory if the interactable is an item
             if(interacted.data.interactType == InteractableData.interactableType.Item && inventory.TryAdd((ItemData)(interacted.data)))
             {
                 interactables.Remove(interacted.id);
-                //MAKE INTERACT TAKE A PLAYER PARAM
-                interacted.Interact();
             }
-            else
-            {
-                interacted.Interact();
 
-            }
+            interacted.Interact(this);
+            OnInteract.Invoke(interacted);
+
 
         }
     }
 
     public void OnEnterInteraction(Interactable interactable)
     {
+        Debug.Log($"Entered interaction range of {interactable.data.name}");
         if(!interactables.ContainsKey(interactable.id)) interactables.Add(interactable.id, interactable);
-        //Debug.Log($"Entered interaction range of {interactable.data.name}");
     }
 
     public void OnExitInteraction(Interactable interactable)

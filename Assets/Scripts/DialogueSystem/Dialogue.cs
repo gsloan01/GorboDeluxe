@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="NewDialogue", menuName ="Data/Dialogue")]
+[System.Serializable]
 public class Dialogue : ScriptableObject
 {
     public List<DialogueSegment> conversation;

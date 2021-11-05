@@ -7,7 +7,8 @@ using UnityEngine.InputSystem;
 public class PlayerInputHandler : MonoBehaviour
 {
     PlayerControls controls;
-    public Camera camera;
+    public Camera cam;
+
     public float raycastRange = 1000f;
 
     public bool MK_Active = true;
@@ -46,20 +47,21 @@ public class PlayerInputHandler : MonoBehaviour
         controls.MKGameplay.Movement.performed += ctx => movement = ctx.ReadValue<Vector2>();
         controls.MKGameplay.Movement.canceled += ctx => movement = Vector2.zero;
 
+        controls.MKMenu.Mouse.performed += ctx => mousePos = ctx.ReadValue<Vector2>();
         controls.MKGameplay.MouseTracking.performed += ctx => mousePos = ctx.ReadValue<Vector2>();
-        controls.MKGameplay.MouseTracking.canceled += ctx => mousePos = Vector2.zero;
 
         controls.MKGameplay.PrimaryAttack.performed += PrimaryAttack_performed;
         controls.MKGameplay.Rolling.performed += Rolling_performed;
         controls.MKGameplay.Interact.performed += Interact_performed; 
         controls.MKGameplay.MenuButton.performed += MenuButton_performed;
-        controls.MKMenu.ExitMenu.performed += ExitMenu_performed; ;
-        controls.MKGameplay.MouseTracking.performed += ctx => mousePos = ctx.ReadValue<Vector2>();
+        controls.MKMenu.ExitMenu.performed += ExitMenu_performed;
+
     }
 
     private void Update()
     {
-        Ray ray = camera.ScreenPointToRay(mousePos);
+        
+        Ray ray = cam.ScreenPointToRay(mousePos);
         if (Physics.Raycast(ray, out RaycastHit hitinfo, raycastRange))
         {
             this.hitinfo = hitinfo;

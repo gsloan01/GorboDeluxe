@@ -62,7 +62,7 @@ public class Health : MonoBehaviour
     {
         foreach(var v in data.damages)
         {
-            Apply(-v.value);
+            Apply(-v.minBaseValue);
         }
     }
 

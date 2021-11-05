@@ -16,7 +16,7 @@ MonoBehaviour:
   abilName: BasicAttack
   desc: Basic Attack
   cost: 5
-  cooldown: 0.75
+  cooldown: 0.2
   cooldownTimer: 0
   onCooldown: 0
   targeting: 0

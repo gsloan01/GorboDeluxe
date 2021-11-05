@@ -16,7 +16,7 @@ public class ItemDropperInteractable : Interactable
          //display the ui when in range
     }
 
-    public override void Interact()
+    public override void Interact(Player player)
     {
         //Open chest
         

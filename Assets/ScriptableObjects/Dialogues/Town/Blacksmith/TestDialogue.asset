@@ -23,3 +23,8 @@ MonoBehaviour:
     segment: Nothing much! This is going good!
     endAfterTime: 0
     delay: 0
+  - speaker: Gerald
+    speakerIcon: {fileID: 21300000, guid: 3f423f18bae754a7dbae893a08d00eef, type: 3}
+    segment: Balls in my jaw
+    endAfterTime: 0
+    delay: 0

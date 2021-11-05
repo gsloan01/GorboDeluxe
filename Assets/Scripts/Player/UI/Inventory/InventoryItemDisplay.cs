@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryItemDisplay : MonoBehaviour, IPointerDownHandler
+public class InventoryItemDisplay : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    public ItemInfoDisplay infoDisplay;
     public InventoryItem item;
     public Image itemIcon;
     public TMP_Text item_amount;
@@ -52,5 +53,16 @@ public class InventoryItemDisplay : MonoBehaviour, IPointerDownHandler
             }
         }
 
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (infoDisplay != null && item.item != null) infoDisplay.PopUp(item.item);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        
+        if (infoDisplay != null) infoDisplay.GoAway();
     }
 }

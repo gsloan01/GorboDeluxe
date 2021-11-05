@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: SKELLYMAN WARRIOR
   desc: undead, fighter
+  types: 00000000
   bodyLifetime: 3
   xpDropped: 100
   detectionRange: 8

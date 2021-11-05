@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AttackData", menuName = "Data/Attacks/AttackData")]
+[System.Serializable]
 public class AttackData : ScriptableObject
 {
     public List<Damage> damages;
@@ -11,11 +12,15 @@ public class AttackData : ScriptableObject
 [System.Serializable]
 public struct Damage
 {
-    public float value;
+    public float minBaseValue;
+    public float maxBaseValue;
+
     public dtype damageType;
     public enum dtype
     {
-        Physical, Magical
+        Physical, Fire, Ice, Poison, Bleed, Magical, Lightning
     }
+    [Range(0,1)]
+    public float critChance;
 }
 

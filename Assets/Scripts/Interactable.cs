@@ -13,7 +13,7 @@ public abstract class Interactable : MonoBehaviour
     /// <summary>
     /// This method will handle when the player interacts with the interactable.
     /// </summary>
-    public abstract void Interact();
+    public abstract void Interact(Player player);
     /// <summary>
     /// This method handles displaying the relevant information
     /// </summary>

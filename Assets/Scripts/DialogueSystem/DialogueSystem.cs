@@ -26,6 +26,11 @@ public class DialogueSystem : MonoBehaviour, IPointerDownHandler
     int charIndex;
     bool reading;
 
+    public void StartDialogue(Dialogue dialogue)
+    {
+        current = dialogue;
+        gameObject.SetActive(true);
+    }
     private void OnEnable()
     {
         Debug.Log("Dialogue system enabled");
@@ -39,6 +44,7 @@ public class DialogueSystem : MonoBehaviour, IPointerDownHandler
         {
             Debug.Log("conversationOver");
             gameObject.SetActive(false);
+            dialogueIndex = 0;
         }
         else
         {
