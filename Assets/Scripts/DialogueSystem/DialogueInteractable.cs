@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DialogueInteractable : Interactable
 {
+
+    
     public override void Display()
     {
         throw new System.NotImplementedException();

@@ -14353,15 +14353,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7540896001522495123}
-  - component: {fileID: 7540896001522495122}
-  - component: {fileID: 561062388}
   - component: {fileID: 1120064211672007820}
+  - component: {fileID: 7540896001522495122}
   - component: {fileID: 561062390}
   - component: {fileID: 561062393}
   - component: {fileID: 561062394}
-  - component: {fileID: 133635442325716770}
   - component: {fileID: 3583935477236629348}
   - component: {fileID: 561062389}
+  - component: {fileID: 561062388}
+  - component: {fileID: 133635442325716770}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -14386,42 +14386,6 @@ Transform:
   m_Father: {fileID: 7540896001219518087}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7540896001522495122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7540896001522495125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e0b4e71fe97817499309fbe0da38cdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: c06d3f976b698514dbac611126c6d019, type: 2}
-  debugLogs: 0
-  hasGravity: 1
-  isMobile: 1
-  isActive: 1
-  speedMultiplier: 1
---- !u!143 &561062388
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7540896001522495125}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 1.5
-  m_Radius: 0.25
-  m_SlopeLimit: 50
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.05
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!114 &1120064211672007820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14451,6 +14415,24 @@ MonoBehaviour:
   centerMassTransform: {fileID: 1726998461}
   resourceGainPerSec: 5
   regenResource: 1
+--- !u!114 &7540896001522495122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7540896001522495125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e0b4e71fe97817499309fbe0da38cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: c06d3f976b698514dbac611126c6d019, type: 2}
+  debugLogs: 0
+  hasGravity: 1
+  isMobile: 1
+  isActive: 1
+  speedMultiplier: 1
 --- !u!114 &561062390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14525,19 +14507,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilities:
   - {fileID: 11400000, guid: 0d797693a39f5b94eabf92a0126f325e, type: 2}
---- !u!135 &133635442325716770
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7540896001522495125}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.75
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &3583935477236629348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14568,6 +14537,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quests: []
+--- !u!143 &561062388
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7540896001522495125}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1.5
+  m_Radius: 0.25
+  m_SlopeLimit: 50
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.05
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.75, z: 0}
+--- !u!135 &133635442325716770
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7540896001522495125}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.75
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &7540896001925669399
 GameObject:
   m_ObjectHideFlags: 0
