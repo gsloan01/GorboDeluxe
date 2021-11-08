@@ -19,5 +19,6 @@ public struct DialogueSegment
     public bool endAfterTime;
     public float delay;
 
+    public Quest quest;
 }
 

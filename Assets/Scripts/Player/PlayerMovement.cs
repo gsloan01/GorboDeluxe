@@ -9,8 +9,11 @@ public class PlayerMovement : MonoBehaviour
     public PlayerMovementData data;
     public bool debugLogs = false;
     public bool hasGravity = true;
+    public bool rolling;
     public bool isMobile = true;
+    public bool canRotate = true;
     public bool isActive = true;
+    public float rollDistance = 3;
 
     Vector3 gravity = new Vector3(0,-8, 0);
     public bool Sprinting { get { return sprinting; } }
@@ -18,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float speedMultiplier = 1;
 
-    bool sprinting, moving, rolling;
+    bool sprinting, moving;
     float deadZone = 0.05f;
     float sprintTimer;
 
@@ -40,7 +43,15 @@ public class PlayerMovement : MonoBehaviour
         thisPlayer = GetComponent<Player>();
         data = thisPlayer.data.movementData;
         input = thisPlayer.inputHandler;
-        input.OnRolling_Performed.AddListener(Rolling);
+        input.OnRolling_Performed.AddListener(StartRolling);
+    }
+    void StartRolling()
+    {
+        if(!rolling && rollTimer <= 0 && isMobile)
+        {
+            rolling = true;
+            StartCoroutine(Rolling());
+        }
     }
     void Update()
     {
@@ -48,11 +59,12 @@ public class PlayerMovement : MonoBehaviour
         charController.Move(Vector3.zero);
         if(isActive)
         {
-            
-            if(input.GP_Active) rotate = input.StickRotation;
+            move = input.Movement;
+
+            if (input.GP_Active) rotate = input.StickRotation;
             if (input.MK_Active) mousePos = input.MousePos;
 
-
+            if (!rolling) rollTimer -= Time.deltaTime;
             //debugLogs = GameSettings.Instance.debug;
             if (isMobile && !rolling)
             {
@@ -62,8 +74,8 @@ public class PlayerMovement : MonoBehaviour
                     sprinting = true;
                 }
 
-                MovementHandling();
-                RotationHandling();
+                if(isMobile) MovementHandling();
+                if(canRotate) RotationHandling();
             }
             if (hasGravity && !charController.isGrounded) Gravity();
         }
@@ -72,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
     #region PLAYER MOVEMENT
     void MovementHandling()
     {
-        move = input.Movement;
+        
         //if going fast enough for sprinting to start, start counting until it happens
         if (Mathf.Abs(move.x) >= .4f || Mathf.Abs(move.y) >= .4f)
         {
@@ -167,30 +179,47 @@ public class PlayerMovement : MonoBehaviour
         sprintTimer = -delay;
     }
 
-    public void Rolling()
+    Vector3 rollDestination = Vector3.zero;
+    public IEnumerator Rolling()
     {
-        //if(!rolling)
-        //{
-        //    rolling = true;
-        //    if (move != Vector2.zero)
-        //    {
-        //        charController.Move(move);
-        //    }
-        //    else
-        //    {
-        //        Vector3 direc = Vector3.Normalize(hitpoint - transform.position);
-        //        Vector2 rollDirec = new Vector2(direc.x, direc.z); 
-                
-        //    }
-        //}
+        //Set all movement to false, other than rolling
+        isMobile = false;
+        canRotate = false;
+        hasGravity = false;
+        //rolling = true;
 
+        //Get the rollDestination sorted   
+        rollDestination = transform.position + (Vector3.Normalize(new Vector3(move.x, transform.position.y, move.y) - transform.position)) * rollDistance;
+        
+        Debug.Log($"Started rolling towards ( {rollDestination.x} , {rollDestination.z}) from ({transform.position.x},  {transform.position.z})");
+        //do
+        //{
+        //    float distanceFromRollPoint = Vector3.Distance(transform.position, rollDestination);
+        //    Debug.Log($"Distance from player to roll point : {distanceFromRollPoint}");
+        //    charController.Move(rollDestination * Time.deltaTime);
+        //    Debug.Log(rolling);
+        //    rolling = distanceFromRollPoint > 0.001f;
+        //    Debug.Log($"Distance from player to roll point : {distanceFromRollPoint}");
+        //    Debug.Log(rolling);
+        //} while (rolling);
+
+        //Reset movement bools, allowing normal movement
+        isMobile = true;
+        canRotate = true;
+        hasGravity = true;
+        rolling = false;
+
+        //Reset roll timer
+        rollTimer = rollCooldown;
+
+        yield return null;
     }
     #endregion
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(hitpoint, .2f);
+        Gizmos.DrawSphere(rollDestination, .2f);
     }
 
 }

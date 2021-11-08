@@ -15,16 +15,48 @@ MonoBehaviour:
   conversation:
   - speaker: Jim
     speakerIcon: {fileID: 21300000, guid: f802ceda35f5c4662a240c6ceef56a64, type: 3}
-    segment: Heyo!! Whats up? This is a test
+    segment: Heyo!! Whats up? This is a test btw
     endAfterTime: 0
     delay: 0
+    quest:
+      QuestName: 
+      description: 
+      goals: []
+      xpReward: 0
+      goldReward: 0
+      itemRewards: []
+      readyForTurnIn: 0
   - speaker: Jerry
     speakerIcon: {fileID: 21300000, guid: ee6c8f37bd0f143a89513cadc662c0b0, type: 3}
-    segment: Nothing much! This is going good!
+    segment: Nothing much! Here is a quest! I hope you are able to accept it!!!
     endAfterTime: 0
     delay: 0
+    quest:
+      QuestName: Testy Questy!
+      description: im testing
+      goals:
+      - completed: 0
+        active: 0
+        player: {fileID: 0}
+        goalType: 0
+        currentTotal: 0
+        totalNeeded: 10
+        validTypes: 03000000
+        itemName: 
+      xpReward: 10
+      goldReward: 10
+      itemRewards: []
+      readyForTurnIn: 0
   - speaker: Gerald
     speakerIcon: {fileID: 21300000, guid: 3f423f18bae754a7dbae893a08d00eef, type: 3}
-    segment: Balls in my jaw
+    segment: Good Job picking up your first quest!
     endAfterTime: 0
     delay: 0
+    quest:
+      QuestName: 
+      description: 
+      goals: []
+      xpReward: 0
+      goldReward: 0
+      itemRewards: []
+      readyForTurnIn: 0

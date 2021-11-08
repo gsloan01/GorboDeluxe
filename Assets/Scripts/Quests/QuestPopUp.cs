@@ -6,14 +6,14 @@ public class QuestPopUp : MonoBehaviour
 {
     public TMP_Text title, description, goldReward, xpReward;
     public Quest quest;
-    public void PopUp(Quest quest)
+    public void PopUp(Quest quest, bool fromDialogue)
     {
+        ActivateAll();
         this.quest = quest;
         title.text = quest.QuestName;
         description.text = quest.description;
         goldReward.text = quest.goldReward.ToString();
         xpReward.text = quest.xpReward.ToString();
-        ActivateAll();
     }
 
     public void Accept()
@@ -33,6 +33,7 @@ public class QuestPopUp : MonoBehaviour
         description.gameObject.SetActive(true);
         goldReward.gameObject.SetActive(true);
         xpReward.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
     public void DeactivateAll()
     {
@@ -40,6 +41,7 @@ public class QuestPopUp : MonoBehaviour
         description.gameObject.SetActive(false);
         goldReward.gameObject.SetActive(false);
         xpReward.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
 }

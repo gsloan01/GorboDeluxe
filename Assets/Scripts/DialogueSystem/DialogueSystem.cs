@@ -12,7 +12,8 @@ public class DialogueSystem : MonoBehaviour, IPointerDownHandler
     [Header("UI Items")]
     [SerializeField] Image speakerIcon;
     [SerializeField] TMP_Text speakerName, content;
-
+    [SerializeField] QuestPopUp questUI;
+    [SerializeField] Player thisPlayer;
 
     public Dialogue current;
     DialogueSegment currentSegment;
@@ -37,7 +38,7 @@ public class DialogueSystem : MonoBehaviour, IPointerDownHandler
         OnNextSegment();
     }
 
-    void OnNextSegment()
+    public void OnNextSegment()
     {
         Debug.Log("OnNextSegment");
         if (dialogueIndex >= current.conversation.Count)
@@ -113,7 +114,17 @@ public class DialogueSystem : MonoBehaviour, IPointerDownHandler
         }
         else
         {
-            OnNextSegment();
+            if (currentSegment.quest.QuestName != "")
+            {
+                //questUI.gameObject.SetActive(true);
+                questUI.PopUp(currentSegment.quest, true);
+
+            }
+            else
+            {
+                OnNextSegment();
+            }
+            
         }
 
     }

@@ -9,7 +9,7 @@ public class PlayerMenuController : MonoBehaviour
 
     private void Awake()
     {
-        lastVisitedPanel = InventoryPanel;
+        lastVisitedPanel = QuestPanel;
     }
 
     private void OnEnable()
@@ -43,9 +43,9 @@ public class PlayerMenuController : MonoBehaviour
         {
             CharacterPanel.SetActive(true);
             InventoryPanel?.SetActive(false);
-            //QuestPanel?.SetActive(false);
-            //OptionsPanel?.SetActive(false);
-            //SkillsPanel?.SetActive(false);
+            QuestPanel?.SetActive(false);
+            OptionsPanel?.SetActive(false);
+            SkillsPanel?.SetActive(false);
 
             lastVisitedPanel = CharacterPanel;
         }
@@ -58,9 +58,9 @@ public class PlayerMenuController : MonoBehaviour
         {
             InventoryPanel.SetActive(true);
             CharacterPanel?.SetActive(false);
-            //QuestPanel?.SetActive(false);
-            //OptionsPanel?.SetActive(false);
-            //SkillsPanel?.SetActive(false);
+            QuestPanel?.SetActive(false);
+            OptionsPanel?.SetActive(false);
+            SkillsPanel?.SetActive(false);
             lastVisitedPanel = InventoryPanel;
         }
     }
@@ -69,7 +69,7 @@ public class PlayerMenuController : MonoBehaviour
         if(QuestPanel)
         {
             QuestPanel.SetActive(true);
-            CharacterPanel?.SetActive(true);
+            CharacterPanel?.SetActive(false);
             InventoryPanel?.SetActive(false);
             OptionsPanel?.SetActive(false);
             SkillsPanel?.SetActive(false);
