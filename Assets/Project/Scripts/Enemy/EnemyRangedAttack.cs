@@ -14,6 +14,7 @@ public class EnemyRangedAttack : MonoBehaviour
     Rigidbody rb;
     public GameObject target;
     public Transform targetingTransform;
+    [SerializeField] AttackData data;
     [SerializeField] projectileType type;
 
     bool collided;
@@ -39,7 +40,7 @@ public class EnemyRangedAttack : MonoBehaviour
         switch (type)
         {
             case projectileType.TransformMove:
-                Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * projectileSpeed);
+                Vector3.MoveTowards(transform.position, targetingTransform.transform.position, Time.deltaTime * projectileSpeed);
                 break;
             case projectileType.Lerp:
                 transform.position = Vector3.Lerp(transform.position, targetingTransform.position, lerpSmoothing * Time.deltaTime);
@@ -58,7 +59,8 @@ public class EnemyRangedAttack : MonoBehaviour
             {
                 //deal damage to the player
                 //do fx
-                Debug.Log("Projectile has collided with a player");
+                other.GetComponent<Health>().Apply(data);
+                //Debug.Log("Projectile has collided with a player");
                 OnCollide();
             }
             if (collideWithAll)

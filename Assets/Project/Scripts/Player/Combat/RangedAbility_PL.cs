@@ -12,6 +12,7 @@ public class RangedAbility_PL : PlayerAbility
         {
             //PlayAnim()
             //Spawn FX
+            caster.animController.SetRanged1();
             Projectile spawned = Instantiate(projectile, caster.transform.position + Vector3.up * 0.5f, caster.transform.rotation);
             spawned.Set();
             

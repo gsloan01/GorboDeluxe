@@ -10,6 +10,7 @@ public class RangedEnemy : Enemy
     float attackOvertimer = .75f;
     [SerializeField] List<EnemyRangedAttack> attacks = new List<EnemyRangedAttack>();
     public Transform shootTransform;
+    
 
     private void Start()
     {
@@ -24,7 +25,8 @@ public class RangedEnemy : Enemy
 
     void Update()
     {
-        //Debug.Log(currentState);
+        
+        Debug.Log(currentState);
         switch (currentState)
         {
             case enemyState.Idle:
@@ -46,6 +48,9 @@ public class RangedEnemy : Enemy
         }
     }
 
+    /// <summary>
+    /// Has commented code on detection involving walls
+    /// </summary>
     private void FixedUpdate()
     {
         //if(currentTarget != null)
@@ -77,22 +82,30 @@ public class RangedEnemy : Enemy
     public override void OnFindNewPlayer(Player newPlayer)
     {
         //check for threat levels if multiplayer
-        currentTarget = newPlayer;
-        currentState = enemyState.Chase;
+        if(newPlayer != currentTarget)
+        {
+            currentTarget = newPlayer;
+            currentState = enemyState.Chase;
+        }
+
     }
 
     public override void Chase()
     {
+        
         transform.rotation = Utility.FaceTarget(currentTarget.gameObject, transform);
-        if(Vector3.Distance(transform.position, currentTarget.centerMassTransform.position) <= attackRange)
+        if(Vector3.Distance(transform.position, currentTarget.centerMassTransform.position) > attackRange)
         {
-            currentState = enemyState.Attacking;
-            agent.isStopped = true;
+            agent.SetDestination(currentTarget.transform.position);
+
+            //enemyAnimationController.SetWalk(new Vector2(agent.velocity.x, agent.velocity.z));
         }
         else
         {
-            agent.SetDestination(currentTarget.centerMassTransform.position);
 
+
+            currentState = enemyState.Attacking;
+            agent.isStopped = true;
         }
 
     }
@@ -108,6 +121,7 @@ public class RangedEnemy : Enemy
                 //Begin the attack (Coroutine?)
                 AttackStarted();
             }
+            else
             if (Vector3.Distance(transform.position, currentTarget.centerMassTransform.position) >= attackRange)
             {
                 currentState = enemyState.Chase;
@@ -118,6 +132,7 @@ public class RangedEnemy : Enemy
             damageTimer -= Time.deltaTime;
             if(damageTimer <= 0)
             {
+                
                 ShootProjectile();
                 AttackOver();
             }
@@ -128,7 +143,9 @@ public class RangedEnemy : Enemy
 
     void AttackStarted()
     {
-        Debug.Log("Attack Started");
+        enemyAnimationController.SetAttack1();
+
+        //Debug.Log("Attack Started");
         attackTimer = .75f;
         damageTimer = .35f;
         attacking = true;
@@ -140,7 +157,7 @@ public class RangedEnemy : Enemy
     /// <param name="delay">Amount of time until next damage time. If value is less than zero, there will only be the one damage proc.</param>
     void ShootProjectile(float delay = -1.0f)
     {
-        Debug.Log("ProjectileShot");
+        //Debug.Log("ProjectileShot");
         damageTimer = (delay == -1.0f && delay < 0) ? float.MaxValue : delay;
         EnemyRangedAttack newAttack = Instantiate<EnemyRangedAttack>(attacks[Random.Range(0, attacks.Count)], shootTransform.position, transform.rotation);
         newAttack.target = currentTarget.gameObject;
@@ -149,7 +166,7 @@ public class RangedEnemy : Enemy
 
     void AttackOver()
     {
-        Debug.Log("Attack Ended");
+        //Debug.Log("Attack Ended");
         attacking = false;
     }
 

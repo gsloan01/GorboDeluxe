@@ -8,7 +8,10 @@ public abstract class Enemy : MonoBehaviour
 {
     public EnemyData data;
     public EnemyDetection detection;
+    protected EnemyAnimationController enemyAnimationController;
+    public GameObject bodyDisappearEffect;
 
+    [SerializeField] float deathTime = 2.0f;
     public enemyState currentState = enemyState.Idle;
 
     protected NavMeshAgent agent;
@@ -19,7 +22,7 @@ public abstract class Enemy : MonoBehaviour
     protected Player currentTarget;
 
     protected bool attacking, wandering = false;
-    protected float deathTimer = 0;
+    
     protected float wanderTimer;
 
     public enum enemyState
@@ -34,7 +37,9 @@ public abstract class Enemy : MonoBehaviour
         spawnPosition = transform.position;
         health = GetComponent<Health>();
         agent = GetComponent<NavMeshAgent>();
+        enemyAnimationController = GetComponent<EnemyAnimationController>();
         health.OnDeath.AddListener(OnDeath);
+        health.OnHurt.AddListener(enemyAnimationController.SetHurt);
         wanderTimer = data.wanderFrequency;
         
 
@@ -43,7 +48,7 @@ public abstract class Enemy : MonoBehaviour
     void Start()
     {
         EnemyManager.Instance.OnEnemyCreate.Invoke(this);
-        Debug.Log($"New Enemy Spawned : {data.name}");
+        
     }
 
     //call this method whenever a new player is added to the detection pool
@@ -62,14 +67,22 @@ public abstract class Enemy : MonoBehaviour
         {
             p.GetComponent<Player>().OnGainXP(data.xpDropped);
         }
-        Debug.Log("Destroying enemy instantly after death in Enemy.cs / OnDeath");
+        
         currentState = enemyState.Dead;
-        EnemyManager.Instance.OnEnemyDeath.Invoke(this);
-        Destroy(gameObject);
+        enemyAnimationController.SetDeath();
+        StartCoroutine(Death());
         
     }
 
-
+    IEnumerator Death()
+    {
+        yield return new WaitForSeconds(deathTime);
+        EnemyManager.Instance.OnEnemyDeath.Invoke(this);
+        
+        Destroy(Instantiate(bodyDisappearEffect, transform.position, transform.rotation), 1);
+        
+        Destroy(gameObject);
+    }
 
 
     private void OnDrawGizmosSelected()

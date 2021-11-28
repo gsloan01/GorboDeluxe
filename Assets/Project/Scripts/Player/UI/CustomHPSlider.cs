@@ -28,7 +28,7 @@ public class CustomHPSlider : MonoBehaviour
     }
     void OnHealthUpdated()
     {
-        Debug.Log("HP updated");
+        //Debug.Log("HP updated");
         if(amount != null) amount.text = health.Current.ToString();
         if(fill != null) fill.fillAmount = health.Current / health.max;
 

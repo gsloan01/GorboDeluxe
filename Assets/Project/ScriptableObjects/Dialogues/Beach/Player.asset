@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9bd8168d560dcd48a7a63cac6215a6e, type: 3}
+  m_Name: Player
+  m_EditorClassIdentifier: 
+  speakerName: You
+  speakerIcon: {fileID: 21300000, guid: a5b7f147d94a347459dabe96c4ca1922, type: 3}
+  sounds:
+  - {fileID: 8300000, guid: be84d1ebaabd11d4a9a4b843996b5e13, type: 3}
+  - {fileID: 8300000, guid: 37df8d8110d16b547b5a598024662d67, type: 3}
+  - {fileID: 8300000, guid: 1a84b1163a48ffa4fb0e525a03393395, type: 3}

@@ -14,6 +14,7 @@ public class DialogueSystem : MonoBehaviour, IPointerDownHandler
     [SerializeField] TMP_Text speakerName, content;
     [SerializeField] QuestPopUp questUI;
     [SerializeField] Player thisPlayer;
+    AudioSource dialogueAudio;
 
     public Dialogue current;
     DialogueSegment currentSegment;
@@ -27,6 +28,11 @@ public class DialogueSystem : MonoBehaviour, IPointerDownHandler
     int charIndex;
     bool reading;
 
+    private void Awake()
+    {
+        dialogueAudio = GetComponent<AudioSource>();
+        if (dialogueAudio.playOnAwake) dialogueAudio.playOnAwake = false;
+    }
     public void StartDialogue(Dialogue dialogue)
     {
         current = dialogue;
@@ -59,8 +65,9 @@ public class DialogueSystem : MonoBehaviour, IPointerDownHandler
 
     void Set(DialogueSegment segment)
     {
-        speakerIcon.sprite = segment.speakerIcon;
-        speakerName.text = segment.speaker;
+        NewSound(false);
+        speakerIcon.sprite = segment.speaker.speakerIcon;
+        speakerName.text = segment.speaker.speakerName;
         charIndex = 0;
         dialogueBuilder.Clear();
         content.text = dialogueBuilder.ToString();
@@ -73,7 +80,15 @@ public class DialogueSystem : MonoBehaviour, IPointerDownHandler
             
         }
     }
-
+    void NewSound(bool play = true)
+    {
+        if (currentSegment.speaker.sounds.Count > 0)
+        {
+            dialogueAudio.Stop();
+            dialogueAudio.clip = currentSegment.speaker.sounds[Random.Range(0, currentSegment.speaker.sounds.Count)];
+            if(play) dialogueAudio.Play();
+        }
+    }
     IEnumerator StartReadingDialogue(string script)
     {
         Debug.Log("StartedReading");
@@ -84,6 +99,10 @@ public class DialogueSystem : MonoBehaviour, IPointerDownHandler
             dialogueBuilder.Append(script[charIndex]);
             charIndex++;
             content.text = dialogueBuilder.ToString();
+
+            NewSound();
+
+            dialogueAudio.Play();
             yield return new WaitForSeconds(1 / textSpeed);
         }
         reading = false;

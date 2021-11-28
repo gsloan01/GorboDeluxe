@@ -36,11 +36,12 @@ public class PlayerCombatController : MonoBehaviour
     }
     void BasicAttack()
     {
-        abilities[0].Cast(thisPlayer);
+        
+        abilities[0]?.Cast(thisPlayer);
     }
     void SecondaryAttack()
     {
-        abilities[1].Cast(thisPlayer);
+        abilities[1]?.Cast(thisPlayer);
     }
 
 

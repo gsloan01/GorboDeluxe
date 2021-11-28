@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue/DialogueConversation")]
 [System.Serializable]
 public class Dialogue : ScriptableObject
 {
@@ -12,13 +13,14 @@ public class Dialogue : ScriptableObject
 [System.Serializable]
 public struct DialogueSegment
 {
-    public string speaker;
-    public Sprite speakerIcon;
+    public DialogueProfile speaker;
     public string segment;
-
     public bool endAfterTime;
     public float delay;
 
     public Quest quest;
 }
+
+
+
 

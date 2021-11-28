@@ -10,7 +10,7 @@ public class MeleeEnemy : Enemy
     float damageTimer = .35f;
     float attackOvertimer = .75f;
 
-
+    [SerializeField] AttackData attackData;
     private void Start()
     {
         if (attackRange == -1)
@@ -145,8 +145,10 @@ public class MeleeEnemy : Enemy
     /// <param name="delay">Amount of time until next damage time. If value is less than zero, there will only be the one damage proc.</param>
     void DealDamage(float delay = -1.0f)
     {
-        Debug.Log($"{data.enemyName} - Damage dealt with melee attack");
+        currentTarget.GetComponent<Health>().Apply(attackData);
         damageTimer = (delay == -1.0f && delay < 0) ? float.MaxValue : delay;
+        enemyAnimationController.SetAttack1();
+        //Create AttackFX in front of enemy
         
     }
 

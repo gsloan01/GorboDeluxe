@@ -24,3 +24,5 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 88d74ce1d24198f44a62a7e12f4853fa, type: 2}
   radius: 4
   angleOfAttack: 90
+  attackSFX: {fileID: 8300000, guid: e3458a3c50d9ad54a89c390846706ce7, type: 3}
+  cantCastSFX: {fileID: 8300000, guid: d4b92fc1951f0864698b09d9adbeef72, type: 3}

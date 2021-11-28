@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
         if(!rolling && rollTimer <= 0 && isMobile)
         {
             rolling = true;
-            StartCoroutine(Rolling());
+            //StartCoroutine(Rolling());
         }
     }
     void Update()
@@ -60,6 +60,8 @@ public class PlayerMovement : MonoBehaviour
         if(isActive)
         {
             move = input.Movement;
+            thisPlayer.animController.SetMovementSpeed(move);
+            thisPlayer.animController.SetRolling(rolling);
 
             if (input.GP_Active) rotate = input.StickRotation;
             if (input.MK_Active) mousePos = input.MousePos;
@@ -114,7 +116,17 @@ public class PlayerMovement : MonoBehaviour
         //fall at a normal rate
         charController.Move(gravity * Time.deltaTime);
     }
+    /// <summary>
+    /// This method will stop the players sprint.
+    /// </summary>
+    /// <param name="delay">Optional param that allows the sprint delay to be shorter or longer, Positive (+) makes the delay longer, while Negative (-) makes it shorter.</param>
+    public void EndSprinting(float delay = 0.0f)
+    {
+        sprinting = false;
+        sprintTimer = -delay;
+    }
 
+    #region Rotation
     Vector3 hitpoint;
     Quaternion toRotation;
     void RotationHandling()
@@ -169,16 +181,9 @@ public class PlayerMovement : MonoBehaviour
         toRotation = Utility.GetLookRotationFromVec2(v);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, data.rotateRate * Time.deltaTime);
     }
-    /// <summary>
-    /// This method will stop the players sprint.
-    /// </summary>
-    /// <param name="delay">Optional param that allows the sprint delay to be shorter or longer, Positive (+) makes the delay longer, while Negative (-) makes it shorter.</param>
-    public void EndSprinting(float delay = 0.0f)
-    {
-        sprinting = false;
-        sprintTimer = -delay;
-    }
+    #endregion
 
+    #region Rolling
     Vector3 rollDestination = Vector3.zero;
     public IEnumerator Rolling()
     {
@@ -214,6 +219,8 @@ public class PlayerMovement : MonoBehaviour
 
         yield return null;
     }
+    #endregion
+
     #endregion
 
     private void OnDrawGizmos()

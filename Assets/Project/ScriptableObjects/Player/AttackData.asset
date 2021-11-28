@@ -16,4 +16,4 @@ MonoBehaviour:
   - minBaseValue: 5
     maxBaseValue: 10
     damageType: 0
-    critChance: 0
+    critChance: 0.49

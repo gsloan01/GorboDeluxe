@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 1026766670302308356}
   - component: {fileID: 1026766670302308358}
   - component: {fileID: 129159282}
+  - component: {fileID: 389557622}
+  - component: {fileID: 389557623}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -89,3 +91,29 @@ MonoBehaviour:
   OnEnemyCreate:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &389557622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026766670302308355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ea3cff3f3e84e740ae11fb81b44f788, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultPrefab: {fileID: 5327751677979693591, guid: 4098ede119fdde74c85246047516d3fe, type: 3}
+  critPrefab: {fileID: 8044660342863377953, guid: aca6edd2f3433e743b889ebb0c718a79, type: 3}
+--- !u!114 &389557623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026766670302308355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a120b86ab895b4d8ec57eff643042b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

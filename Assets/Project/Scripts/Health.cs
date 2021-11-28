@@ -13,6 +13,8 @@ public class Health : MonoBehaviour
     public float Current { get { return current; } }
     float current;
     public float max = 100;
+    public bool invuln = false;
+    [SerializeField] AudioClip hurtSFX, deathSFX;
 
     //should make this an ondeath unity event that the player or enemy will subscribe to
     public bool isDead = false;
@@ -23,6 +25,8 @@ public class Health : MonoBehaviour
     private void Awake()
     {
         current = max;
+        OnHurt.AddListener(HurtSound);
+        OnDeath.AddListener(DeathSound);
     }
     private void Start()
     {
@@ -52,6 +56,7 @@ public class Health : MonoBehaviour
             }
             if (current <= 0)
             {
+                isDead = true;
                 OnDeath.Invoke();
             }
 
@@ -62,7 +67,12 @@ public class Health : MonoBehaviour
     {
         foreach(var v in data.damages)
         {
-            Apply(-v.minBaseValue);
+            bool crit = (Random.Range(0f, 1f)< v.critChance);
+            Debug.Log(v.critChance.ToString());
+            float damage = Random.Range(-v.maxBaseValue, -v.minBaseValue) * (crit ?  2 : 1);
+            Apply(damage);
+            DamageNumberManager.Instance.SpawnNumber(Mathf.RoundToInt(damage), crit, transform);
+            if(crit) CinemachineShake.Instance.Shake(2, .5f, .1f, .1f);
         }
     }
 
@@ -70,5 +80,14 @@ public class Health : MonoBehaviour
     {
         max = newMax;
         if(regenToMax) current = max;
+    }
+
+    public void HurtSound()
+    {
+        if (hurtSFX != null) SFXManager.Instance.PlaySFX(hurtSFX, transform);
+    }
+    public void DeathSound()
+    {
+        if (deathSFX != null) SFXManager.Instance.PlaySFX(deathSFX, transform, false);
     }
 }

@@ -8,13 +8,16 @@ public class MeleeAbility_PL : PlayerAbility
     public AttackData data;
     [SerializeField] float radius = 3.0f;
     [SerializeField] float angleOfAttack = 90.0f;
+    [SerializeField] AudioClip attackSFX, cantCastSFX;
 
     public override void Cast(Player caster)
     {
         if(!onCooldown && caster.HasResource(cost))
         {
-            //PlayAnim()
+
             //Spawn FX
+            if(attackSFX != null) SFXManager.Instance.PlaySFX(attackSFX, caster.transform, true);
+            caster.animController.SetMeleeAttack1();
             List<Health> valid = new List<Health>();
             foreach (var v in Physics.OverlapSphere(caster.centerMassTransform.position, radius))
             {
@@ -31,8 +34,10 @@ public class MeleeAbility_PL : PlayerAbility
             {
                 Health closest = Utility.GetNearestInList<Health>(caster.centerMassTransform.position, valid);
                 closest.Apply(data);
+                
                 //Debug.Log($"{closest.name}'s health is {closest.Current} / {closest.max}");
             }
+
             caster.OnPlayerResourceChange.Invoke(-cost);
             cooldownTimer = 0;
             onCooldown = true;
@@ -40,7 +45,7 @@ public class MeleeAbility_PL : PlayerAbility
         }
         else
         {
-            
+            if (cantCastSFX != null) SFXManager.Instance.PlaySFX(cantCastSFX, caster.transform, true);
         }
         
     }

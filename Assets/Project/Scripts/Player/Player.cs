@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public PlayerInputHandler inputHandler;
     public GameObject MenuUI;
     public DialogueSystem dialogueUI;
+    public PlayerAnimController animController;
     PlayerMovement playerMovement;
     CharacterController charController;
     Health health;
@@ -81,6 +82,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
+        animController = GetComponent<PlayerAnimController>();
         health = GetComponent<Health>();
         if (inputHandler == null) inputHandler = GetComponent<PlayerInputHandler>();
         inputHandler.OnInteract_Performed.AddListener(Interact);
@@ -152,7 +154,7 @@ public class Player : MonoBehaviour
 
             interacted.Interact(this);
             OnInteract.Invoke(interacted);
-
+            animController.SetInteract();
 
         }
     }
