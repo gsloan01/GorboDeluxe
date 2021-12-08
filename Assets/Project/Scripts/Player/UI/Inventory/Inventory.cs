@@ -35,16 +35,7 @@ public class Inventory : ScriptableObject
     {
         bool success = false;
         //if there is space for the item
-        if(inventory.Count != maxSize)
-        {
-            if (item.stackSize == 1)
-            {
-                AddNewItem(item);
-                success = true;
-                OnItemAdded.Invoke(item);
-            }
-        }
-        else if(FindInventoryItem(item, out int foundAt))
+        if (FindInventoryItem(item, out int foundAt))
         {
             if (inventory[foundAt].count <= item.stackSize)
             {
@@ -54,6 +45,16 @@ public class Inventory : ScriptableObject
             }
 
         }
+        else if (inventory.Count != maxSize)
+        {
+
+            AddNewItem(item);
+            success = true;
+            OnItemAdded.Invoke(item);
+
+        }
+        
+
         return success;
         
     }

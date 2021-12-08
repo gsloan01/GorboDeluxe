@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8faf58b8692a7334bb3fbd528f12c479, type: 3}
   m_Name: BasePlayerData
   m_EditorClassIdentifier: 
-  playerName: Jerry
+  playerName: You
   lvl: 1
   totalXP: 0
-  Gold: 0
+  xpGoal: 50
+  Gold: 350
   goldMultiplier: 1
   xpMultiplier: 1
-  strength: 0
-  agility: 0
-  intellect: 0
-  willpower: 0
-  fortitude: 0
+  strength: 1
+  agility: 1
+  intellect: 1
+  willpower: 1
+  fortitude: 1
   movementData: {fileID: 11400000, guid: c06d3f976b698514dbac611126c6d019, type: 2}
+  LVLUP_SFX: {fileID: 8300000, guid: 63d150747e717ac4f89b953964d041b2, type: 3}
   skillPointsAvail: 0

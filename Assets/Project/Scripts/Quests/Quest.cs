@@ -17,10 +17,11 @@ public class Quest
     public bool readyForTurnIn;
     public bool mainQuest;
     public Sprite icon;
-    public UnityEvent OnQuestReadyToTurnIn;
-
+    public UnityEvent OnQuestCompletionEvent;
+    public AudioClip QuestSFX;
     Player player;
 
+    
     public void OnAccept(Player player)
     {
         this.player = player;
@@ -30,34 +31,37 @@ public class Quest
             g.player = player;
             Debug.Log($"setting goal for {QuestName}");
             g.SetGoal();
+            g.GoalsUpdated.AddListener(CheckCompletion);
+            Debug.Log($"{QuestName} accepted");
 
-            
         }
 
     }
 
     public void OnQuestCompletion(Player player)
     {
+        Debug.Log("Quest Completed");
         player.data.OnGainXP(xpReward);
         player.data.OnGoldChange(goldReward);
-        player.inventory.TryAddItems(itemRewards);
-        Debug.Log($"{QuestName} has been completed!");
+        if(itemRewards != null) if(itemRewards.Count > 0) player.inventory.TryAddItems(itemRewards);
+        PlayerManager.Instance.player.GetComponent<QuestManager>().quests.Remove(this);
+        PlayerManager.Instance.player.GetComponent<Player>().OnQuestComplete(QuestName.ToUpper() + " COMPLETED");
+        if (QuestSFX != null) SFXManager.Instance.PlaySFX(QuestSFX, player.transform);
+        
     }
     public void CheckCompletion()
     {
-        
+        bool completion = true;
         foreach(QuestGoal questGoal in goals)
         {
             if(!questGoal.completed)
             {
-                readyForTurnIn = false;
+                completion = false;
                 break;
             }
-            else
-            {
-                readyForTurnIn = true;
-            }
+
         }
+        if (completion) OnQuestCompletion(player);
     }
 
 
@@ -98,7 +102,7 @@ public class QuestGoal
     [Space(10)]
     [Header("Go To Goal")]
     public string areaName;
-
+    public UnityEvent GoalsUpdated;
     public void SetGoal()
     {
         Debug.Log("Setting goal");
@@ -130,13 +134,15 @@ public class QuestGoal
             {
                 if (validTypes.Contains(e))
                 {
+                    
                     currentTotal++;
-                    completed = currentTotal == totalNeeded;
+                    completed = (currentTotal == totalNeeded);
                     break;
                 }
             }
-
         }
+        Debug.Log("Invoking GoalsUpdatedEvent");
+        GoalsUpdated.Invoke();
 
     }
     public void UpdateGather(ItemData item)

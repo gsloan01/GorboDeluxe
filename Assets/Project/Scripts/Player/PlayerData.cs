@@ -8,7 +8,7 @@ public class PlayerData : ScriptableObject
     public string playerName;
     public int lvl = 1;
     public float totalXP = 0;
-    float xpGoal = 100;
+    public float xpGoal = 50;
 
     public int Gold;
     public float goldMultiplier = 1;
@@ -16,7 +16,7 @@ public class PlayerData : ScriptableObject
 
     public int strength, agility, intellect, willpower, fortitude = 1;
     public PlayerMovementData movementData;
-
+    public AudioClip LVLUP_SFX;
     public int skillPointsAvail = 0;
     public void OnGainXP(float gained)
     {
@@ -47,6 +47,8 @@ public class PlayerData : ScriptableObject
         xpGoal = newGoal;
         skillPointsAvail += 3;
         Debug.Log($"{playerName} has leveled up! Now LVL {lvl}.");
+        PlayerManager.Instance.player.GetComponent<Player>().OnLvlUp();
+        SFXManager.Instance.PlaySFX(LVLUP_SFX, PlayerManager.Instance.player.transform);
     }
 
     public bool OnGoldChange(int change)
@@ -64,9 +66,11 @@ public class PlayerData : ScriptableObject
     public Dictionary<int, float> levels = new Dictionary<int, float>()
     {
         //LVL, REQXP
-        {1, 100 },
-        {2, 250 },
-        {3, 600 }
+        {1, 50 },
+        {2, 100 },
+        {3, 200 },
+        {4, 500 },
+        {5, 700 }
     };
 
 }

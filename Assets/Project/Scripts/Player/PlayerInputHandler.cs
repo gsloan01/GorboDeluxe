@@ -13,6 +13,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public bool MK_Active = true;
     public bool GP_Active;
+    public bool MenuActive;
 
 
     public Vector2 Movement { get { return movement; } }
@@ -41,9 +42,10 @@ public class PlayerInputHandler : MonoBehaviour
     {
         //Create a PlayerControls
         controls = new PlayerControls();
-        
+
         //Start with Mouse & KeyboardControls
-        OnMKControlsActivate();
+        if (MK_Active) OnMKControlsActivate();
+        else if (MenuActive) OnMenuControlsActivate();
         //Mouse and Keyboard Controls
         controls.MKGameplay.Movement.performed += ctx => movement = ctx.ReadValue<Vector2>();
         controls.MKGameplay.Movement.canceled += ctx => movement = Vector2.zero;
@@ -119,13 +121,13 @@ public class PlayerInputHandler : MonoBehaviour
         OnBasicAttackBtn_Down.Invoke();
     }
 
-    void DisableControls()
+    public void DisableControls()
     {
         controls.MKMenu.Disable();
         controls.Gameplay.Disable();
         controls.MKGameplay.Disable();
     }
-    void OnMKControlsActivate()
+    public void OnMKControlsActivate()
     {
 
         DisableControls();
@@ -134,7 +136,7 @@ public class PlayerInputHandler : MonoBehaviour
         GP_Active = false;
     }
 
-    void OnGamepadControlsActivate()
+    public void OnGamepadControlsActivate()
     {
         DisableControls();
         controls.Gameplay.Enable();
@@ -143,7 +145,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     }
 
-    void OnMenuControlsActivate()
+    public void OnMenuControlsActivate()
     {
         //turn everything off but menu, duh
         DisableControls();

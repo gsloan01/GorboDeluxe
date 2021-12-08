@@ -9,7 +9,7 @@ public class EnemyData : ScriptableObject
 {
     public enum EnemyType
     {
-        Skeleton, Undead, Beast, Elemental, Plant, Wolf, Thief, Goblin, Human, Orc, Slime
+        Skeleton, Undead, Beast, Elemental, Plant, Wolf, Thief, Goblin, Human, Orc, Slime, Ghost, OldManDrumbo
     }
 
     public string enemyName;

@@ -36,6 +36,8 @@ public class QuestGoalUI : MonoBehaviour
                     break;
             }
         }
+        if (goal.completed) goalTxt.color = Color.green;
+        else goalTxt.color = Color.white;
         
     }
 }

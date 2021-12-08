@@ -373,8 +373,8 @@ MonoBehaviour:
   allowHealingFromNegativeDamage: 0
   max: 100
   invuln: 0
-  hurtSFX: {fileID: 8300000, guid: b63bd09d128d8784cbcdce5e832a1830, type: 3}
-  deathSFX: {fileID: 8300000, guid: 456a608dc1848da4f8374547a78f63e0, type: 3}
+  hurtSFX: {fileID: 8300000, guid: 4dd224fd45a5f5744a0e9c55de713aa3, type: 3}
+  deathSFX: {fileID: 8300000, guid: 82c361391a031534aaa3edd306fd2e0d, type: 3}
   isDead: 0
   OnDeath:
     m_PersistentCalls:

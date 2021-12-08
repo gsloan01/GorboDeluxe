@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         thisPlayer = GetComponent<Player>();
         data = thisPlayer.data.movementData;
         input = thisPlayer.inputHandler;
-        input.OnRolling_Performed.AddListener(StartRolling);
+        //input.OnRolling_Performed.AddListener(StartRolling);
     }
     void StartRolling()
     {

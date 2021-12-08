@@ -28,9 +28,10 @@ MonoBehaviour:
       readyForTurnIn: 0
       mainQuest: 0
       icon: {fileID: 0}
-      OnQuestReadyToTurnIn:
+      OnQuestCompletionEvent:
         m_PersistentCalls:
           m_Calls: []
+      QuestSFX: {fileID: 0}
   - speaker: {fileID: 11400000, guid: d8a4e718e9b8c40408c992e307bac810, type: 2}
     segment: Hi! My ship crashed, where am I!
     endAfterTime: 0
@@ -46,9 +47,10 @@ MonoBehaviour:
       readyForTurnIn: 0
       mainQuest: 0
       icon: {fileID: 0}
-      OnQuestReadyToTurnIn:
+      OnQuestCompletionEvent:
         m_PersistentCalls:
           m_Calls: []
+      QuestSFX: {fileID: 0}
   - speaker: {fileID: 11400000, guid: 3f361ababd5d2514f8de5aadd229cf5d, type: 2}
     segment: You're on the island of...
     endAfterTime: 0
@@ -64,9 +66,10 @@ MonoBehaviour:
       readyForTurnIn: 0
       mainQuest: 0
       icon: {fileID: 0}
-      OnQuestReadyToTurnIn:
+      OnQuestCompletionEvent:
         m_PersistentCalls:
           m_Calls: []
+      QuestSFX: {fileID: 0}
   - speaker: {fileID: 11400000, guid: 3f361ababd5d2514f8de5aadd229cf5d, type: 2}
     segment: GORBO!!!!!
     endAfterTime: 0
@@ -82,9 +85,10 @@ MonoBehaviour:
       readyForTurnIn: 0
       mainQuest: 0
       icon: {fileID: 0}
-      OnQuestReadyToTurnIn:
+      OnQuestCompletionEvent:
         m_PersistentCalls:
           m_Calls: []
+      QuestSFX: {fileID: 0}
   - speaker: {fileID: 11400000, guid: 3f361ababd5d2514f8de5aadd229cf5d, type: 2}
     segment: Isnt that neat?
     endAfterTime: 0
@@ -100,9 +104,10 @@ MonoBehaviour:
       readyForTurnIn: 0
       mainQuest: 0
       icon: {fileID: 0}
-      OnQuestReadyToTurnIn:
+      OnQuestCompletionEvent:
         m_PersistentCalls:
           m_Calls: []
+      QuestSFX: {fileID: 0}
   - speaker: {fileID: 11400000, guid: d8a4e718e9b8c40408c992e307bac810, type: 2}
     segment: Yeah sure, so uh got any cool quests for an adventurer like me?
     endAfterTime: 0
@@ -118,11 +123,12 @@ MonoBehaviour:
       readyForTurnIn: 0
       mainQuest: 0
       icon: {fileID: 0}
-      OnQuestReadyToTurnIn:
+      OnQuestCompletionEvent:
         m_PersistentCalls:
           m_Calls: []
+      QuestSFX: {fileID: 0}
   - speaker: {fileID: 11400000, guid: 3f361ababd5d2514f8de5aadd229cf5d, type: 2}
-    segment: I mean, uh yeah sure...
+    segment: I mean, uh yeah sure..., I've been having some ghost problems lately...
     endAfterTime: 0
     delay: 0
     quest:
@@ -136,40 +142,59 @@ MonoBehaviour:
       readyForTurnIn: 0
       mainQuest: 0
       icon: {fileID: 0}
-      OnQuestReadyToTurnIn:
+      OnQuestCompletionEvent:
         m_PersistentCalls:
           m_Calls: []
+      QuestSFX: {fileID: 8300000, guid: 8c4465447acee6a4d8cb48711b7ecbd4, type: 3}
   - speaker: {fileID: 11400000, guid: 3f361ababd5d2514f8de5aadd229cf5d, type: 2}
-    segment: Kill some ghosts maybe?
+    segment: Could you help me out with that?
     endAfterTime: 0
     delay: 0
     quest:
       QuestName: Who you gonna call?
-      description: Gorbo is weird, time to help Tommy though!
+      description: Tommy needs my help in busting some ghosts!
       goals:
       - completed: 0
-        active: 0
+        active: 1
         player: {fileID: 0}
         goalType: 0
         customGoalText: 
         currentTotal: 0
         totalNeeded: 5
-        validTypes: 01000000
+        validTypes: 0b000000
         itemName: 
         characterName: 
         areaName: 
-      xpReward: 100
-      goldReward: 100
+        GoalsUpdated:
+          m_PersistentCalls:
+            m_Calls: []
+      - completed: 0
+        active: 1
+        player: {fileID: 0}
+        goalType: 0
+        customGoalText: Slay Old Man Drumbo!
+        currentTotal: 0
+        totalNeeded: 1
+        validTypes: 0c000000
+        itemName: 
+        characterName: 
+        areaName: 
+        GoalsUpdated:
+          m_PersistentCalls:
+            m_Calls: []
+      xpReward: 500
+      goldReward: 500
       itemRewards: []
-      tracked: 0
+      tracked: 1
       readyForTurnIn: 0
       mainQuest: 1
       icon: {fileID: 21300000, guid: 65909bc1afd49614ba74bef665ecfe39, type: 3}
-      OnQuestReadyToTurnIn:
+      OnQuestCompletionEvent:
         m_PersistentCalls:
           m_Calls: []
+      QuestSFX: {fileID: 0}
   - speaker: {fileID: 11400000, guid: 3f361ababd5d2514f8de5aadd229cf5d, type: 2}
-    segment: Sweet thanks!
+    segment: Sweet thanks! You'll need to kill their leader too...
     endAfterTime: 0
     delay: 0
     quest:
@@ -183,11 +208,69 @@ MonoBehaviour:
       readyForTurnIn: 0
       mainQuest: 0
       icon: {fileID: 0}
-      OnQuestReadyToTurnIn:
+      OnQuestCompletionEvent:
         m_PersistentCalls:
           m_Calls: []
+      QuestSFX: {fileID: 0}
+  - speaker: {fileID: 11400000, guid: 3f361ababd5d2514f8de5aadd229cf5d, type: 2}
+    segment: The horrible...
+    endAfterTime: 0
+    delay: 0
+    quest:
+      QuestName: 
+      description: 
+      goals: []
+      xpReward: 0
+      goldReward: 0
+      itemRewards: []
+      tracked: 0
+      readyForTurnIn: 0
+      mainQuest: 0
+      icon: {fileID: 0}
+      OnQuestCompletionEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      QuestSFX: {fileID: 0}
+  - speaker: {fileID: 11400000, guid: 3f361ababd5d2514f8de5aadd229cf5d, type: 2}
+    segment: EVIL.....
+    endAfterTime: 0
+    delay: 0
+    quest:
+      QuestName: 
+      description: 
+      goals: []
+      xpReward: 0
+      goldReward: 0
+      itemRewards: []
+      tracked: 0
+      readyForTurnIn: 0
+      mainQuest: 0
+      icon: {fileID: 0}
+      OnQuestCompletionEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      QuestSFX: {fileID: 0}
+  - speaker: {fileID: 11400000, guid: 3f361ababd5d2514f8de5aadd229cf5d, type: 2}
+    segment: OLD MAN DRUMBO!!!!!!
+    endAfterTime: 0
+    delay: 0
+    quest:
+      QuestName: 
+      description: 
+      goals: []
+      xpReward: 0
+      goldReward: 0
+      itemRewards: []
+      tracked: 0
+      readyForTurnIn: 0
+      mainQuest: 0
+      icon: {fileID: 0}
+      OnQuestCompletionEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      QuestSFX: {fileID: 0}
   - speaker: {fileID: 11400000, guid: d8a4e718e9b8c40408c992e307bac810, type: 2}
-    segment: No Problem man!
+    segment: Well, I better get going then huh?
     endAfterTime: 0
     delay: 0
     quest:
@@ -201,6 +284,26 @@ MonoBehaviour:
       readyForTurnIn: 0
       mainQuest: 0
       icon: {fileID: 0}
-      OnQuestReadyToTurnIn:
+      OnQuestCompletionEvent:
         m_PersistentCalls:
           m_Calls: []
+      QuestSFX: {fileID: 0}
+  - speaker: {fileID: 11400000, guid: 3f361ababd5d2514f8de5aadd229cf5d, type: 2}
+    segment: Good luck friend!
+    endAfterTime: 0
+    delay: 0
+    quest:
+      QuestName: 
+      description: 
+      goals: []
+      xpReward: 0
+      goldReward: 0
+      itemRewards: []
+      tracked: 0
+      readyForTurnIn: 0
+      mainQuest: 0
+      icon: {fileID: 0}
+      OnQuestCompletionEvent:
+        m_PersistentCalls:
+          m_Calls: []
+      QuestSFX: {fileID: 0}

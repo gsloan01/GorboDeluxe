@@ -37,15 +37,26 @@ public class DialogueSystem : MonoBehaviour, IPointerDownHandler
     {
         current = dialogue;
         gameObject.SetActive(true);
+        
     }
     private void OnEnable()
     {
         Debug.Log("Dialogue system enabled");
         OnNextSegment();
+        thisPlayer.inputHandler.OnMenuControlsActivate();
     }
 
+    private void OnDisable()
+    {
+        thisPlayer.inputHandler.OnMKControlsActivate();
+    }
     public void OnNextSegment()
     {
+        if(dialogueIndex == 0)
+        {
+            Debug.Log("Starting new thing");
+        }
+
         Debug.Log("OnNextSegment");
         if (dialogueIndex >= current.conversation.Count)
         {

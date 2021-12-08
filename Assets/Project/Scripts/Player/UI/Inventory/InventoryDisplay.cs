@@ -18,12 +18,14 @@ public class InventoryDisplay : MonoBehaviour
 
     Inventory Inventory;
     InventoryItemDisplay[] inventoryItems;
+    public TMPro.TMP_Text coinage;
     private void Awake()
     {
         Inventory = PlayerManager.Instance.players[0].GetComponent<Player>().inventory;
     }
     private void OnEnable()
     {
+        coinage.text = PlayerManager.Instance.player.GetComponent<Player>().data.Gold.ToString();
         UpdateInventory();
     }
 

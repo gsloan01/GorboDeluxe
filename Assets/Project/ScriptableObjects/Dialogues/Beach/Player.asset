@@ -15,6 +15,7 @@ MonoBehaviour:
   speakerName: You
   speakerIcon: {fileID: 21300000, guid: a5b7f147d94a347459dabe96c4ca1922, type: 3}
   sounds:
-  - {fileID: 8300000, guid: be84d1ebaabd11d4a9a4b843996b5e13, type: 3}
-  - {fileID: 8300000, guid: 37df8d8110d16b547b5a598024662d67, type: 3}
-  - {fileID: 8300000, guid: 1a84b1163a48ffa4fb0e525a03393395, type: 3}
+  - {fileID: 8300000, guid: 7caf18c55a7e8e8469bacfc53a1d2712, type: 3}
+  - {fileID: 8300000, guid: 4b5f48eca868d394aa2217d949e5d91c, type: 3}
+  - {fileID: 8300000, guid: e31ea1cd75b919147b0dfc50354ea8b3, type: 3}
+  - {fileID: 8300000, guid: d505a357a2c808842bbbb5c9f121c201, type: 3}

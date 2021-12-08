@@ -22,3 +22,5 @@ MonoBehaviour:
   targeting: 0
   startedTargeting: 0
   projectile: {fileID: 1802740633960494822, guid: 8d784f57be0a85b43889925122a9c239, type: 3}
+  castFX: {fileID: 8300000, guid: f8064e8e7ff4ff3469088bd8bc7918e2, type: 3}
+  cantCastFX: {fileID: 8300000, guid: d4b92fc1951f0864698b09d9adbeef72, type: 3}

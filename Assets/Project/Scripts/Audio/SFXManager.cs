@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SFXManager : MonoBehaviour
 {
     public static SFXManager Instance { get; private set; }
     List<AudioSource> soundEffects = new List<AudioSource>();
+    public AudioMixerGroup sfx;
 
     private void Awake()
     {
@@ -38,13 +40,19 @@ public class SFXManager : MonoBehaviour
     }
     public void PlaySFX(AudioClip soundClip, Transform locator, bool parent = true)
     {
-        GameObject newSFX;
+        GameObject newSFX = null;
 
-        if (parent) newSFX = Instantiate(new GameObject(soundClip.name + " SFX"), locator);
-        else newSFX = Instantiate(new GameObject(soundClip.name + " SFX"), locator.position, locator.rotation);
-
+        if (parent)
+        {
+            newSFX = Instantiate(new GameObject(soundClip.name + " SFX"), locator);
+        }
+        else
+        {
+            newSFX = Instantiate(new GameObject(soundClip.name + " SFX"), locator.position, locator.rotation);
+        }
         AudioSource source = newSFX.AddComponent<AudioSource>();
         source.clip = soundClip;
+        source.outputAudioMixerGroup = sfx;
         source.Play();
         soundEffects.Add(source);
         Destroy(newSFX, soundClip.length);

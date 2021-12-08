@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -18,10 +19,12 @@ public class Player : MonoBehaviour
     CharacterController charController;
     Health health;
     #endregion
-
+    public GameObject LvlUpPanel, QuestCompletePanel;
+    public TMP_Text questCompleteText;
     public Dictionary<int, Interactable> interactables = new Dictionary<int, Interactable>();
     public Inventory inventory;
-
+    public float damageMod = 1;
+    public AudioClip DeathSFX;
     #region Events
     public UnityEvent<float> OnPlayerGainXP;
     public UnityEvent<float> OnPlayerResourceChange;
@@ -118,6 +121,7 @@ public class Player : MonoBehaviour
     }
 
 
+
     #region Event Listeners
     void OnUpdateResource(float change)
     {
@@ -139,7 +143,33 @@ public class Player : MonoBehaviour
     }
     #endregion
 
+    public void OnLvlUp()
+    {
+        damageMod += .5f;
+        health.ChangeMax(health.max * 1.5f, true);
+        StartCoroutine(LVLUP());
 
+    }
+    public void OnQuestComplete(string name)
+    {
+        
+        StartCoroutine(QuestComplete(name));
+
+    }
+
+    public IEnumerator LVLUP()
+    {
+        LvlUpPanel?.SetActive(true);
+        yield return new WaitForSeconds(5);
+        LvlUpPanel?.SetActive(false);
+    }
+    public IEnumerator QuestComplete(string name)
+    {
+        QuestCompletePanel?.SetActive(true);
+        if(questCompleteText != null) questCompleteText.text = name;
+        yield return new WaitForSeconds(3.5f);
+        QuestCompletePanel?.SetActive(false);
+    }
     #region Interactions
     void Interact()
     {

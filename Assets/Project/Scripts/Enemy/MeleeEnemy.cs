@@ -24,7 +24,7 @@ public class MeleeEnemy : Enemy
 
     void Update()
     {
-        //Debug.Log(currentState);
+        Debug.Log(currentState);
         switch (currentState)
         {
             case enemyState.Idle:
@@ -36,11 +36,13 @@ public class MeleeEnemy : Enemy
             case enemyState.Chase:
                 float dist = Vector3.Distance(transform.position, currentTarget.centerMassTransform.position);
                 //Debug.Log(dist);
+                //Debug.Log($"Distance to attack range in chase state : dist - {dist}, range-{attackRange} | navmesh range - {agent.stoppingDistance}");
                 if (dist <= attackRange)
                 {
                     currentState = enemyState.Attacking;
                     agent.isStopped = true;
                 }
+                
                 Chase();
                 break;
             case enemyState.Attacking:
@@ -90,8 +92,11 @@ public class MeleeEnemy : Enemy
 
     public override void Chase()
     {
+        agent.isStopped = false;
         transform.rotation = Utility.FaceTarget(currentTarget.gameObject, transform);
+        //Debug.Log("setting destination");
         agent.SetDestination(currentTarget.centerMassTransform.position);
+        
     }
 
     public override void Combat()

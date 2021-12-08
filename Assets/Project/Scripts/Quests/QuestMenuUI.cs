@@ -19,20 +19,22 @@ public class QuestMenuUI : MonoBehaviour, IPointerClickHandler
         if(quest.tracked)
         {
             trackingButtonTXT.text = "Stop Tracking";
+            
         }
         else
         {
             trackingButtonTXT.text = "TrackQuest";
-
+            
         }
-        quest.tracked = false;
+        
     }
 
     public void Set(Quest quest, QuestInfoPage infopage)
     {
         infoPage = infopage;
         this.quest = quest;
-        quest.OnQuestReadyToTurnIn.AddListener(OnComplete);
+        //quest.OnQuestCompletion(PlayerManager.Instance.player.GetComponent<Player>());
+        //quest.OnQuestCompletion(PlayerManager.Instance.player.GetComponent<Player>());
         icon.sprite = quest.icon;
         title.text = quest.QuestName;
     }

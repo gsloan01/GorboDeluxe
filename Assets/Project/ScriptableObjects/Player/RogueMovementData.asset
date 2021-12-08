@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebf340ab640be848bf1503dd3e7e203, type: 3}
   m_Name: RogueMovementData
   m_EditorClassIdentifier: 
-  speed: 5
-  sprintSpeed: 7
+  speed: 7
+  sprintSpeed: 10
   rotateRate: 720
-  sprintDelay: 3
+  sprintDelay: 2.5

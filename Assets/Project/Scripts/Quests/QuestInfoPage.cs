@@ -19,6 +19,10 @@ public class QuestInfoPage : MonoBehaviour
 
     public void Set(Quest quest)
     {
+        foreach(var v in goalUIs)
+        {
+            v.gameObject.SetActive(false);
+        }
         title.text = quest.QuestName;
         description.text = quest.description;
         for (int i = 0; i < goalUIs.Count; i++)

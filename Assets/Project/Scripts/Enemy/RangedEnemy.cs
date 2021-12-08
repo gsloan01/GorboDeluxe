@@ -5,8 +5,8 @@ using UnityEngine;
 public class RangedEnemy : Enemy
 {
     [SerializeField] float attackRange = -1;
-    float attackTimer = .75f;
-    float damageTimer = .35f;
+    public float attackTimer = .75f;
+    public float damageTimer = .35f;
     float attackOvertimer = .75f;
     [SerializeField] List<EnemyRangedAttack> attacks = new List<EnemyRangedAttack>();
     public Transform shootTransform;

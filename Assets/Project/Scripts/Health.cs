@@ -80,6 +80,7 @@ public class Health : MonoBehaviour
     {
         max = newMax;
         if(regenToMax) current = max;
+        OnHealed.Invoke();
     }
 
     public void HurtSound()

@@ -6,7 +6,13 @@ public class EnemyAnimationController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
 
-
+    private void Awake()
+    {
+        if(animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+        }
+    }
     public void SetWalk(Vector2 move)
     {
         animator.SetFloat("MoveX", move.x);
